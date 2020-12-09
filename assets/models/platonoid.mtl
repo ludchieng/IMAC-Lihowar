@@ -1,3 +1,24 @@
-newmtl default
-Kd 1 1 1
+newmtl white
+Ka 0 0 0
+Kd .8 .8 .8
+Ks 0 0 0
 
+newmtl red
+Ka 0 0 0
+Kd .8 0 0
+Ks 0 0 0
+
+newmtl green
+Ka 0 0 0
+Kd 0 .8 0
+Ks 0 0 0
+
+newmtl blue
+Ka 0 0 0
+Kd 0 0 .8
+Ks 0 0 0
+
+newmtl orange
+Ka 0 0 0
+Kd .9 .5 0
+Ks 0 0 0

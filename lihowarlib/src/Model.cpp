@@ -20,7 +20,7 @@ void Model::initGeometry(ModelID modelId)
     // Get model name from ModelID
     switch (modelId) {
         case Platonoid:
-            modelName = "planetoid";
+            modelName = "platonoid";
             break;
         case Cube:
             modelName = "cube";
@@ -32,7 +32,7 @@ void Model::initGeometry(ModelID modelId)
     glimac::FilePath objPath = PATH_ASSETS + "models/" + modelName + ".obj";
     glimac::FilePath mtlPath = PATH_ASSETS + "models/" + modelName + ".mtl";
 
-    if (!_geometry.loadOBJ(objPath, mtlPath, false))
+    if (!_geometry.loadOBJ(objPath, mtlPath, true))
         throw LihowarException("OBJ loading failed", __FILE__, __LINE__);
 }
 

@@ -1,20 +1,20 @@
-#ifndef LIHOWAR_CONTROLLER_HPP
-#define LIHOWAR_CONTROLLER_HPP
+#ifndef LIHOWAR_GAMECONTROLLER_HPP
+#define LIHOWAR_GAMECONTROLLER_HPP
 
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/AssetManager.hpp>
 
 namespace lihowar {
 
-class Controller {
+class GameController {
 
 private:
     // MEMBERS
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
-    Controller() = default;
-    ~Controller() = default;
+    GameController() = default;
+    ~GameController() = default;
 
 public:
     // INTERFACE
@@ -26,4 +26,4 @@ public:
 }
 
 
-#endif //LIHOWAR_CONTROLLER_HPP
+#endif //LIHOWAR_GAMECONTROLLER_HPP
