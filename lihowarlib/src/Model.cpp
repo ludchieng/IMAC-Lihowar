@@ -4,12 +4,22 @@ using namespace lihowar;
 
 namespace lihowar {
 
-Model::Model(ModelID modelId)
+Model::Model(ModelID modelID)
+    : _modelID(modelID)
 {
-    initGeometry(modelId);
+    if (DEBUG) cout << "[Model::Model] modelID: " << _modelID << endl;
+    initGeometry(modelID);
     initVBO();
     initIBO();
     initVAO();
+}
+
+
+Model::~Model()
+{
+    if (DEBUG) cout << "[Model::~Model] modelID: " << _modelID << endl;
+    glDeleteBuffers(1, &_vbo);
+    glDeleteVertexArrays(1, &_vao);
 }
 
 
@@ -28,6 +38,8 @@ void Model::initGeometry(ModelID modelId)
         default:
             throw LihowarException("Unknown path for specified ModelID", __FILE__, __LINE__);
     }
+
+    if (DEBUG) cout << "[Model::initGeometry] modelName: " << modelName << endl;
 
     glimac::FilePath objPath = PATH_ASSETS + "models/" + modelName + ".obj";
     glimac::FilePath mtlPath = PATH_ASSETS + "models/" + modelName + ".mtl";

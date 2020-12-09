@@ -3,6 +3,7 @@
 
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/AssetManager.hpp>
+#include <lihowarlib/GameRenderer.hpp>
 
 namespace lihowar {
 
@@ -10,10 +11,15 @@ class GameController {
 
 private:
     // MEMBERS
+    AssetManager &_assetManager;
+    GameRenderer &_gRenderer;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
-    GameController() = default;
+    GameController()
+      : _assetManager(AssetManager::instance()),
+        _gRenderer(GameRenderer::instance()) {}
+
     ~GameController() = default;
 
 public:
