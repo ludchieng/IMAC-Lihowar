@@ -4,7 +4,7 @@
 
 #include <glm/gtc/random.hpp>
 
-namespace lihowarlib {
+namespace lihowar {
 
 const bool debug = true;
 
