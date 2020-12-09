@@ -10,4 +10,4 @@ get_filename_component(DIR ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 add_executable(${OUTPUT} main.cpp ${HEADER_FILES} ${SHADER_FILES})
 target_link_libraries(${OUTPUT} ${ALL_LIBRARIES}) # ALL_LIBRARIES is set in global cmakelists
 
-file(COPY shaders DESTINATION ${PROJECT_BINARY_DIR}/bin)
+file(COPY shaders DESTINATION ${EXECUTABLE_OUTPUT_PATH})
