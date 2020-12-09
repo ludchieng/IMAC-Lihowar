@@ -3,10 +3,11 @@
 #define __COMMON__HPP
 
 #include <glm/gtc/random.hpp>
+#include <string>
 
 namespace lihowar {
 
-const bool debug = true;
+const std::string PATH_ASSETS("assets/");
 
 }
 

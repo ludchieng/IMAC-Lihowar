@@ -5,6 +5,9 @@
 #include <GL/glew.h>
 #include <glimac/SDLWindowManager.hpp>
 #include <lihowarlib/common.hpp>
+#include <lihowarlib/Controller.hpp>
+
+using namespace lihowar;
 
 namespace lihowar {
 
@@ -13,6 +16,7 @@ class Game {
 private:
     // MEMBERS
     bool _isRunning = true;
+    Controller _controller;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
@@ -20,7 +24,7 @@ private:
     ~Game() = default;
 
 public:
-    /// \brief get instance of the WindowManager singleton class
+    /// \brief get instance of the Game singleton class
     static Game& instance() {
         static Game instance;
         return instance;
@@ -34,7 +38,9 @@ public:
 public:
     // INTERFACE
     bool isRunning() const { return _isRunning; }
-    static void render();
+
+    void update() { _controller.update(); };
+    void render() { _controller.render(); };
     void handle(SDL_Event event);
     void handleKeydown(SDL_Event event);
 

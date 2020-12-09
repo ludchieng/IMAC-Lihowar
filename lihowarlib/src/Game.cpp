@@ -3,12 +3,10 @@
 
 using namespace lihowar;
 
-void Game::render() {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glLoadIdentity();
-}
+namespace lihowar {
 
-void Game::handle(SDL_Event e) {
+void Game::handle(SDL_Event e)
+{
     switch (e.type) {
         case SDL_QUIT:
             _isRunning = false;
@@ -23,9 +21,12 @@ void Game::handle(SDL_Event e) {
     }
 }
 
-void Game::handleKeydown(SDL_Event e) {
+void Game::handleKeydown(SDL_Event e)
+{
     switch (e.key.keysym.sym) {
         default:
             break;
     }
+}
+
 }
