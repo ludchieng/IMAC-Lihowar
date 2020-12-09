@@ -3,18 +3,20 @@
 #include <glimac/FilePath.hpp>
 #include <glimac/glm.hpp>
 #include <GL/glew.h>
+#include <lihowarlib/common.hpp>
 #include <lihowarlib/Game.hpp>
 #include <iostream>
 #include <cstddef>
 #include <vector>
 
-const unsigned int WINDOW_WIDTH = 1280;
-const unsigned int WINDOW_HEIGHT = 720;
 const float MAX_FRAMERATE = 60.f;
 
 int main(int argc, char** argv) {
     // Init SDL Window
-    glimac::SDLWindowManager wm(WINDOW_WIDTH, WINDOW_HEIGHT, "Lihowar");
+    glimac::SDLWindowManager wm(
+            lihowar::WINDOW_WIDTH,
+            lihowar::WINDOW_HEIGHT,
+            "Lihowar");
 
     // Init GLEW
     if (GLEW_OK != glewInit()) {
