@@ -19,6 +19,7 @@ target_compile_options(lihowarlib PRIVATE -Wall -O2)
 target_include_directories(lihowarlib PRIVATE "include")
 
 target_link_libraries(lihowarlib
+        glimac
         ${SDL_LIBRARY}
         ${SDL_MIXER_LIBRARIES}
         ${OPENGL_LIBRARIES}
