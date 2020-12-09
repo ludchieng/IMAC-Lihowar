@@ -17,3 +17,9 @@ target_compile_options(lihowarlib PRIVATE -Wall -O2)
 
 # Include directory
 target_include_directories(lihowarlib PRIVATE "include")
+
+target_link_libraries(lihowarlib
+        ${SDL_LIBRARY}
+        ${SDL_MIXER_LIBRARIES}
+        ${OPENGL_LIBRARIES}
+        ${GLEW_LIBRARY})
