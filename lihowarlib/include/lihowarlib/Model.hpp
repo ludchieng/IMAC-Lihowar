@@ -5,7 +5,7 @@
 #include <glimac/FilePath.hpp>
 #include <glimac/Geometry.hpp>
 #include <lihowarlib/common.hpp>
-#include <lihowarlib/LihowarException.hpp>
+#include <lihowarlib/exceptions/LihowarException.hpp>
 
 namespace lihowar {
 

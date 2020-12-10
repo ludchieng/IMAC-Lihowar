@@ -2,7 +2,7 @@
 #define LIHOWAR_GAMERENDERER_HPP
 
 #include <lihowarlib/common.hpp>
-#include <lihowarlib/programs/Normal.hpp>
+#include <lihowarlib/programs/NormalProgram.hpp>
 #include <lihowarlib/TrackballCamera.hpp>
 #include <lihowarlib/designpattern/Observer.hpp>
 #include <GL/glew.h>
