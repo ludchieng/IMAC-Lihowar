@@ -8,16 +8,16 @@ out vec3 vViewCoordPos;
 out vec3 vViewCoordNormal;
 out vec2 vTexCoord;
 
-uniform mat4 uMVPMatrix;
-uniform mat4 uMVMatrix;
-uniform mat4 uNormalMatrix;
+uniform mat4 uMatMVP;
+uniform mat4 uMatMV;
+uniform mat4 uMatNormal;
 
 void main() {
     vec4 vertexPos = vec4(aVertexPosition, 1.);
     vec4 vertexNorm = vec4(aVertexNormal, 0.);
 
-    vViewCoordPos = vec3(uMVMatrix * vertexPos);
-    gl_Position = uMVPMatrix * vertexPos;
-    vViewCoordNormal = vec3(uNormalMatrix * vertexNorm);
+    vViewCoordPos = vec3(uMatMV * vertexPos);
+    gl_Position = uMatMVP * vertexPos;
+    vViewCoordNormal = vec3(uMatNormal * vertexNorm);
     vTexCoord = aVertexTexCoord;
 }

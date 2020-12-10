@@ -19,6 +19,7 @@ class Model {
 
 private:
     // MEMBERS
+    ModelID _modelID;
     glimac::Geometry _geometry;
     GLuint _vbo;
     GLuint _ibo;
@@ -28,6 +29,7 @@ public:
     // CONSTRUCTORS & DESTRUCTORS
     Model() = default;
     Model(ModelID modelId);
+    ~Model();
 
 public:
     // INTERFACE

@@ -14,7 +14,7 @@ class AssetManager {
 
 private:
     // MEMBERS
-    map<ModelID, Model> _models;
+    map<ModelID, Model*> _models;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
@@ -34,7 +34,7 @@ public:
 
 public:
     // INTERFACE
-    map<ModelID, Model> &models() { return _models; }
+    map<ModelID, Model*> &models() { return _models; }
 };
 
 }
