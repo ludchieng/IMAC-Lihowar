@@ -37,3 +37,5 @@ bin
 build
 .idea
 cmake-build-debug
+
+src/main2.cpp

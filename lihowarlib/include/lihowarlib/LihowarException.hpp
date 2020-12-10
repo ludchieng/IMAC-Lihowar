@@ -2,7 +2,6 @@
 #define LIHOWAR_LIHOWAREXCEPTION_HPP
 
 #include <exception>
-#include <iostream>
 #include <cstdlib>
 #include <string>
 #include <lihowarlib/common.hpp>

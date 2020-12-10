@@ -5,7 +5,7 @@
 #include <GL/glew.h>
 #include <glimac/SDLWindowManager.hpp>
 #include <lihowarlib/common.hpp>
-#include <lihowarlib/Controller.hpp>
+#include <lihowarlib/GameController.hpp>
 
 using namespace lihowar;
 
@@ -16,7 +16,7 @@ class Game {
 private:
     // MEMBERS
     bool _isRunning = true;
-    Controller _controller;
+    GameController _controller;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
