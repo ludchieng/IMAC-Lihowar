@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(lihowar)
 
-add_definitions(-std=c++11)
+add_definitions(-std=c++11 -Wall -O2)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 
@@ -38,6 +38,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 # Add glimac
 message(STATUS "Adding glimac..." )
 add_subdirectory(glimac)
+include_directories(${CMAKE_SOURCE_DIR}/glimac/include)
 
 # Add lihowarlib
 message(STATUS "Adding lihowarlib...")
@@ -49,10 +50,12 @@ message(STATUS "Adding main...")
 file(GLOB main_files "src")
 add_subdirectory(${main_files})
 
+# Copy assets dir into bin
+file(COPY assets DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
 #######
 
 # (optional) debug or release
 #set(CMAKE_BUILD_TYPE Debug)
-#set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Release)
 

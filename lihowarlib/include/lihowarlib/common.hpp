@@ -1,12 +1,25 @@
-#pragma once
 #ifndef __COMMON__HPP
 #define __COMMON__HPP
 
-#include <glm/gtc/random.hpp>
+#include <glimac/glm.hpp>
+#include <string>
+#include <iostream>
 
-namespace lihowarlib {
+namespace lihowar {
 
-const bool debug = true;
+const bool DEBUG = true;
+
+const unsigned int WINDOW_WIDTH = 1280;
+const unsigned int WINDOW_HEIGHT = 720;
+const float ASPECT_RATIO = WINDOW_WIDTH / (float) WINDOW_HEIGHT;
+
+const float FOV = 70.0f;
+
+const float Z_NEAR = .1f;
+const float Z_FAR = 100.f;
+
+const std::string PATH_ASSETS("assets/");
+const std::string PATH_SHADERS("shaders/");
 
 }
 
