@@ -1,9 +1,11 @@
 #ifndef LIHOWAR_GAMECONTROLLER_HPP
 #define LIHOWAR_GAMECONTROLLER_HPP
 
+#include <list>
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/AssetManager.hpp>
 #include <lihowarlib/GameRenderer.hpp>
+#include <lihowarlib/GameObject.hpp>
 
 namespace lihowar {
 
@@ -13,12 +15,11 @@ private:
     // MEMBERS
     AssetManager &_assetManager;
     GameRenderer &_gRenderer;
+    std::list<GameObject> _gObjects;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
-    GameController()
-      : _assetManager(AssetManager::instance()),
-        _gRenderer(GameRenderer::instance()) {}
+    GameController();
 
     ~GameController() = default;
 
@@ -36,6 +37,8 @@ public:
 
 public:
     // INTERFACE
+    GameRenderer& renderer() { return _gRenderer; }
+
     void update();
     void render();
 

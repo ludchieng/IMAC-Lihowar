@@ -7,8 +7,6 @@
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/GameController.hpp>
 
-using namespace lihowar;
-
 namespace lihowar {
 
 class Game {
@@ -17,17 +15,20 @@ private:
     // MEMBERS
     bool _isRunning = true;
     GameController &_gController;
+    glimac::SDLWindowManager &_windowManager;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
-    Game() : _gController(GameController::instance()) {}
+    explicit Game(glimac::SDLWindowManager &wm)
+       :_gController(GameController::instance()),
+        _windowManager(wm) {}
 
     ~Game() = default;
 
 public:
     /// \brief get instance of the Game singleton class
-    static Game& instance() {
-        static Game instance;
+    static Game& instance(glimac::SDLWindowManager &wm) {
+        static Game instance(wm);
         return instance;
     }
     // prevent instance duplication
@@ -45,6 +46,7 @@ public:
     void handle(SDL_Event event);
     void handleKeydown(SDL_Event event);
     void handleMouseBtn(SDL_Event event);
+    void handleMouseMotion(SDL_Event event);
 
 };
 

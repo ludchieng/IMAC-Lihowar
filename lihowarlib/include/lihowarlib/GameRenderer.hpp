@@ -3,25 +3,26 @@
 
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/programs/Normal.hpp>
+#include <lihowarlib/TrackballCamera.hpp>
+#include <lihowarlib/designpattern/Observer.hpp>
 #include <GL/glew.h>
-
-using namespace std;
 
 namespace lihowar {
 
-class GameRenderer {
+class GameRenderer : public dp::Observer {
 
 private:
     // MEMBERS
     glm::mat4 _matProj;
     glm::mat4 _matMV;
     glm::mat4 _matNormal;
-    glm::mat4 _matGlobal;
+    glm::mat4 _matView;
+    TrackballCamera _tbcam;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
     GameRenderer();
-    ~GameRenderer() = default;
+    ~GameRenderer() override;
 
 public:
     /// \brief get instance of the GameRenderer singleton class
@@ -37,6 +38,9 @@ public:
     
 public:
     // INTERFACE
+    void update();
+    void updateMatMV(const glm::mat4 &matModel = glm::mat4(1.));
+    TrackballCamera &camera() { return _tbcam; };
     void useProgram();
     void bindUniformVariables();
 

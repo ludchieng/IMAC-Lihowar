@@ -1,13 +1,8 @@
-#include <glimac/SDLWindowManager.hpp>
-#include <glimac/Program.hpp>
-#include <glimac/FilePath.hpp>
-#include <glimac/glm.hpp>
 #include <GL/glew.h>
+#include <glimac/SDLWindowManager.hpp>
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/Game.hpp>
 #include <iostream>
-#include <cstddef>
-#include <vector>
 
 const float MAX_FRAMERATE = 60.f;
 
@@ -25,7 +20,7 @@ int main(int argc, char** argv) {
     }
 
     // Init Game
-    lihowar::Game &game = lihowar::Game::instance();
+    lihowar::Game &game = lihowar::Game::instance(wm);
 
     // Game loop
     while(game.isRunning()) {
