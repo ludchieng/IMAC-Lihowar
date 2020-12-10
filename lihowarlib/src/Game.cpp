@@ -1,5 +1,6 @@
 #include "lihowarlib/Game.hpp"
 
+using namespace std;
 using namespace lihowar;
 
 namespace lihowar {

@@ -7,8 +7,6 @@
 #include <lihowarlib/designpattern/Observer.hpp>
 #include <GL/glew.h>
 
-using namespace std;
-
 namespace lihowar {
 
 class GameRenderer : public dp::Observer {

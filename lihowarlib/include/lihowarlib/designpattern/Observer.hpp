@@ -1,5 +1,5 @@
-#ifndef LIHOWAR_OBSERVER_HPP
-#define LIHOWAR_OBSERVER_HPP
+#ifndef LIHOWAR_DP_OBSERVER_HPP
+#define LIHOWAR_DP_OBSERVER_HPP
 
 #include <list>
 #include <lihowarlib/common.hpp>
@@ -40,4 +40,4 @@ public:
 }
 
 
-#endif //LIHOWAR_OBSERVER_HPP
+#endif //LIHOWAR_DP_OBSERVER_HPP

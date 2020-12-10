@@ -1,5 +1,5 @@
-#ifndef LIHOWAR_IOBSERVER_HPP
-#define LIHOWAR_IOBSERVER_HPP
+#ifndef LIHOWAR_DP_IOBSERVER_HPP
+#define LIHOWAR_DP_IOBSERVER_HPP
 
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/designpattern/ISubject.hpp>
@@ -19,4 +19,4 @@ public:
 }
 
 
-#endif //LIHOWAR_IOBSERVER_HPP
+#endif //LIHOWAR_DP_IOBSERVER_HPP

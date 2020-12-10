@@ -7,8 +7,6 @@
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/LihowarException.hpp>
 
-using namespace std;
-
 namespace lihowar {
 
 enum ModelID {
