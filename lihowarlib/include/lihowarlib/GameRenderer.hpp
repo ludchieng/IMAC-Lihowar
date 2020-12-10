@@ -16,7 +16,7 @@ private:
     glm::mat4 _matProj;
     glm::mat4 _matMV;
     glm::mat4 _matNormal;
-    glm::mat4 _matGlobal;
+    glm::mat4 _matView;
     TrackballCamera _tbcam;
 
 private:
@@ -39,12 +39,10 @@ public:
 public:
     // INTERFACE
     void update();
+    void updateMatMV(const glm::mat4 &matModel = glm::mat4(1.));
     TrackballCamera &camera() { return _tbcam; };
     void useProgram();
     void bindUniformVariables();
-
-private:
-    void updateMatMV();
 
 };
 
