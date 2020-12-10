@@ -1,5 +1,5 @@
-#ifndef LIHOWAR_SUBJECT_HPP
-#define LIHOWAR_SUBJECT_HPP
+#ifndef LIHOWAR_DP_SUBJECT_HPP
+#define LIHOWAR_DP_SUBJECT_HPP
 
 #include <list>
 #include <lihowarlib/common.hpp>
@@ -43,4 +43,4 @@ public:
 }
 
 
-#endif //LIHOWAR_SUBJECT_HPP
+#endif //LIHOWAR_DP_SUBJECT_HPP

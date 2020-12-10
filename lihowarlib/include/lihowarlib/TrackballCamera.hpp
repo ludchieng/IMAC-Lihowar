@@ -17,8 +17,12 @@ public:
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
-    TrackballCamera();
-    TrackballCamera(float fDist, float fAngX, float fAngY);
+    TrackballCamera()
+            : _fDistance(0), _fAngleX(0), _fAngleY(0) {}
+
+    TrackballCamera(float fDist, float fAngX, float fAngY)
+            : _fDistance(fDist), _fAngleX(fAngX), _fAngleY(fAngY) {}
+
     ~TrackballCamera() override;
     
 public:

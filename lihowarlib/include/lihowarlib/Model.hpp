@@ -7,8 +7,6 @@
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/LihowarException.hpp>
 
-using namespace std;
-
 namespace lihowar {
 
 enum ModelID {
@@ -28,7 +26,16 @@ private:
 public:
     // CONSTRUCTORS & DESTRUCTORS
     Model() = default;
+
     Model(ModelID modelId);
+
+    Model(const Model& m)
+            :_modelID( m._modelID ),
+             _geometry( m._geometry ),
+             _vbo( m._vbo ),
+             _ibo( m._ibo ),
+             _vao( m._vao ) {}
+
     ~Model();
 
 public:

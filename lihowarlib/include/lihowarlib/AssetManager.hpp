@@ -5,16 +5,13 @@
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/Model.hpp>
 
-using namespace std;
-using namespace lihowar;
-
 namespace lihowar {
 
 class AssetManager {
 
 private:
     // MEMBERS
-    map<ModelID, Model*> _models;
+    std::map<ModelID, Model*> _models;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
@@ -34,7 +31,7 @@ public:
 
 public:
     // INTERFACE
-    map<ModelID, Model*> &models() { return _models; }
+    std::map<ModelID, Model*> &models() { return _models; }
 };
 
 }

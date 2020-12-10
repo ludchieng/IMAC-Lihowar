@@ -1,17 +1,18 @@
 #include <lihowarlib/GameRenderer.hpp>
 
+using namespace std;
 using namespace lihowar;
 
 namespace lihowar {
 
 GameRenderer::GameRenderer()
-   :_matProj( glm::perspective(glm::radians(FOV), ASPECT_RATIO, Z_NEAR, Z_FAR) ),
-    _matMV( glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -5.f)) ),
-    _matNormal( glm::transpose(glm::inverse(_matMV)) ),
-    _matGlobal( glm::mat4(1.f) ),
-    _tbcam( TrackballCamera(5.f, 0.f, 0.f) )
+   : _matProj( glm::perspective(glm::radians(FOV), ASPECT_RATIO, Z_NEAR, Z_FAR) ),
+     _matMV( glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -5.f)) ),
+     _matNormal( glm::transpose(glm::inverse(_matMV)) ),
+     _matView(glm::mat4(1.f) ),
+     _tbcam( TrackballCamera(5.f, 0.f, 0.f) )
 {
-    _matGlobal = _tbcam.getMatView();
+    _matView = _tbcam.getMatView();
 
     // Design pattern observer on trackballcamera
     addSubject(&_tbcam);
@@ -44,10 +45,10 @@ void GameRenderer::update()
 }
 
 
-void GameRenderer::updateMatMV()
+void GameRenderer::updateMatMV(const glm::mat4 &matModel)
 {
-    _matGlobal = _tbcam.getMatView();
-    _matMV = _matGlobal;
+    _matView = _tbcam.getMatView();
+    _matMV = _matView * matModel;
 }
 
 }
