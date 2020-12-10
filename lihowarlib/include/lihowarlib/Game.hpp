@@ -16,11 +16,12 @@ class Game {
 private:
     // MEMBERS
     bool _isRunning = true;
-    GameController _controller;
+    GameController &_gController;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
-    Game() = default;
+    Game() : _gController(GameController::instance()) {}
+
     ~Game() = default;
 
 public:
@@ -39,10 +40,11 @@ public:
     // INTERFACE
     bool isRunning() const { return _isRunning; }
 
-    void update() { _controller.update(); };
-    void render() { _controller.render(); };
+    void update() { _gController.update(); };
+    void render() { _gController.render(); };
     void handle(SDL_Event event);
     void handleKeydown(SDL_Event event);
+    void handleMouseBtn(SDL_Event event);
 
 };
 

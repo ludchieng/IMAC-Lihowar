@@ -14,13 +14,25 @@ private:
     AssetManager &_assetManager;
     GameRenderer &_gRenderer;
 
-public:
+private:
     // CONSTRUCTORS & DESTRUCTORS
     GameController()
       : _assetManager(AssetManager::instance()),
         _gRenderer(GameRenderer::instance()) {}
 
     ~GameController() = default;
+
+public:
+    /// \brief get instance of the GameController singleton class
+    static GameController& instance() {
+        static GameController instance;
+        return instance;
+    }
+    // prevent instance duplication
+    GameController(const GameController&) = delete;
+    GameController(GameController&&) = delete;
+    GameController& operator=(const GameController&) = delete;
+    GameController& operator=(GameController&&) = delete;
 
 public:
     // INTERFACE
