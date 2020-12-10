@@ -3,6 +3,7 @@
 
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/programs/Normal.hpp>
+#include <lihowarlib/TrackballCamera.hpp>
 #include <GL/glew.h>
 
 using namespace std;
@@ -17,6 +18,7 @@ private:
     glm::mat4 _matMV;
     glm::mat4 _matNormal;
     glm::mat4 _matGlobal;
+    TrackballCamera _tbcam;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
@@ -37,6 +39,8 @@ public:
     
 public:
     // INTERFACE
+    TrackballCamera camera() const;
+    TrackballCamera &camera();
     void useProgram();
     void bindUniformVariables();
 

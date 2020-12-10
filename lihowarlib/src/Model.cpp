@@ -35,6 +35,12 @@ void Model::initGeometry(ModelID modelId)
         case Cube:
             modelName = "cube";
             break;
+        case Character:
+            modelName = "character";
+            break;
+        case Twist:
+            modelName = "twist";
+            break;
         default:
             throw LihowarException("Unknown path for specified ModelID", __FILE__, __LINE__);
     }

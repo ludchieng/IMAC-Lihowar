@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     }
 
     // Init Game
-    lihowar::Game &game = lihowar::Game::instance();
+    lihowar::Game &game = lihowar::Game::instance(wm);
 
     // Game loop
     while(game.isRunning()) {
