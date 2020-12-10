@@ -20,4 +20,24 @@ glm::mat4 TrackballCamera::getMatView() const {
     return res;
 }
 
+void TrackballCamera::moveFront(float delta)
+{
+    _fDistance *= delta;
+    notify(); // notify observers that attributes has changed
+}
+
+
+void TrackballCamera::rotateLeft(float degrees)
+{
+    _fAngleY += degrees;
+    notify(); // notify observers that attributes has changed
+}
+
+
+void TrackballCamera::rotateUp(float degrees)
+{
+    _fAngleX += degrees;
+    notify(); // notify observers that attributes has changed
+}
+
 }
