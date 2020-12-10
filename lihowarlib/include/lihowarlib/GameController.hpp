@@ -36,6 +36,8 @@ public:
 
 public:
     // INTERFACE
+    GameRenderer& renderer() { return _gRenderer; }
+
     void update();
     void render();
 

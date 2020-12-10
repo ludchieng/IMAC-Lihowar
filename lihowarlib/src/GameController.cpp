@@ -8,18 +8,20 @@ void GameController::render()
 {
     AssetManager &am = AssetManager::instance();
 
-    Model *platonic = am.models()[ModelID::Platonoid];
+    //Model *a = am.models()[ModelID::Platonoid];
+    Model *a = am.models()[ModelID::Character];
     //Model *cube = am.models()[ModelID::Cube];
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
 
     _gRenderer.useProgram();
     _gRenderer.bindUniformVariables();
 
-    glBindVertexArray(platonic->vao());
+    glBindVertexArray(a->vao());
     glDrawElements(
             GL_TRIANGLES,
-            platonic->geometry().getIndexCount(),
+            a->geometry().getIndexCount(),
             GL_UNSIGNED_INT,
             0);
 

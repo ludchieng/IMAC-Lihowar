@@ -12,7 +12,7 @@ using namespace std;
 namespace lihowar {
 
 enum ModelID {
-    Platonoid, Cube
+    Platonoid, Cube, Character, Twist
 };
 
 class Model {
