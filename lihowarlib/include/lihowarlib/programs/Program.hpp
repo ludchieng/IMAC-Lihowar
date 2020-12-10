@@ -41,10 +41,11 @@ public:
 
 public:
     // INTERFACE
-    void use() { _program.use(); }
     GLint uMatMVP() const { return _uMatMVP; }
     GLint uMatMV() const { return _uMatMV; }
     GLint uMatNormal() const { return _uMatNormal; }
+
+    void use() { _program.use(); }
 
 };
 

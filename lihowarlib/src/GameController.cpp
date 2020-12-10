@@ -24,9 +24,9 @@ void GameController::render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
 
-    _gRenderer.useProgram();
+    g.program().use();
     _gRenderer.updateMatMV(g.matModel());
-    _gRenderer.bindUniformVariables();
+    _gRenderer.bindUniformMatrices(g.program());
 
     g.render();
 

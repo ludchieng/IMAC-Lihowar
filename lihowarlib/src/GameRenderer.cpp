@@ -22,19 +22,12 @@ GameRenderer::GameRenderer()
 GameRenderer::~GameRenderer() {}
 
 
-void GameRenderer::useProgram()
+void GameRenderer::bindUniformMatrices(const Program &program)
 {
-    lihowar::NormalProgram::instance().use();
-}
-
-
-void GameRenderer::bindUniformVariables()
-{
-    //if (DEBUG) cout << "[GameRenderer::bindUniformVariables] " << endl;
-    auto &pNormal = lihowar::NormalProgram::instance();
-    glUniformMatrix4fv(pNormal.uMatMVP(), 1, GL_FALSE, glm::value_ptr(_matProj * _matMV));
-    glUniformMatrix4fv(pNormal.uMatMV(), 1, GL_FALSE, glm::value_ptr(_matMV));
-    glUniformMatrix4fv(pNormal.uMatNormal(), 1, GL_FALSE, glm::value_ptr(_matNormal));
+    //if (DEBUG) cout << "[GameRenderer::bindUniformMatrices] " << endl;
+    glUniformMatrix4fv(program.uMatMVP(), 1, GL_FALSE, glm::value_ptr(_matProj * _matMV));
+    glUniformMatrix4fv(program.uMatMV(), 1, GL_FALSE, glm::value_ptr(_matMV));
+    glUniformMatrix4fv(program.uMatNormal(), 1, GL_FALSE, glm::value_ptr(_matNormal));
 }
 
 
