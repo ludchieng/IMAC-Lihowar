@@ -1,11 +1,13 @@
 #ifndef LIHOWAR_TRACKBALLCAMERA_HPP
 #define LIHOWAR_TRACKBALLCAMERA_HPP
 
+#include <vector>
 #include <lihowarlib/common.hpp>
+#include <lihowarlib/designpattern/Subject.hpp>
 
 namespace lihowar {
 
-class TrackballCamera {
+class TrackballCamera : public dp::Subject {
 
 public:
     // MEMBERS
@@ -17,15 +19,15 @@ public:
     // CONSTRUCTORS & DESTRUCTORS
     TrackballCamera();
     TrackballCamera(float fDist, float fAngX, float fAngY);
-    ~TrackballCamera();
+    ~TrackballCamera() override;
     
 public:
     // INTERFACE
     glm::mat4 getMatView() const;
 
-    void moveFront(float delta) { _fDistance *= delta; }
-    void rotateLeft(float degrees) { _fAngleY += degrees; }
-    void rotateUp(float degrees) { _fAngleX += degrees; }
+    void moveFront(float delta);
+    void rotateLeft(float degrees);
+    void rotateUp(float degrees);
 
 };
 

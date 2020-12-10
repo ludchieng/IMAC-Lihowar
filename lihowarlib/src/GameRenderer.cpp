@@ -12,21 +12,13 @@ GameRenderer::GameRenderer()
     _tbcam( TrackballCamera(5.f, 0.f, 0.f) )
 {
     _matGlobal = _tbcam.getMatView();
+
+    // Design pattern observer on trackballcamera
+    addSubject(&_tbcam);
 }
 
 
-TrackballCamera GameRenderer::camera() const
-{
-    return _tbcam;
-}
-
-
-TrackballCamera& GameRenderer::camera()
-{
-    _matGlobal = _tbcam.getMatView();
-    _matMV = _matGlobal;
-    return _tbcam;
-}
+GameRenderer::~GameRenderer() {}
 
 
 void GameRenderer::useProgram()
@@ -42,6 +34,20 @@ void GameRenderer::bindUniformVariables()
     glUniformMatrix4fv(pNormal.uMatMVP(), 1, GL_FALSE, glm::value_ptr(_matProj * _matMV));
     glUniformMatrix4fv(pNormal.uMatMV(), 1, GL_FALSE, glm::value_ptr(_matMV));
     glUniformMatrix4fv(pNormal.uMatNormal(), 1, GL_FALSE, glm::value_ptr(_matNormal));
+}
+
+
+void GameRenderer::update()
+{
+    //if (DEBUG) cout << "[GameRenderer::update]" << endl;
+    updateMatMV();
+}
+
+
+void GameRenderer::updateMatMV()
+{
+    _matGlobal = _tbcam.getMatView();
+    _matMV = _matGlobal;
 }
 
 }
