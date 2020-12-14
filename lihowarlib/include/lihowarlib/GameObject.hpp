@@ -41,16 +41,16 @@ public:
 private:
     // MEMBERS
     Model &_model;
-    PRS _prs;
     Program &_program;
+    PRS _prs;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit GameObject(
             Model& model,
-            PRS prs = PRS(),
-            Program &program = NormalProgram::instance())
-       :_model(model), _prs(prs), _program(program)
+            Program &program = NormalProgram::instance(),
+            PRS prs = PRS())
+       :_model(model), _program(program), _prs(prs)
     {}
 
     // TODO

@@ -1,4 +1,7 @@
 #include <lihowarlib/GameRenderer.hpp>
+#include <lihowarlib/programs/Program.hpp>
+#include <lihowarlib/programs/NormalProgram.hpp>
+#include <lihowarlib/programs/DirLightProgram.hpp>
 
 using namespace std;
 using namespace lihowar;
@@ -22,12 +25,28 @@ GameRenderer::GameRenderer()
 GameRenderer::~GameRenderer() {}
 
 
-void GameRenderer::bindUniformMatrices(const Program &program)
+void GameRenderer::bindUniformVariables(GameObject &gObject)
 {
     //if (DEBUG) cout << "[GameRenderer::bindUniformMatrices] " << endl;
-    glUniformMatrix4fv(program.uMatMVP(), 1, GL_FALSE, glm::value_ptr(_matProj * _matMV));
-    glUniformMatrix4fv(program.uMatMV(), 1, GL_FALSE, glm::value_ptr(_matMV));
-    glUniformMatrix4fv(program.uMatNormal(), 1, GL_FALSE, glm::value_ptr(_matNormal));
+    Program &prog = gObject.program();
+
+    // send matrices to GPU
+    glUniformMatrix4fv(prog.uMatMVP(), 1, GL_FALSE, glm::value_ptr(_matProj * _matMV));
+    glUniformMatrix4fv(prog.uMatMV(), 1, GL_FALSE, glm::value_ptr(_matMV));
+    glUniformMatrix4fv(prog.uMatNormal(), 1, GL_FALSE, glm::value_ptr(_matNormal));
+
+    // send extra variables to GPU depending on program (and shader) type
+    switch(prog.type()) {
+        case ProgramType::DirLight:
+        {
+            glm::vec4 lightDir = _matView * glm::vec4(1.f, 1.f, 1.f, 0.f);
+            DirLightProgram &dlprog = *( dynamic_cast<DirLightProgram*>(&prog) );
+            glUniform3fv(dlprog.uLightDir(), 1, glm::value_ptr( glm::normalize(glm::vec3(lightDir)) ));
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 
@@ -42,6 +61,7 @@ void GameRenderer::updateMatMV(const glm::mat4 &matModel)
 {
     _matView = _tbcam.getMatView();
     _matMV = _matView * matModel;
+    _matNormal = glm::transpose(glm::inverse(_matMV));
 }
 
 }

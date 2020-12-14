@@ -6,6 +6,10 @@
 
 namespace lihowar {
 
+enum ProgramType {
+    Normal, DirLight
+};
+
 class Program {
 protected:
     // MEMBERS
@@ -28,19 +32,8 @@ protected:
     ~Program() = default;
 
 public:
-    /// \brief get instance of the Program singleton class
-    static Program& instance(const std::string& vsName, const std::string& fsName) {
-        static Program instance(vsName, fsName);
-        return instance;
-    }
-    // prevent instance duplication
-    Program(const Program&) = delete;
-    Program(Program&&) = delete;
-    Program& operator=(const Program&) = delete;
-    Program& operator=(Program&&) = delete;
-
-public:
     // INTERFACE
+    virtual ProgramType type() const = 0;
     GLint uMatMVP() const { return _uMatMVP; }
     GLint uMatMV() const { return _uMatMV; }
     GLint uMatNormal() const { return _uMatNormal; }

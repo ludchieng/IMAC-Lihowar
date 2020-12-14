@@ -3,7 +3,7 @@
 
 #include <GL/glew.h>
 #include <lihowarlib/common.hpp>
-#include <lihowarlib/programs/NormalProgram.hpp>
+#include <lihowarlib/GameObject.hpp>
 #include <lihowarlib/TrackballCamera.hpp>
 #include <lihowarlib/designpattern/Observer.hpp>
 
@@ -41,7 +41,7 @@ public:
     void update();
     void updateMatMV(const glm::mat4 &matModel = glm::mat4(1.));
     TrackballCamera &camera() { return _tbcam; };
-    void bindUniformMatrices(const Program &program);
+    void bindUniformVariables(GameObject &gObject);
 
 };
 
