@@ -13,7 +13,7 @@ list(REMOVE_ITEM header_files "include/_.hpp")
 add_subdirectory(doc)
 
 # Compile as library
-add_library(lihowarlib ${source_files} ${header_files} include/lihowarlib/programs/Normal.hpp)
+add_library(lihowarlib ${source_files} ${header_files})
 
 # Compilation flags
 target_compile_features(lihowarlib PRIVATE cxx_std_11)

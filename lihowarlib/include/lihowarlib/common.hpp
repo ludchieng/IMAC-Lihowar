@@ -13,6 +13,8 @@ const unsigned int WINDOW_WIDTH = 1280;
 const unsigned int WINDOW_HEIGHT = 720;
 const float ASPECT_RATIO = WINDOW_WIDTH / (float) WINDOW_HEIGHT;
 
+const float MAX_FRAMERATE = 60.f;
+
 const float FOV = 70.0f;
 
 const float Z_NEAR = .1f;

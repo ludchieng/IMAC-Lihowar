@@ -5,12 +5,12 @@
 #include <glimac/FilePath.hpp>
 #include <glimac/Geometry.hpp>
 #include <lihowarlib/common.hpp>
-#include <lihowarlib/LihowarException.hpp>
+#include <lihowarlib/exceptions/LihowarException.hpp>
 
 namespace lihowar {
 
 enum ModelID {
-    Platonoid, Cube, Character, Twist
+    Platonoid, Cube, Character, Twist, Sphere
 };
 
 class Model {
@@ -25,25 +25,24 @@ private:
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
-    Model() = default;
-
-    Model(ModelID modelId);
+    explicit Model(ModelID modelId);
 
     Model(const Model& m)
             :_modelID( m._modelID ),
              _geometry( m._geometry ),
              _vbo( m._vbo ),
              _ibo( m._ibo ),
-             _vao( m._vao ) {}
+             _vao( m._vao )
+    {}
 
     ~Model();
 
 public:
     // INTERFACE
-    const glimac::Geometry geometry() const { return _geometry; }
-    const GLuint vao() const { return _vao; };
-    const GLuint vbo() const { return _vbo; };
-    const GLuint ibo() const { return _ibo; };
+    glimac::Geometry geometry() const { return _geometry; }
+    GLuint vao() const { return _vao; };
+    GLuint vbo() const { return _vbo; };
+    GLuint ibo() const { return _ibo; };
 
 private:
     void initGeometry(ModelID modelId);
