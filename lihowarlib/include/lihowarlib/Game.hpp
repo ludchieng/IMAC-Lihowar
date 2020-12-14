@@ -7,8 +7,6 @@
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/GameController.hpp>
 
-using namespace lihowar;
-
 namespace lihowar {
 
 class Game {

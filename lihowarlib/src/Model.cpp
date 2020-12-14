@@ -1,5 +1,6 @@
 #include <lihowarlib/Model.hpp>
 
+using namespace std;
 using namespace lihowar;
 
 namespace lihowar {
@@ -40,6 +41,9 @@ void Model::initGeometry(ModelID modelId)
             break;
         case Twist:
             modelName = "twist";
+            break;
+        case Sphere:
+            modelName = "sphere";
             break;
         default:
             throw LihowarException("Unknown path for specified ModelID", __FILE__, __LINE__);
