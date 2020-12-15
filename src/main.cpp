@@ -4,8 +4,6 @@
 #include <lihowarlib/Game.hpp>
 #include <iostream>
 
-const float MAX_FRAMERATE = 60.f;
-
 int main(int argc, char** argv) {
     // Init SDL Window
     glimac::SDLWindowManager wm(
@@ -37,8 +35,8 @@ int main(int argc, char** argv) {
 
         // Limit framerate
         Uint32 elapsedTime = SDL_GetTicks() - startTime;
-        if (elapsedTime < 1000. / MAX_FRAMERATE) {
-            SDL_Delay(1000. / MAX_FRAMERATE - elapsedTime);
+        if (elapsedTime < 1000. / lihowar::MAX_FRAMERATE) {
+            SDL_Delay(1000. / lihowar::MAX_FRAMERATE - elapsedTime);
         }
     }
 

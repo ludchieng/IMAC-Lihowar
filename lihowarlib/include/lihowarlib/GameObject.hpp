@@ -3,7 +3,8 @@
 
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/Model.hpp>
-#include <utility>
+#include <lihowarlib/programs/Program.hpp>
+#include <lihowarlib/programs/NormalProgram.hpp>
 
 namespace lihowar {
 
@@ -40,12 +41,16 @@ public:
 private:
     // MEMBERS
     Model &_model;
+    Program &_program;
     PRS _prs;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
-    explicit GameObject(Model& model, PRS prs = PRS())
-       :_model(model), _prs(prs)
+    explicit GameObject(
+            Model& model,
+            Program &program = NormalProgram::instance(),
+            PRS prs = PRS())
+       :_model(model), _program(program), _prs(prs)
     {}
 
     // TODO
@@ -56,7 +61,10 @@ public:
 public:
     // INTERFACE
     PRS &prs() { return _prs; }
+    Program &program() { return _program; }
     void translate(const glm::vec3 &dpos) { _prs.pos() += dpos; }
+    void rotate(const glm::vec3 &drot) { _prs.rot() += drot; }
+    void scale(const glm::vec3 &dsca) { _prs.sca() += dsca; }
     glm::mat4 matModel() const;
     void render();
 };

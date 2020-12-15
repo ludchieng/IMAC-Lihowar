@@ -15,7 +15,7 @@ private:
     // MEMBERS
     AssetManager &_assetManager;
     GameRenderer &_gRenderer;
-    std::list<GameObject> _gObjects;
+    std::list< std::unique_ptr<GameObject> > _gObjects;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS

@@ -23,6 +23,10 @@ AssetManager::AssetManager()
     _models.insert(make_pair(
             ModelID::Twist,
             new Model(ModelID::Twist)));
+
+    _models.insert(make_pair(
+            ModelID::Sphere,
+            new Model(ModelID::Sphere)));
 }
 
 }

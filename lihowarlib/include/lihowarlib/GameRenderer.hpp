@@ -1,11 +1,11 @@
 #ifndef LIHOWAR_GAMERENDERER_HPP
 #define LIHOWAR_GAMERENDERER_HPP
 
+#include <GL/glew.h>
 #include <lihowarlib/common.hpp>
-#include <lihowarlib/programs/Normal.hpp>
+#include <lihowarlib/GameObject.hpp>
 #include <lihowarlib/TrackballCamera.hpp>
 #include <lihowarlib/designpattern/Observer.hpp>
-#include <GL/glew.h>
 
 namespace lihowar {
 
@@ -41,8 +41,7 @@ public:
     void update();
     void updateMatMV(const glm::mat4 &matModel = glm::mat4(1.));
     TrackballCamera &camera() { return _tbcam; };
-    void useProgram();
-    void bindUniformVariables();
+    void bindUniformVariables(GameObject &gObject);
 
 };
 
