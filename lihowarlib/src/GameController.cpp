@@ -1,5 +1,6 @@
 #include <lihowarlib/GameController.hpp>
 #include <lihowarlib/programs/DirLightProgram.hpp>
+#include <lihowarlib/programs/DirLightTexProgram.hpp>
 
 #include <glimac/Sphere.hpp>
 
@@ -13,21 +14,24 @@ GameController::GameController()
       _gRenderer(GameRenderer::instance())
 {
     _gObjects.push_back(unique_ptr<GameObject>(
-            new GameObject(
-                *_assetManager.models()[ModelID::Character],
-                NormalProgram::instance()  )));
+        new GameObjectTextured(
+            *_assetManager.models()[ModelName::Character],
+            _assetManager.textureId(TextureName::Earth),
+            DirLightTexProgram::instance()  )));
 
     for (int i = 0; i < 20; ++i) {
         _gObjects.push_back(unique_ptr<GameObject>(
-            new GameObject(
-                *_assetManager.models()[ModelID::Character],
-                DirLightProgram::instance(),
+            new GameObjectTextured(
+                *_assetManager.models()[ModelName::Character],
+                _assetManager.textureId(TextureName::Moon),
+                DirLightTexProgram::instance(),
                 GameObject::PRS(
                     glm::sphericalRand(3.f),
                     glm::sphericalRand(360.f),
                     glm::vec3(1.f, 1.f, 1.f)  ))));
     }
 
+    //if (DEBUG) cout << "[GameController::GameController] END" << endl;
 }
 
 

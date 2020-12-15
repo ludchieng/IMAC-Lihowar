@@ -4,6 +4,7 @@
 #include <map>
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/Model.hpp>
+#include <lihowarlib/Texture.hpp>
 
 namespace lihowar {
 
@@ -11,7 +12,8 @@ class AssetManager {
 
 private:
     // MEMBERS
-    std::map<ModelID, Model*> _models;
+    std::map<ModelName, Model*> _models;
+    std::map<TextureName, Texture*> _textures;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
@@ -31,7 +33,13 @@ public:
 
 public:
     // INTERFACE
-    std::map<ModelID, Model*> &models() { return _models; }
+    std::map<ModelName, Model*> &models() { return _models; }
+    std::map<TextureName, Texture *> textures() { return _textures; }
+    GLuint &textureId(TextureName textureName) { return _textures[textureName]->id(); }
+
+private:
+    void addModel(ModelName modelName);
+    void addTexture(TextureName texName);
 };
 
 }

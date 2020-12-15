@@ -3,6 +3,7 @@ precision mediump float;
 
 in vec3 vFragPos;
 in vec3 vFragNormal;
+in vec2 vFragTexCoords;
 
 uniform vec3 uLightIntensity;
 uniform vec3 uLightDir;
@@ -10,6 +11,8 @@ uniform vec3 uKd;
 uniform vec3 uKs;
 uniform vec3 uKa;
 uniform float uShininess;
+
+uniform sampler2D uTexture;
 
 out vec3 fFragColor;
 
@@ -33,6 +36,7 @@ vec3 blinnPhongHardCoded() {
 }
 
 void main() {
+    vec3 texture = texture(uTexture,vFragTexCoords).xyz;
     vec3 light = clamp(blinnPhongHardCoded(), .05f, 1.);
-    fFragColor = light;
+    fFragColor = texture + light;
 }

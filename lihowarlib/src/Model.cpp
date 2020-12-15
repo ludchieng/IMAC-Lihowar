@@ -5,11 +5,11 @@ using namespace lihowar;
 
 namespace lihowar {
 
-Model::Model(ModelID modelID)
-    : _modelID(modelID)
+Model::Model(ModelName modelName)
+    : _modelName(modelName)
 {
-    if (DEBUG) cout << "[Model::Model] modelID: " << _modelID << endl;
-    initGeometry(modelID);
+    if (DEBUG) cout << "[Model::Model] modelName: " << _modelName << endl;
+    initGeometry(modelName);
     initVBO();
     initIBO();
     initVAO();
@@ -18,44 +18,44 @@ Model::Model(ModelID modelID)
 
 Model::~Model()
 {
-    if (DEBUG) cout << "[Model::~Model] modelID: " << _modelID << endl;
+    if (DEBUG) cout << "[Model::~Model] modelName: " << _modelName << endl;
     glDeleteBuffers(1, &_vbo);
     glDeleteVertexArrays(1, &_vao);
 }
 
 
-void Model::initGeometry(ModelID modelId)
+void Model::initGeometry(ModelName modelName)
 {
-    string modelName;
+    string filename;
 
-    // Get model name from ModelID
-    switch (modelId) {
+    // Get model name from ModelName
+    switch (modelName) {
         case Platonoid:
-            modelName = "platonoid";
+            filename = "platonoid";
             break;
         case Cube:
-            modelName = "cube";
+            filename = "cube";
             break;
         case Character:
-            modelName = "character";
+            filename = "character";
             break;
         case Twist:
-            modelName = "twist";
+            filename = "twist";
             break;
         case Sphere:
-            modelName = "sphere";
+            filename = "sphere";
             break;
         default:
-            throw LihowarException("Unknown path for specified ModelID", __FILE__, __LINE__);
+            throw LihowarException("Unknown path for specified ModelName", __FILE__, __LINE__);
     }
 
-    if (DEBUG) cout << "[Model::initGeometry] modelName: " << modelName << endl;
+    if (DEBUG) cout << "[Model::initGeometry] modelName: " << filename << endl;
 
-    glimac::FilePath objPath = PATH_ASSETS + "models/" + modelName + ".obj";
-    glimac::FilePath mtlPath = PATH_ASSETS + "models/" + modelName + ".mtl";
+    glimac::FilePath objPath = PATH_ASSETS + "models/" + filename + ".obj";
+    glimac::FilePath mtlPath = PATH_ASSETS + "models/" + filename + ".mtl";
 
     if (!_geometry.loadOBJ(objPath, mtlPath, true))
-        throw LihowarException("OBJ loading failed", __FILE__, __LINE__);
+        throw LihowarException("OBJ loading failed: " + filename, __FILE__, __LINE__);
 }
 
 

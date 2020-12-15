@@ -8,25 +8,24 @@ namespace lihowar {
 AssetManager::AssetManager()
 {
     // Import models
-    _models.insert(make_pair(
-            ModelID::Cube,
-            new Model(ModelID::Cube)));
+    for (int i = MODELNAME_FIRST; i <= MODELNAME_LAST; ++i)
+        addModel( static_cast<ModelName>(i) );
 
-    _models.insert(make_pair(
-            ModelID::Platonoid,
-            new Model(ModelID::Platonoid)));
+    // Import textures
+    for (int i = TEXTURENAME_FIRST; i <= TEXTURENAME_LAST; ++i)
+        addTexture( static_cast<TextureName>(i) );
+}
 
-    _models.insert(make_pair(
-            ModelID::Character,
-            new Model(ModelID::Character)));
 
-    _models.insert(make_pair(
-            ModelID::Twist,
-            new Model(ModelID::Twist)));
+void AssetManager::addModel(ModelName modelName)
+{
+    _models.insert( make_pair(modelName,new Model(modelName)) );
+}
 
-    _models.insert(make_pair(
-            ModelID::Sphere,
-            new Model(ModelID::Sphere)));
+
+void AssetManager::addTexture(TextureName texName)
+{
+    _textures.insert( make_pair(texName,new Texture(texName)) );
 }
 
 }

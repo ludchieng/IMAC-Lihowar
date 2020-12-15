@@ -3,6 +3,7 @@
 
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/Model.hpp>
+#include <lihowarlib/Texture.hpp>
 #include <lihowarlib/programs/Program.hpp>
 #include <lihowarlib/programs/NormalProgram.hpp>
 
@@ -60,13 +61,13 @@ public:
     
 public:
     // INTERFACE
-    PRS &prs() { return _prs; }
     Program &program() { return _program; }
+    PRS &prs() { return _prs; }
     void translate(const glm::vec3 &dpos) { _prs.pos() += dpos; }
     void rotate(const glm::vec3 &drot) { _prs.rot() += drot; }
     void scale(const glm::vec3 &dsca) { _prs.sca() += dsca; }
     glm::mat4 matModel() const;
-    void render();
+    virtual void render();
 };
 
 }

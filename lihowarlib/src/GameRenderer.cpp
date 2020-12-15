@@ -2,6 +2,7 @@
 #include <lihowarlib/programs/Program.hpp>
 #include <lihowarlib/programs/NormalProgram.hpp>
 #include <lihowarlib/programs/DirLightProgram.hpp>
+#include <lihowarlib/programs/DirLightTexProgram.hpp>
 
 using namespace std;
 using namespace lihowar;
@@ -43,6 +44,12 @@ void GameRenderer::bindUniformVariables(GameObject &gObject)
             DirLightProgram &dlprog = *( dynamic_cast<DirLightProgram*>(&prog) );
             glUniform3fv(dlprog.uLightDir(), 1, glm::value_ptr( glm::normalize(glm::vec3(lightDir)) ));
             break;
+        }
+        case ProgramType::DirLightTex:
+        {
+            glm::vec4 lightDir = _matView * glm::vec4(1.f, 1.f, 1.f, 0.f);
+            DirLightTexProgram &dltprog = *( dynamic_cast<DirLightTexProgram*>(&prog) );
+            glUniform3fv(dltprog.uLightDir(), 1, glm::value_ptr( glm::normalize(glm::vec3(lightDir)) ));
         }
         default:
             break;

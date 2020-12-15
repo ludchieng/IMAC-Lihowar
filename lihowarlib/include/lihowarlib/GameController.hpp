@@ -6,6 +6,7 @@
 #include <lihowarlib/AssetManager.hpp>
 #include <lihowarlib/GameRenderer.hpp>
 #include <lihowarlib/GameObject.hpp>
+#include <lihowarlib/GameObjectTextured.hpp>
 
 namespace lihowar {
 

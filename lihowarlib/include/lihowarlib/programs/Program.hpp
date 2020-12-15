@@ -7,7 +7,7 @@
 namespace lihowar {
 
 enum ProgramType {
-    Normal, DirLight
+    Normal, DirLight, DirLightTex
 };
 
 class Program {
@@ -38,7 +38,7 @@ public:
     GLint uMatMV() const { return _uMatMV; }
     GLint uMatNormal() const { return _uMatNormal; }
 
-    void use() { _program.use(); }
+    virtual void use() { _program.use(); }
 
 };
 
