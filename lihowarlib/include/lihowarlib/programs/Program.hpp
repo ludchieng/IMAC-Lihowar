@@ -11,6 +11,8 @@ enum ProgramType {
 };
 
 class Program {
+    friend class SceneSerializer;
+
 protected:
     // MEMBERS
     glimac::Program _program;
@@ -38,7 +40,7 @@ public:
     GLint uMatMV() const { return _uMatMV; }
     GLint uMatNormal() const { return _uMatNormal; }
 
-    virtual void use() { _program.use(); }
+    virtual void use() const { _program.use(); }
 
 };
 

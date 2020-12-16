@@ -2,7 +2,6 @@
 #include <lihowarlib/programs/Program.hpp>
 #include <lihowarlib/programs/NormalProgram.hpp>
 #include <lihowarlib/programs/DirLightProgram.hpp>
-#include <lihowarlib/programs/DirLightTexProgram.hpp>
 
 using namespace std;
 using namespace lihowar;
@@ -26,7 +25,7 @@ GameRenderer::GameRenderer()
 GameRenderer::~GameRenderer() {}
 
 
-void GameRenderer::bindUniformVariables(GameObject &gObject)
+void GameRenderer::bindUniformVariables(GameObject &gObject, const Scene &scene)
 {
     //if (DEBUG) cout << "[GameRenderer::bindUniformMatrices] " << endl;
     Program &prog = gObject.program();
@@ -42,14 +41,13 @@ void GameRenderer::bindUniformVariables(GameObject &gObject)
         {
             glm::vec4 lightDir = _matView * glm::vec4(1.f, 1.f, 1.f, 0.f);
             DirLightProgram &dlprog = *( dynamic_cast<DirLightProgram*>(&prog) );
+            glUniform1f(dlprog.uKd(), gObject.material().kd());
+            glUniform1f(dlprog.uKs(), gObject.material().ks());
+            glUniform1f(dlprog.uKa(), gObject.material().ka());
+            glUniform1f(dlprog.uShininess(), gObject.material().shininess());
             glUniform3fv(dlprog.uLightDir(), 1, glm::value_ptr( glm::normalize(glm::vec3(lightDir)) ));
+            glUniform3fv(dlprog.uLightIntensity(), 1, glm::value_ptr( glm::vec3(1.) ));
             break;
-        }
-        case ProgramType::DirLightTex:
-        {
-            glm::vec4 lightDir = _matView * glm::vec4(1.f, 1.f, 1.f, 0.f);
-            DirLightTexProgram &dltprog = *( dynamic_cast<DirLightTexProgram*>(&prog) );
-            glUniform3fv(dltprog.uLightDir(), 1, glm::value_ptr( glm::normalize(glm::vec3(lightDir)) ));
         }
         default:
             break;

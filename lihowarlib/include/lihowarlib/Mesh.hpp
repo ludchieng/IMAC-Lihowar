@@ -15,6 +15,7 @@ enum MeshName {
 };
 
 class Mesh {
+    friend class SceneSerializer;
 
 private:
     // MEMBERS

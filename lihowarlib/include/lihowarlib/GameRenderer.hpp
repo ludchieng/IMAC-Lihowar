@@ -5,6 +5,7 @@
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/GameObject.hpp>
 #include <lihowarlib/TrackballCamera.hpp>
+#include <lihowarlib/Scene.hpp>
 #include <lihowarlib/designpattern/Observer.hpp>
 
 namespace lihowar {
@@ -41,7 +42,7 @@ public:
     void update();
     void updateMatMV(const glm::mat4 &matModel = glm::mat4(1.));
     TrackballCamera &camera() { return _tbcam; };
-    void bindUniformVariables(GameObject &gObject);
+    void bindUniformVariables(GameObject &gObject, const Scene &scene);
 
 };
 

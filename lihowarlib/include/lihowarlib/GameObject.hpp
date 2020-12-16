@@ -4,12 +4,14 @@
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/Mesh.hpp>
 #include <lihowarlib/Texture.hpp>
+#include <lihowarlib/Material.hpp>
 #include <lihowarlib/programs/Program.hpp>
-#include <lihowarlib/programs/NormalProgram.hpp>
+#include <lihowarlib/programs/DirLightProgram.hpp>
 
 namespace lihowar {
 
 class GameObject {
+    friend class SceneSerializer;
 
 public:
     // SUB CLASS
@@ -44,14 +46,26 @@ private:
     Mesh &_mesh;
     Program &_program;
     PRS _prs;
+    std::shared_ptr<Material> _material;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit GameObject(
-            Mesh& mesh,
-            Program &program = NormalProgram::instance(),
-            PRS prs = PRS())
-       : _mesh(mesh), _program(program), _prs(prs)
+        Mesh& mesh,
+        GLuint textureId = 0,
+        Program &program = DirLightProgram::instance(),
+        PRS prs = PRS())
+       :_mesh(mesh), _program(program), _prs(prs),
+        _material(new Material(textureId))
+    {}
+
+    explicit GameObject(
+        Mesh& mesh,
+        GLuint textureId = 0,
+        PRS prs = PRS(),
+        Program &program = DirLightProgram::instance())
+       :_mesh(mesh), _program(program), _prs(prs),
+        _material(new Material(textureId))
     {}
 
     // TODO
@@ -63,11 +77,12 @@ public:
     // INTERFACE
     Program &program() { return _program; }
     PRS &prs() { return _prs; }
+    Material &material() { return *_material; }
     void translate(const glm::vec3 &dpos) { _prs.pos() += dpos; }
     void rotate(const glm::vec3 &drot) { _prs.rot() += drot; }
     void scale(const glm::vec3 &dsca) { _prs.sca() += dsca; }
     glm::mat4 matModel() const;
-    virtual void render();
+    void render();
 };
 
 }

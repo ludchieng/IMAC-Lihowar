@@ -18,9 +18,15 @@ glm::mat4 GameObject::matModel() const {
 
 void GameObject::render()
 {
+    if (_material->hasTexture())
+        glBindTexture(GL_TEXTURE_2D, _material->textureId());
+
     glBindVertexArray(_mesh.vao());
     glDrawElements(GL_TRIANGLES, _mesh.geometry().getIndexCount(),
                    GL_UNSIGNED_INT, 0);
+
+    if (_material->hasTexture())
+        glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 }
