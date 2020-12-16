@@ -6,7 +6,7 @@ layout(location = 2) in vec2 aVertexTexCoord;
 
 out vec3 vFragPos;
 out vec3 vFragNormal;
-out vec2 vTexCoord;
+out vec2 vFragTexCoords;
 
 uniform mat4 uMatMVP;
 uniform mat4 uMatMV;
@@ -19,5 +19,5 @@ void main() {
     vFragPos = vec3(uMatMV * vertexPos);
     gl_Position = uMatMVP * vertexPos;
     vFragNormal = vec3(uMatNormal * vertexNorm);
-    vTexCoord = aVertexTexCoord;
+    vFragTexCoords = aVertexTexCoord;
 }

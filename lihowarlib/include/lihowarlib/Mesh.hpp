@@ -1,5 +1,5 @@
-#ifndef LIHOWAR_MODEL_HPP
-#define LIHOWAR_MODEL_HPP
+#ifndef LIHOWAR_MESH_HPP
+#define LIHOWAR_MESH_HPP
 
 #include <GL/glew.h>
 #include <glimac/FilePath.hpp>
@@ -9,15 +9,17 @@
 
 namespace lihowar {
 
-enum ModelID {
-    Platonoid, Cube, Character, Twist, Sphere
+enum MeshName {
+    Platonoid, Cube, Character, Twist, Sphere,
+    MESHNAME_FIRST = Platonoid, MESHNAME_LAST = Sphere
 };
 
-class Model {
+class Mesh {
+    friend class SceneSerializer;
 
 private:
     // MEMBERS
-    ModelID _modelID;
+    MeshName _meshName;
     glimac::Geometry _geometry;
     GLuint _vbo;
     GLuint _ibo;
@@ -25,17 +27,17 @@ private:
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
-    explicit Model(ModelID modelId);
+    explicit Mesh(MeshName meshName);
 
-    Model(const Model& m)
-            :_modelID( m._modelID ),
-             _geometry( m._geometry ),
-             _vbo( m._vbo ),
-             _ibo( m._ibo ),
-             _vao( m._vao )
+    Mesh(const Mesh& m)
+            : _meshName(m._meshName ),
+              _geometry( m._geometry ),
+              _vbo( m._vbo ),
+              _ibo( m._ibo ),
+              _vao( m._vao )
     {}
 
-    ~Model();
+    ~Mesh();
 
 public:
     // INTERFACE
@@ -45,7 +47,7 @@ public:
     GLuint ibo() const { return _ibo; };
 
 private:
-    void initGeometry(ModelID modelId);
+    void initGeometry(MeshName meshName);
     void initVBO();
     void initIBO();
     void initVAO();
@@ -54,4 +56,4 @@ private:
 }
 
 
-#endif //LIHOWAR_MODEL_HPP
+#endif //LIHOWAR_MESH_HPP

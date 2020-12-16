@@ -11,3 +11,4 @@ add_executable(${OUTPUT} main.cpp ${HEADER_FILES} ${SHADER_FILES})
 target_link_libraries(${OUTPUT} ${ALL_LIBRARIES}) # ALL_LIBRARIES is set in global cmakelists
 
 file(COPY shaders DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+file(MAKE_DIRECTORY "${EXECUTABLE_OUTPUT_PATH}/scenes")

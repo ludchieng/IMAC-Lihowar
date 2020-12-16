@@ -22,6 +22,7 @@ const float Z_FAR = 100.f;
 
 const std::string PATH_ASSETS("assets/");
 const std::string PATH_SHADERS("shaders/");
+const std::string PATH_SCENES("scenes/");
 
 }
 

@@ -15,10 +15,10 @@ private:
     ProgramType _type;
     GLint _uKd;
     GLint _uKs;
+    GLint _uKa;
     GLint _uShininess;
     GLint _uLightDir;
     GLint _uLightIntensity;
-    GLint _uColor;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
@@ -27,13 +27,11 @@ private:
         _type( ProgramType::DirLight ),
         _uKd( glGetUniformLocation(_program.getGLId(), "uKd") ),
         _uKs( glGetUniformLocation(_program.getGLId(), "uKs") ),
+        _uKa( glGetUniformLocation(_program.getGLId(), "uKa") ),
         _uShininess( glGetUniformLocation(_program.getGLId(), "uShininess") ),
         _uLightDir( glGetUniformLocation(_program.getGLId(), "uLightDir") ),
-        _uLightIntensity( glGetUniformLocation(_program.getGLId(), "uLightIntensity") ),
-        _uColor( glGetUniformLocation(_program.getGLId(), "uColor") )
-    {
-        if (DEBUG) std::cout << "[DirLightProgram::DirLightProgram] _type: " << _type << std::endl;
-    }
+        _uLightIntensity( glGetUniformLocation(_program.getGLId(), "uLightIntensity") )
+    {}
 
 public:
     /// \brief get instance of the Program singleton class
@@ -47,10 +45,10 @@ public:
     ProgramType type() const override { return _type; }
     GLint uKd() const { return _uKd; }
     GLint uKs() const { return _uKs; }
+    GLint uKa() const { return _uKa; }
     GLint uShininess() const { return _uShininess; }
     GLint uLightDir() const { return _uLightDir; }
     GLint uLightIntensity() const { return _uLightIntensity; }
-    GLint uColor() const { return _uColor; }
 
 };
 
