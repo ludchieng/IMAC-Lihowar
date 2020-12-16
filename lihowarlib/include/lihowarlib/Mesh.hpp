@@ -1,5 +1,5 @@
-#ifndef LIHOWAR_MODEL_HPP
-#define LIHOWAR_MODEL_HPP
+#ifndef LIHOWAR_MESH_HPP
+#define LIHOWAR_MESH_HPP
 
 #include <GL/glew.h>
 #include <glimac/FilePath.hpp>
@@ -9,16 +9,16 @@
 
 namespace lihowar {
 
-enum ModelName {
+enum MeshName {
     Platonoid, Cube, Character, Twist, Sphere,
-    MODELNAME_FIRST = Platonoid, MODELNAME_LAST = Sphere
+    MESHNAME_FIRST = Platonoid, MESHNAME_LAST = Sphere
 };
 
-class Model {
+class Mesh {
 
 private:
     // MEMBERS
-    ModelName _modelName;
+    MeshName _meshName;
     glimac::Geometry _geometry;
     GLuint _vbo;
     GLuint _ibo;
@@ -26,17 +26,17 @@ private:
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
-    explicit Model(ModelName modelName);
+    explicit Mesh(MeshName meshName);
 
-    Model(const Model& m)
-            : _modelName(m._modelName ),
+    Mesh(const Mesh& m)
+            : _meshName(m._meshName ),
               _geometry( m._geometry ),
               _vbo( m._vbo ),
               _ibo( m._ibo ),
               _vao( m._vao )
     {}
 
-    ~Model();
+    ~Mesh();
 
 public:
     // INTERFACE
@@ -46,7 +46,7 @@ public:
     GLuint ibo() const { return _ibo; };
 
 private:
-    void initGeometry(ModelName modelName);
+    void initGeometry(MeshName meshName);
     void initVBO();
     void initIBO();
     void initVAO();
@@ -55,4 +55,4 @@ private:
 }
 
 
-#endif //LIHOWAR_MODEL_HPP
+#endif //LIHOWAR_MESH_HPP

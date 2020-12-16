@@ -7,9 +7,9 @@ namespace lihowar {
 
 AssetManager::AssetManager()
 {
-    // Import models
-    for (int i = MODELNAME_FIRST; i <= MODELNAME_LAST; ++i)
-        addModel( static_cast<ModelName>(i) );
+    // Import meshes
+    for (int i = MESHNAME_FIRST; i <= MESHNAME_LAST; ++i)
+        addMesh( static_cast<MeshName>(i) );
 
     // Import textures
     for (int i = TEXTURENAME_FIRST; i <= TEXTURENAME_LAST; ++i)
@@ -17,9 +17,9 @@ AssetManager::AssetManager()
 }
 
 
-void AssetManager::addModel(ModelName modelName)
+void AssetManager::addMesh(MeshName meshName)
 {
-    _models.insert( make_pair(modelName,new Model(modelName)) );
+    _meshes.insert( make_pair(meshName,new Mesh(meshName)) );
 }
 
 

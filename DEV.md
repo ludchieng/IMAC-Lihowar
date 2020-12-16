@@ -12,8 +12,8 @@ main
 └> Game (s)
    └> GameController (s)
       ├> AssetManager (s)
-      │  └> collection of Model
-      │     └> foreach Model
+      │  └> collection of Mesh
+      │     └> foreach Mesh
       │        └> load .obj file
       │
       ├> GameRenderer (s)

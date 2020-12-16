@@ -15,11 +15,11 @@ private:
 public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit GameObjectTextured(
-            Model& model,
+            Mesh& mesh,
             GLuint textureId = 0,
             Program &program = NormalProgram::instance(),
             PRS prs = PRS())
-       :GameObject(model, program, prs),
+       :GameObject(mesh, program, prs),
         _texId(textureId)
     {}
     

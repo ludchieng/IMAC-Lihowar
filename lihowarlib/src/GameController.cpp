@@ -15,14 +15,14 @@ GameController::GameController()
 {
     _gObjects.push_back(unique_ptr<GameObject>(
         new GameObjectTextured(
-            *_assetManager.models()[ModelName::Character],
+            *_assetManager.meshes()[MeshName::Character],
             _assetManager.textureId(TextureName::Earth),
             DirLightTexProgram::instance()  )));
 
     for (int i = 0; i < 20; ++i) {
         _gObjects.push_back(unique_ptr<GameObject>(
             new GameObjectTextured(
-                *_assetManager.models()[ModelName::Character],
+                *_assetManager.meshes()[MeshName::Character],
                 _assetManager.textureId(TextureName::Moon),
                 DirLightTexProgram::instance(),
                 GameObject::PRS(

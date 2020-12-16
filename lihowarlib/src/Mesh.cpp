@@ -1,35 +1,35 @@
-#include <lihowarlib/Model.hpp>
+#include <lihowarlib/Mesh.hpp>
 
 using namespace std;
 using namespace lihowar;
 
 namespace lihowar {
 
-Model::Model(ModelName modelName)
-    : _modelName(modelName)
+Mesh::Mesh(MeshName meshName)
+    : _meshName(meshName)
 {
-    if (DEBUG) cout << "[Model::Model] modelName: " << _modelName << endl;
-    initGeometry(modelName);
+    if (DEBUG) cout << "[Mesh::Mesh] meshName: " << _meshName << endl;
+    initGeometry(meshName);
     initVBO();
     initIBO();
     initVAO();
 }
 
 
-Model::~Model()
+Mesh::~Mesh()
 {
-    if (DEBUG) cout << "[Model::~Model] modelName: " << _modelName << endl;
+    if (DEBUG) cout << "[Mesh::Mesh meshName: " << _meshName << endl;
     glDeleteBuffers(1, &_vbo);
     glDeleteVertexArrays(1, &_vao);
 }
 
 
-void Model::initGeometry(ModelName modelName)
+void Mesh::initGeometry(MeshName meshName)
 {
     string filename;
 
-    // Get model name from ModelName
-    switch (modelName) {
+    // Get mesh name from MeshName
+    switch (meshName) {
         case Platonoid:
             filename = "platonoid";
             break;
@@ -46,20 +46,20 @@ void Model::initGeometry(ModelName modelName)
             filename = "sphere";
             break;
         default:
-            throw LihowarException("Unknown path for specified ModelName", __FILE__, __LINE__);
+            throw LihowarException("Unknown path for specified MeshName", __FILE__, __LINE__);
     }
 
-    if (DEBUG) cout << "[Model::initGeometry] modelName: " << filename << endl;
+    if (DEBUG) cout << "[Mesh::initGeometry] meshName: " << filename << endl;
 
-    glimac::FilePath objPath = PATH_ASSETS + "models/" + filename + ".obj";
-    glimac::FilePath mtlPath = PATH_ASSETS + "models/" + filename + ".mtl";
+    glimac::FilePath objPath = PATH_ASSETS + "meshes/" + filename + ".obj";
+    glimac::FilePath mtlPath = PATH_ASSETS + "meshes/" + filename + ".mtl";
 
     if (!_geometry.loadOBJ(objPath, mtlPath, true))
         throw LihowarException("OBJ loading failed: " + filename, __FILE__, __LINE__);
 }
 
 
-void Model::initVBO()
+void Mesh::initVBO()
 {
     GLuint vbo;
     glGenBuffers(1, &vbo);
@@ -74,7 +74,7 @@ void Model::initVBO()
 }
 
 
-void Model::initIBO()
+void Mesh::initIBO()
 {
     GLuint ibo;
     glGenBuffers(1, &ibo);
@@ -89,7 +89,7 @@ void Model::initIBO()
 }
 
 
-void Model::initVAO()
+void Mesh::initVAO()
 {
     GLuint vao;
     glGenVertexArrays(1, &vao);

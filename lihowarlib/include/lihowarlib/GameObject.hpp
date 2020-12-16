@@ -2,7 +2,7 @@
 #define LIHOWAR_GAMEOBJECT_HPP
 
 #include <lihowarlib/common.hpp>
-#include <lihowarlib/Model.hpp>
+#include <lihowarlib/Mesh.hpp>
 #include <lihowarlib/Texture.hpp>
 #include <lihowarlib/programs/Program.hpp>
 #include <lihowarlib/programs/NormalProgram.hpp>
@@ -41,17 +41,17 @@ public:
 
 private:
     // MEMBERS
-    Model &_model;
+    Mesh &_mesh;
     Program &_program;
     PRS _prs;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit GameObject(
-            Model& model,
+            Mesh& mesh,
             Program &program = NormalProgram::instance(),
             PRS prs = PRS())
-       :_model(model), _program(program), _prs(prs)
+       : _mesh(mesh), _program(program), _prs(prs)
     {}
 
     // TODO

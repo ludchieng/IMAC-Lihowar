@@ -3,7 +3,7 @@
 
 #include <map>
 #include <lihowarlib/common.hpp>
-#include <lihowarlib/Model.hpp>
+#include <lihowarlib/Mesh.hpp>
 #include <lihowarlib/Texture.hpp>
 
 namespace lihowar {
@@ -12,7 +12,7 @@ class AssetManager {
 
 private:
     // MEMBERS
-    std::map<ModelName, Model*> _models;
+    std::map<MeshName, Mesh*> _meshes;
     std::map<TextureName, Texture*> _textures;
 
 private:
@@ -33,12 +33,12 @@ public:
 
 public:
     // INTERFACE
-    std::map<ModelName, Model*> &models() { return _models; }
+    std::map<MeshName, Mesh*> &meshes() { return _meshes; }
     std::map<TextureName, Texture *> textures() { return _textures; }
     GLuint &textureId(TextureName textureName) { return _textures[textureName]->id(); }
 
 private:
-    void addModel(ModelName modelName);
+    void addMesh(MeshName meshName);
     void addTexture(TextureName texName);
 };
 

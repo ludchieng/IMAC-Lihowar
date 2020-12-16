@@ -18,8 +18,8 @@ glm::mat4 GameObject::matModel() const {
 
 void GameObject::render()
 {
-    glBindVertexArray(_model.vao());
-    glDrawElements(GL_TRIANGLES, _model.geometry().getIndexCount(),
+    glBindVertexArray(_mesh.vao());
+    glDrawElements(GL_TRIANGLES, _mesh.geometry().getIndexCount(),
                    GL_UNSIGNED_INT, 0);
 }
 
