@@ -10,7 +10,7 @@ namespace lihowar {
 
 class LihowarException : public std::exception {
 
-private:
+protected:
     // MEMBERS
     std::string _message;
     std::string _file;
@@ -30,7 +30,7 @@ public:
 
 public:
     // INTERFACE
-    inline const char* what() const noexcept
+    inline const char* what() const noexcept override
     {
         std::string msg = "LihowarException: ["
                 + _file + ":" + std::to_string(_line)

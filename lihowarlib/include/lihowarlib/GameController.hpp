@@ -5,7 +5,9 @@
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/AssetManager.hpp>
 #include <lihowarlib/GameRenderer.hpp>
-#include <lihowarlib/GameObject.hpp>
+#include <lihowarlib/Scene.hpp>
+#include <lihowarlib/io/SceneSerializer.hpp>
+
 
 namespace lihowar {
 
@@ -15,7 +17,7 @@ private:
     // MEMBERS
     AssetManager &_assetManager;
     GameRenderer &_gRenderer;
-    std::list< std::unique_ptr<GameObject> > _gObjects;
+    std::unique_ptr<Scene> _scene;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS

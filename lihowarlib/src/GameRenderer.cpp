@@ -1,7 +1,9 @@
 #include <lihowarlib/GameRenderer.hpp>
 #include <lihowarlib/programs/Program.hpp>
-#include <lihowarlib/programs/NormalProgram.hpp>
 #include <lihowarlib/programs/DirLightProgram.hpp>
+#include <lihowarlib/programs/MultiLightsProgram.hpp>
+#include <lihowarlib/LightDirectional.hpp>
+#include <lihowarlib/LightPoint.hpp>
 
 using namespace std;
 using namespace lihowar;
@@ -25,7 +27,7 @@ GameRenderer::GameRenderer()
 GameRenderer::~GameRenderer() {}
 
 
-void GameRenderer::bindUniformVariables(GameObject &gObject)
+void GameRenderer::bindUniformVariables(GameObject &gObject, const Scene &scene)
 {
     //if (DEBUG) cout << "[GameRenderer::bindUniformMatrices] " << endl;
     Program &prog = gObject.program();
@@ -41,7 +43,51 @@ void GameRenderer::bindUniformVariables(GameObject &gObject)
         {
             glm::vec4 lightDir = _matView * glm::vec4(1.f, 1.f, 1.f, 0.f);
             DirLightProgram &dlprog = *( dynamic_cast<DirLightProgram*>(&prog) );
+            glUniform1f(dlprog.uKd(), gObject.material().kd());
+            glUniform1f(dlprog.uKs(), gObject.material().ks());
+            glUniform1f(dlprog.uKa(), gObject.material().ka());
+            glUniform1f(dlprog.uShininess(), gObject.material().shininess());
             glUniform3fv(dlprog.uLightDir(), 1, glm::value_ptr( glm::normalize(glm::vec3(lightDir)) ));
+            glUniform3fv(dlprog.uLightIntensity(), 1, glm::value_ptr( glm::vec3(1.) ));
+            glUniform1i(dlprog.uHasTexture(), gObject.material().hasTexture() );
+            break;
+        }
+        case ProgramType::MultiLights:
+        {
+            MultiLightsProgram &mlprog = *( dynamic_cast<MultiLightsProgram*>(&prog) );
+            glUniform1f(mlprog.uKd(), gObject.material().kd());
+            glUniform1f(mlprog.uKs(), gObject.material().ks());
+            glUniform1f(mlprog.uKa(), gObject.material().ka());
+            glUniform1f(mlprog.uShininess(), gObject.material().shininess());
+            glUniform1i(mlprog.uHasTexture(), gObject.material().hasTexture());
+
+            unsigned int ldIndex = 0; // LightDirectional array index cursor
+            unsigned int lpIndex = 0; // LightoPoint array index cursor
+            auto it = scene.lights().begin();
+            while (it != scene.lights().end()) {
+                LightDirectional *ld = dynamic_cast<LightDirectional*>(it->get());
+                LightPoint *lp = dynamic_cast<LightPoint*>(it->get());
+                if (NULL != ld) {
+                    // downcast to LightDirectional succeeded
+                    glUniform3fv(mlprog.uLightsDir(ldIndex, "dir"), 1, glm::value_ptr( _matView * glm::vec4(ld->dir(), 0.) ));
+                    glUniform3fv(mlprog.uLightsDir(ldIndex, "intensity"), 1, glm::value_ptr( ld->intensity() ));
+                    ldIndex++;
+                } else if (NULL != lp){
+                    // downcast to LightPoint succeeded
+                    glUniform3fv(mlprog.uLightsPoint(lpIndex, "pos"), 1, glm::value_ptr( _matView * glm::vec4(lp->pos(), 1.) ));
+                    glUniform3fv(mlprog.uLightsPoint(lpIndex, "intensity"), 1, glm::value_ptr( lp->intensity() ));
+                    lpIndex++;
+                } else {
+                    throw LihowarException("Downcast Light instance failed", __FILE__, __LINE__);
+                }
+                ++it;
+            }
+
+            //if (DEBUG) cout << "ldIndex: " << ldIndex << endl;
+            //if (DEBUG) cout << "lpIndex: " << lpIndex << endl;
+
+            glUniform1i(mlprog.uLightsDirCount(), ldIndex );
+            glUniform1i(mlprog.uLightsPointCount(), lpIndex );
             break;
         }
         default:
