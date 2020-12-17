@@ -30,6 +30,9 @@ void Mesh::initGeometry(MeshName meshName)
 
     // Get mesh name from MeshName
     switch (meshName) {
+        case Island1:
+            filename = "island1";
+            break;
         case Platonoid:
             filename = "platonoid";
             break;
@@ -39,8 +42,8 @@ void Mesh::initGeometry(MeshName meshName)
         case Character:
             filename = "character";
             break;
-        case Twist:
-            filename = "twist";
+        case Balloon:
+            filename = "balloon";
             break;
         case Sphere:
             filename = "sphere";
@@ -52,7 +55,7 @@ void Mesh::initGeometry(MeshName meshName)
     if (DEBUG) cout << "[Mesh::initGeometry] meshName: " << filename << endl;
 
     glimac::FilePath objPath = PATH_ASSETS + "meshes/" + filename + ".obj";
-    glimac::FilePath mtlPath = PATH_ASSETS + "meshes/" + filename + ".mtl";
+    glimac::FilePath mtlPath = PATH_ASSETS + "meshes/" + "default" + ".mtl";
 
     if (!_geometry.loadOBJ(objPath, mtlPath, true))
         throw LihowarException("OBJ loading failed: " + filename, __FILE__, __LINE__);

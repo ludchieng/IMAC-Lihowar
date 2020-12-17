@@ -29,6 +29,8 @@ public:
 
     void add(std::unique_ptr<GameObject> gObject) { _gObjects.push_back(std::move(gObject)); }
     void add(std::unique_ptr<Light> light) { _lights.push_back(std::move(light)); }
+    void add(GameObject *gObject) { _gObjects.push_back(std::unique_ptr<GameObject>(gObject)); }
+    void add(Light *light) { _lights.push_back(std::unique_ptr<Light>(light)); }
 
 };
 
