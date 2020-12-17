@@ -7,7 +7,7 @@
 namespace lihowar {
 
 enum ProgramType {
-    Normal, DirLight, DirLightTex
+    Normal, DirLight, MultiLights
 };
 
 class Program {

@@ -19,6 +19,7 @@ private:
     GLint _uShininess;
     GLint _uLightDir;
     GLint _uLightIntensity;
+    GLint _uHasTexture;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
@@ -30,7 +31,8 @@ private:
         _uKa( glGetUniformLocation(_program.getGLId(), "uKa") ),
         _uShininess( glGetUniformLocation(_program.getGLId(), "uShininess") ),
         _uLightDir( glGetUniformLocation(_program.getGLId(), "uLightDir") ),
-        _uLightIntensity( glGetUniformLocation(_program.getGLId(), "uLightIntensity") )
+        _uLightIntensity( glGetUniformLocation(_program.getGLId(), "uLightIntensity") ),
+        _uHasTexture( glGetUniformLocation(_program.getGLId(), "uHasTexture") )
     {}
 
 public:
@@ -49,6 +51,7 @@ public:
     GLint uShininess() const { return _uShininess; }
     GLint uLightDir() const { return _uLightDir; }
     GLint uLightIntensity() const { return _uLightIntensity; }
+    GLint uHasTexture() const { return _uHasTexture; }
 
 };
 

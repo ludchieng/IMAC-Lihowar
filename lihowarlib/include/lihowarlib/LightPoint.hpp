@@ -14,11 +14,14 @@ private:
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
-    LightPoint() = default;
-    ~LightPoint() = default;
+    LightPoint(const glm::vec3 &intensity, const glm::vec3 &pos)
+        : Light(intensity), _pos(pos)
+    {}
+    ~LightPoint() override = default;
 
 public:
     // INTERFACE
+    void setPos(const glm::vec3 &pos) { _pos = pos; }
     glm::vec3 &pos() { return _pos; }
     glm::vec3 pos() const { return _pos; }
 

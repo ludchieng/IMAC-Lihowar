@@ -14,12 +14,16 @@ private:
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
-    LightDirectional() = default;
-    ~LightDirectional() = default;
+    LightDirectional(const glm::vec3 &intensity, const glm::vec3 &dir)
+        : Light(intensity), _dir(dir)
+    {
+        _dir = glm::normalize(_dir);
+    }
+    ~LightDirectional() override = default;
     
 public:
     // INTERFACE
-    glm::vec3 &dir() { return _dir; }
+    void setDir(const glm::vec3 &dir) { _dir = glm::normalize(dir); }
     glm::vec3 dir() const { return _dir; }
 
 };
