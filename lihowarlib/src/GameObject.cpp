@@ -16,7 +16,7 @@ glm::mat4 GameObject::matModel() const {
 }
 
 
-void GameObject::render()
+void GameObject::render() const
 {
     if (_material->hasTexture())
         glBindTexture(GL_TEXTURE_2D, _material->textureId());
@@ -27,6 +27,8 @@ void GameObject::render()
 
     if (_material->hasTexture())
         glBindTexture(GL_TEXTURE_2D, 0);
+
+    glBindVertexArray(0);
 }
 
 }

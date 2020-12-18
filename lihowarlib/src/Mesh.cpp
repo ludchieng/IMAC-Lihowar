@@ -30,22 +30,22 @@ void Mesh::initGeometry(MeshName meshName)
 
     // Get mesh name from MeshName
     switch (meshName) {
-        case Island1:
+        case ISLAND1:
             filename = "island1";
             break;
-        case Platonoid:
+        case PLATONOID:
             filename = "platonoid";
             break;
-        case Cube:
+        case CUBE:
             filename = "cube";
             break;
-        case Character:
+        case CHARACTER:
             filename = "character";
             break;
-        case Balloon:
+        case BALLOON:
             filename = "balloon";
             break;
-        case Sphere:
+        case SPHERE:
             filename = "sphere";
             break;
         default:

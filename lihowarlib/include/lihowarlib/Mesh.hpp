@@ -10,9 +10,9 @@
 namespace lihowar {
 
 enum MeshName {
-    Island1,
-    Platonoid, Cube, Character, Balloon, Sphere,
-    MESHNAME_FIRST = Island1, MESHNAME_LAST = Sphere
+    ISLAND1,
+    PLATONOID, CUBE, CHARACTER, BALLOON, SPHERE,
+    MESHNAME_FIRST = ISLAND1, MESHNAME_LAST = SPHERE
 };
 
 class Mesh {

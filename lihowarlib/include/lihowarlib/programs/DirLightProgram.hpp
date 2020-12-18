@@ -25,7 +25,7 @@ private:
     // CONSTRUCTORS & DESTRUCTORS
     DirLightProgram(const std::string& vsName, const std::string& fsName)
        :Program(vsName, fsName),
-        _type( ProgramType::DirLight ),
+        _type( ProgramType::DIRLIGHT ),
         _uKd( glGetUniformLocation(_program.getGLId(), "uKd") ),
         _uKs( glGetUniformLocation(_program.getGLId(), "uKs") ),
         _uKa( glGetUniformLocation(_program.getGLId(), "uKa") ),
