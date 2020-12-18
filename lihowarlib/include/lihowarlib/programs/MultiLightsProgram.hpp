@@ -20,9 +20,9 @@ private:
     ProgramType _type;
     GLint _uKd;
     GLint _uKs;
-    GLint _uKa;
     GLint _uShininess;
     GLint _uHasTexture;
+    GLint _uLightAmbient;
     GLint _uLightsDirCount;
     GLint _uLightsPointCount;
 
@@ -30,12 +30,12 @@ private:
     // CONSTRUCTORS & DESTRUCTORS
     MultiLightsProgram(const std::string& vsName, const std::string& fsName)
        :Program(vsName, fsName),
-        _type( ProgramType::MultiLights ),
+        _type( ProgramType::MULTILIGHTS ),
         _uKd( glGetUniformLocation(_program.getGLId(), "uKd") ),
         _uKs( glGetUniformLocation(_program.getGLId(), "uKs") ),
-        _uKa( glGetUniformLocation(_program.getGLId(), "uKa") ),
         _uShininess( glGetUniformLocation(_program.getGLId(), "uShininess") ),
         _uHasTexture( glGetUniformLocation(_program.getGLId(), "uHasTexture") ),
+        _uLightAmbient( glGetUniformLocation(_program.getGLId(), "uLightAmbient") ),
         _uLightsDirCount( glGetUniformLocation(_program.getGLId(), "uLightsDirCount") ),
         _uLightsPointCount( glGetUniformLocation(_program.getGLId(), "uLightsPointCount") )
     {}
@@ -52,9 +52,9 @@ public:
     ProgramType type() const override { return _type; }
     GLint uKd() const { return _uKd; }
     GLint uKs() const { return _uKs; }
-    GLint uKa() const { return _uKa; }
     GLint uShininess() const { return _uShininess; }
     GLint uHasTexture() const { return _uHasTexture; }
+    GLint uLightAmbient() const { return _uLightAmbient; }
     GLint uLightsDirCount() const { return _uLightsDirCount; }
     GLint uLightsPointCount() const { return _uLightsPointCount; }
 

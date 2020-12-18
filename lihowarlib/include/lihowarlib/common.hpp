@@ -15,10 +15,11 @@ const float ASPECT_RATIO = WINDOW_WIDTH / (float) WINDOW_HEIGHT;
 
 const float MAX_FRAMERATE = 60.f;
 
-const float FOV = 70.0f;
+const float MIN_FOV = 70.0f;
+const float MAX_FOV = 95.0f;
 
 const float Z_NEAR = .1f;
-const float Z_FAR = 1000.f;
+const float Z_FAR = 2000.f;
 
 const std::string PATH_ASSETS("assets/");
 const std::string PATH_SHADERS("shaders/");
