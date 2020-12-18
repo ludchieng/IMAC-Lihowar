@@ -54,13 +54,13 @@ string SceneSerializer::serialize(const GameObject &g)
 {
     stringstream res;
     res << "{\n";
-    res << "    meshname: " << g._mesh._meshName << "\n";
+    res << "    meshname: " << (int) g._mesh._meshName << "\n";
     res << "    prs: {\n";
     res << "        pos: " << g._prs.pos() << "\n";
     res << "        rot: " << g._prs.rot() << "\n";
     res << "        sca: " << g._prs.sca() << "\n";
     res << "    }\n";
-    res << "    program: " << g._program.type() << "\n";
+    res << "    program: " << (int) g._program.type() << "\n";
     res << "}\n";
     return res.str();
 }

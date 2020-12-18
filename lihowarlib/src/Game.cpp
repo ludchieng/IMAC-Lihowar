@@ -28,7 +28,7 @@ void Game::handle(SDL_Event e)
 
 void Game::handleKeydown(SDL_Event e)
 {
-    if (DEBUG) cout << "SDL Event: keydown: " << (int) e.key.keysym.sym << endl;
+    // if (DEBUG) cout << "SDL Event: keydown: " << (int) e.key.keysym.sym << endl;
     switch (e.key.keysym.sym) {
         case SDLK_LEFT:
             _gController.renderer().camera().rotateLeft(5);
@@ -50,13 +50,13 @@ void Game::handleKeydown(SDL_Event e)
 
 void Game::handleMouseBtn(SDL_Event e)
 {
-    if (DEBUG) cout << "SDL Event: mouse button: " << (int) e.button.button << endl;
+    // if (DEBUG) cout << "SDL Event: mouse button: " << (int) e.button.button << endl;
     switch (e.button.button) {
         case SDL_BUTTON_WHEELUP:
-            _gController.renderer().camera().moveFront(0.8f);
+            _gController.renderer().camera().moveFront(-.01f);
             break;
         case SDL_BUTTON_WHEELDOWN:
-            _gController.renderer().camera().moveFront(1.2f);
+            _gController.renderer().camera().moveFront(.01f);
             break;
         default:
             break;

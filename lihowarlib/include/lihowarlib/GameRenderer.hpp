@@ -14,11 +14,11 @@ class GameRenderer : public dp::Observer {
 
 private:
     // MEMBERS
+    TrackballCamera _tbcam;
     glm::mat4 _matProj;
     glm::mat4 _matMV;
     glm::mat4 _matNormal;
     glm::mat4 _matView;
-    TrackballCamera _tbcam;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
@@ -39,9 +39,10 @@ public:
     
 public:
     // INTERFACE
+    TrackballCamera &camera() { return _tbcam; };
     void update();
     void updateMatMV(const glm::mat4 &matModel = glm::mat4(1.));
-    TrackballCamera &camera() { return _tbcam; };
+    void updateMatProj();
     void bindUniformVariables(GameObject &gObject, const Scene &scene);
 
 };

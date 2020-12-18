@@ -1,7 +1,7 @@
 #ifndef LIHOWAR_TRACKBALLCAMERA_HPP
 #define LIHOWAR_TRACKBALLCAMERA_HPP
 
-#include <vector>
+#include <functional>
 #include <lihowarlib/common.hpp>
 #include <lihowarlib/designpattern/Subject.hpp>
 
@@ -9,29 +9,46 @@ namespace lihowar {
 
 class TrackballCamera : public dp::Subject {
 
-public:
+private:
+    const float MIN_DISTANCE_CURSOR = 0.f;
+    const float MAX_DISTANCE_CURSOR = 1.f;
+    const float MIN_DISTANCE = 1.f;
+    const float MAX_DISTANCE = 20.f;
+    const static std::function<float(float, float, float)> lerp;
+    const static std::function<float(float, float, float, float)> easeQuad;
+    const static std::function<float(float, float, float, float)> easeCos;
+
+private:
     // MEMBERS
-    float _fDistance;
-    float _fAngleX;
-    float _fAngleY;
+    float _distanceCursor;
+    float _angleX;
+    float _angleY;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
     TrackballCamera()
-            : _fDistance(0), _fAngleX(0), _fAngleY(0) {}
+       :_distanceCursor(0.f), _angleX(0.f), _angleY(0.f)
+    {}
 
-    TrackballCamera(float fDist, float fAngX, float fAngY)
-            : _fDistance(fDist), _fAngleX(fAngX), _fAngleY(fAngY) {}
+    TrackballCamera(float distanceCursor, float angX, float angY)
+       :_distanceCursor(distanceCursor), _angleX(angX), _angleY(angY)
+    {}
 
     ~TrackballCamera() override;
     
 public:
     // INTERFACE
     glm::mat4 getMatView() const;
+    float fov() const { return lerp(MIN_FOV, MAX_FOV, _distanceCursor); }
 
     void moveFront(float delta);
     void rotateLeft(float degrees);
     void rotateUp(float degrees);
+
+private:
+    float &distanceCursor() { return _distanceCursor; }
+    float distanceCursor() const { return _distanceCursor; }
+    float distance() const;
 
 };
 

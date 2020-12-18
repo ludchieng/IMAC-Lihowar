@@ -8,19 +8,22 @@ namespace lihowar {
 class Light {
     friend class SceneSerializer;
 
-private:
+protected:
     // MEMBERS
-    float _intensity;
+    glm::vec3 _intensity;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
-    Light() = default;
-    ~Light() = default;
+    explicit Light(const glm::vec3 &intensity)
+        : _intensity(intensity)
+    {}
+
+    virtual ~Light() = default;
     
 public:
     // INTERFACE
-    float &intensity() { return _intensity; }
-    float intensity() const { return _intensity; }
+    glm::vec3 &intensity() { return _intensity; }
+    glm::vec3 intensity() const { return _intensity; }
 
 };
 

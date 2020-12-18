@@ -12,6 +12,7 @@ uniform float uKs;
 uniform float uKa;
 uniform float uShininess;
 
+uniform bool uHasTexture;
 uniform sampler2D uTexture;
 
 out vec3 fFragColor;
@@ -26,7 +27,11 @@ vec3 blinnPhong() {
 }
 
 void main() {
-    vec3 texture = texture(uTexture,vFragTexCoords).xyz;
     vec3 light = blinnPhong();
-    fFragColor = clamp(texture * light, uKa, 1.);
+    if (uHasTexture) {
+        vec3 texture = texture(uTexture,vFragTexCoords).xyz;
+        fFragColor = clamp(texture * light, uKa, 1.);
+    } else {
+        fFragColor = clamp(light, uKa, 1.);
+    }
 }

@@ -8,7 +8,7 @@ namespace lihowar {
 Mesh::Mesh(MeshName meshName)
     : _meshName(meshName)
 {
-    if (DEBUG) cout << "[Mesh::Mesh] meshName: " << _meshName << endl;
+    if (DEBUG) cout << "[Mesh::Mesh] meshName: " << (int) _meshName << endl;
     initGeometry(meshName);
     initVBO();
     initIBO();
@@ -18,7 +18,7 @@ Mesh::Mesh(MeshName meshName)
 
 Mesh::~Mesh()
 {
-    if (DEBUG) cout << "[Mesh::Mesh meshName: " << _meshName << endl;
+    if (DEBUG) cout << "[Mesh::Mesh meshName: " << (int) _meshName << endl;
     glDeleteBuffers(1, &_vbo);
     glDeleteVertexArrays(1, &_vao);
 }
@@ -30,19 +30,22 @@ void Mesh::initGeometry(MeshName meshName)
 
     // Get mesh name from MeshName
     switch (meshName) {
-        case Platonoid:
+        case MeshName::ISLAND1:
+            filename = "island1";
+            break;
+        case MeshName::PLATONOID:
             filename = "platonoid";
             break;
-        case Cube:
+        case MeshName::CUBE:
             filename = "cube";
             break;
-        case Character:
+        case MeshName::CHARACTER:
             filename = "character";
             break;
-        case Twist:
-            filename = "twist";
+        case MeshName::BALLOON:
+            filename = "balloon";
             break;
-        case Sphere:
+        case MeshName::SPHERE:
             filename = "sphere";
             break;
         default:
@@ -52,7 +55,7 @@ void Mesh::initGeometry(MeshName meshName)
     if (DEBUG) cout << "[Mesh::initGeometry] meshName: " << filename << endl;
 
     glimac::FilePath objPath = PATH_ASSETS + "meshes/" + filename + ".obj";
-    glimac::FilePath mtlPath = PATH_ASSETS + "meshes/" + filename + ".mtl";
+    glimac::FilePath mtlPath = PATH_ASSETS + "meshes/" + "default" + ".mtl";
 
     if (!_geometry.loadOBJ(objPath, mtlPath, true))
         throw LihowarException("OBJ loading failed: " + filename, __FILE__, __LINE__);

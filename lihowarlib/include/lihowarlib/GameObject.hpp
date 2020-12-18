@@ -6,7 +6,7 @@
 #include <lihowarlib/Texture.hpp>
 #include <lihowarlib/Material.hpp>
 #include <lihowarlib/programs/Program.hpp>
-#include <lihowarlib/programs/DirLightProgram.hpp>
+#include <lihowarlib/programs/MultiLightsProgram.hpp>
 
 namespace lihowar {
 
@@ -41,7 +41,7 @@ public:
 
     };
 
-private:
+protected:
     // MEMBERS
     Mesh &_mesh;
     Program &_program;
@@ -53,17 +53,8 @@ public:
     explicit GameObject(
         Mesh& mesh,
         GLuint textureId = 0,
-        Program &program = DirLightProgram::instance(),
-        PRS prs = PRS())
-       :_mesh(mesh), _program(program), _prs(prs),
-        _material(new Material(textureId))
-    {}
-
-    explicit GameObject(
-        Mesh& mesh,
-        GLuint textureId = 0,
         PRS prs = PRS(),
-        Program &program = DirLightProgram::instance())
+        Program &program = MultiLightsProgram::instance())
        :_mesh(mesh), _program(program), _prs(prs),
         _material(new Material(textureId))
     {}
@@ -82,7 +73,8 @@ public:
     void rotate(const glm::vec3 &drot) { _prs.rot() += drot; }
     void scale(const glm::vec3 &dsca) { _prs.sca() += dsca; }
     glm::mat4 matModel() const;
-    void render();
+
+    void render() const;
 };
 
 }
