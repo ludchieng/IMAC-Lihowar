@@ -6,7 +6,7 @@
 
 namespace lihowar {
 
-enum ProgramType {
+enum class ProgramType {
     NORMAL, SKYBOX, DIRLIGHT, MULTILIGHTS
 };
 

@@ -8,7 +8,7 @@ namespace lihowar {
 Mesh::Mesh(MeshName meshName)
     : _meshName(meshName)
 {
-    if (DEBUG) cout << "[Mesh::Mesh] meshName: " << _meshName << endl;
+    if (DEBUG) cout << "[Mesh::Mesh] meshName: " << (int) _meshName << endl;
     initGeometry(meshName);
     initVBO();
     initIBO();
@@ -18,7 +18,7 @@ Mesh::Mesh(MeshName meshName)
 
 Mesh::~Mesh()
 {
-    if (DEBUG) cout << "[Mesh::Mesh meshName: " << _meshName << endl;
+    if (DEBUG) cout << "[Mesh::Mesh meshName: " << (int) _meshName << endl;
     glDeleteBuffers(1, &_vbo);
     glDeleteVertexArrays(1, &_vao);
 }
@@ -30,22 +30,22 @@ void Mesh::initGeometry(MeshName meshName)
 
     // Get mesh name from MeshName
     switch (meshName) {
-        case ISLAND1:
+        case MeshName::ISLAND1:
             filename = "island1";
             break;
-        case PLATONOID:
+        case MeshName::PLATONOID:
             filename = "platonoid";
             break;
-        case CUBE:
+        case MeshName::CUBE:
             filename = "cube";
             break;
-        case CHARACTER:
+        case MeshName::CHARACTER:
             filename = "character";
             break;
-        case BALLOON:
+        case MeshName::BALLOON:
             filename = "balloon";
             break;
-        case SPHERE:
+        case MeshName::SPHERE:
             filename = "sphere";
             break;
         default:

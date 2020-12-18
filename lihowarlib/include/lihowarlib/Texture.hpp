@@ -8,9 +8,9 @@
 
 namespace lihowar {
 
-enum TextureName {
+enum class TextureName {
     SKY, MOON,
-    TEXTURENAME_FIRST = SKY, TEXTURENAME_LAST = MOON
+    first = SKY, last = MOON
 };
 
 class Texture {

@@ -11,11 +11,11 @@ using namespace lihowar;
 namespace lihowar {
 
 GameRenderer::GameRenderer()
-   : _matProj( glm::perspective(glm::radians(FOV), ASPECT_RATIO, Z_NEAR, Z_FAR) ),
+   : _tbcam( TrackballCamera(.3f, 15.f, 30.f) ),
+     _matProj( glm::perspective(glm::radians(_tbcam.fov()), ASPECT_RATIO, Z_NEAR, Z_FAR) ),
      _matMV( glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -5.f)) ),
      _matNormal( glm::transpose(glm::inverse(_matMV)) ),
-     _matView(glm::mat4(1.f) ),
-     _tbcam( TrackballCamera(5.f, 0.f, 0.f) )
+     _matView( glm::mat4(1.f) )
 {
     _matView = _tbcam.getMatView();
 
@@ -99,6 +99,7 @@ void GameRenderer::update()
 {
     //if (DEBUG) cout << "[GameRenderer::update]" << endl;
     updateMatMV();
+    updateMatProj();
 }
 
 
@@ -107,6 +108,11 @@ void GameRenderer::updateMatMV(const glm::mat4 &matModel)
     _matView = _tbcam.getMatView();
     _matMV = _matView * matModel;
     _matNormal = glm::transpose(glm::inverse(_matMV));
+}
+
+void GameRenderer::updateMatProj()
+{
+    _matProj = glm::perspective(glm::radians(_tbcam.fov()), ASPECT_RATIO, Z_NEAR, Z_FAR);
 }
 
 }
