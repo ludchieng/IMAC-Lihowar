@@ -15,9 +15,9 @@ class GameController {
 
 private:
     // MEMBERS
+    std::unique_ptr<Scene> _scene;
     AssetManager &_assetManager;
     GameRenderer &_gRenderer;
-    std::unique_ptr<Scene> _scene;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
@@ -43,6 +43,22 @@ public:
 
     void update();
     void render();
+
+private:
+    void render(
+            const std::list< std::unique_ptr<Object> > &objectsList,
+            const glm::mat4 &matModelParent = glm::mat4(1.));
+
+    void render(
+            const Object &object,
+            const glm::mat4 &matModelParent = glm::mat4(1.));
+
+    void render(
+            const Object *object,
+            const glm::mat4 &matModelParent = glm::mat4(1.))
+    {
+        render(*object, matModelParent);
+    }
 
 };
 

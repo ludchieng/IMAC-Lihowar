@@ -19,10 +19,10 @@ main
       ├> GameRenderer (s)
       │  └> TrackBallCamera
       │
-      └> collection of GameObject
-         └> foreach GameObject
+      └> collection of Object
+         └> foreach Object
             ├> Program (s)
-            └> GameObject::PRS
+            └> Object::PRS
 ```
 
 Rendering sequence :
@@ -31,12 +31,12 @@ main loop:
 ├> handle mouse/keyboard event
 ├> Game::render()
 │  └> GameController::render()
-│     └> foreach GameObject
-│        ├> transform GameObject
-│        ├> use program of GameObject
+│     └> foreach Object
+│        ├> transform Object
+│        ├> use program of Object
 │        ├> update matrices MVP
 │        ├> bind variables to GPU as uniform
-│        └> draw GameObject
+│        └> draw Object
 │
 └> swap buffers
 ```
