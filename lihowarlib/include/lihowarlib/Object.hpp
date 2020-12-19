@@ -1,16 +1,18 @@
-#ifndef LIHOWAR_GAMEOBJECT_HPP
-#define LIHOWAR_GAMEOBJECT_HPP
+#ifndef LIHOWAR_OBJECT_HPP
+#define LIHOWAR_OBJECT_HPP
 
+#include <list>
 #include <lihowarlib/common.hpp>
+#include <lihowarlib/AssetManager.hpp>
 #include <lihowarlib/Mesh.hpp>
 #include <lihowarlib/Texture.hpp>
 #include <lihowarlib/Material.hpp>
 #include <lihowarlib/programs/Program.hpp>
-#include <lihowarlib/programs/DirLightProgram.hpp>
+#include <lihowarlib/programs/MultiLightsProgram.hpp>
 
 namespace lihowar {
 
-class GameObject {
+class Object {
     friend class SceneSerializer;
 
 public:
@@ -41,51 +43,52 @@ public:
 
     };
 
-private:
+protected:
     // MEMBERS
     Mesh &_mesh;
-    Program &_program;
     PRS _prs;
     std::shared_ptr<Material> _material;
+    std::list< std::unique_ptr<Object> > _subobjects;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
-    explicit GameObject(
+    explicit Object(
         Mesh& mesh,
         GLuint textureId = 0,
-        Program &program = DirLightProgram::instance(),
         PRS prs = PRS())
-       :_mesh(mesh), _program(program), _prs(prs),
-        _material(new Material(textureId))
-    {}
-
-    explicit GameObject(
-        Mesh& mesh,
-        GLuint textureId = 0,
-        PRS prs = PRS(),
-        Program &program = DirLightProgram::instance())
-       :_mesh(mesh), _program(program), _prs(prs),
+       :_mesh(mesh),
+        _prs(std::move(prs)),
         _material(new Material(textureId))
     {}
 
     // TODO
-    //GameObject(const GameObject& g);
+    //Object(const Object& g);
 
-    ~GameObject() = default;
+    ~Object() = default;
     
 public:
     // INTERFACE
-    Program &program() { return _program; }
     PRS &prs() { return _prs; }
+    PRS prs() const { return _prs; }
     Material &material() { return *_material; }
+    Material material() const { return *_material; }
+
+    std::list< std::unique_ptr<Object> > &subobjects() { return _subobjects; }
+    const std::list< std::unique_ptr<Object> > &subobjects() const { return _subobjects; }
+
+    void add(std::unique_ptr<Object> object) { _subobjects.push_back(std::move(object)); }
+    void add(Object *object) { _subobjects.push_back(std::unique_ptr<Object>(object)); }
+
     void translate(const glm::vec3 &dpos) { _prs.pos() += dpos; }
     void rotate(const glm::vec3 &drot) { _prs.rot() += drot; }
     void scale(const glm::vec3 &dsca) { _prs.sca() += dsca; }
     glm::mat4 matModel() const;
-    void render();
+
+    void render() const;
+
 };
 
 }
 
 
-#endif //LIHOWAR_GAMEOBJECT_HPP
+#endif //LIHOWAR_OBJECT_HPP

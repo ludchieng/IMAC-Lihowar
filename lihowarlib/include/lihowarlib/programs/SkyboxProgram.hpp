@@ -1,5 +1,5 @@
-#ifndef LIHOWAR_NORMALPROGRAM_HPP
-#define LIHOWAR_NORMALPROGRAM_HPP
+#ifndef LIHOWAR_SKYBOXPROGRAM_HPP
+#define LIHOWAR_SKYBOXPROGRAM_HPP
 
 #include <glimac/Program.hpp>
 #include <glimac/FilePath.hpp>
@@ -8,7 +8,7 @@
 
 namespace lihowar {
 
-class NormalProgram : public Program {
+class SkyboxProgram : public Program {
 
 private:
     // MEMBERS
@@ -16,15 +16,15 @@ private:
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
-    NormalProgram(const std::string& vsName, const std::string& fsName)
+    SkyboxProgram(const std::string& vsName, const std::string& fsName)
         : Program(vsName, fsName),
-        _type( ProgramType::NORMAL )
+        _type( ProgramType::SKYBOX )
     {}
 
 public:
     /// \brief get instance of the Program singleton class
-    static NormalProgram& instance() {
-        static NormalProgram instance("3D", "normals");
+    static SkyboxProgram& instance() {
+        static SkyboxProgram instance("skybox", "skybox");
         return instance;
     }
 
@@ -36,4 +36,4 @@ public:
 
 }
 
-#endif //LIHOWAR_NORMALPROGRAM_HPP
+#endif //LIHOWAR_SKYBOXPROGRAM_HPP

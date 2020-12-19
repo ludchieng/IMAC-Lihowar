@@ -32,13 +32,9 @@ public:
     // INTERFACE
     inline const char* what() const noexcept override
     {
-        std::string msg = "LihowarException: ["
-                + _file + ":" + std::to_string(_line)
-                + "]: " + _message;
-
-        std::cerr << msg << std::endl;
-
-        return msg.c_str();
+        std::cerr << "LihowarException: ";
+        std::cerr << "[" << _file << ":" << std::to_string(_line) << "]" << std::endl;
+        return _message.c_str();
     };
 
 };

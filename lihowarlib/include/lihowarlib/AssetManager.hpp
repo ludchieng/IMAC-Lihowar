@@ -10,6 +10,10 @@ namespace lihowar {
 
 class AssetManager {
 
+public:
+    // CONSTANTS
+    const int NO_TEXTURE = 0;
+
 private:
     // MEMBERS
     std::map<MeshName, Mesh*> _meshes;

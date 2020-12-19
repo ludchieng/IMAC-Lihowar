@@ -1,11 +1,11 @@
-#include <lihowarlib/GameObject.hpp>
+#include <lihowarlib/Object.hpp>
 
 using namespace std;
 using namespace lihowar;
 
 namespace lihowar {
 
-glm::mat4 GameObject::matModel() const {
+glm::mat4 Object::matModel() const {
     glm::mat4 res(1.);
     res = glm::translate( res, _prs.pos() );
     res = glm::rotate( res, glm::radians(_prs.rot().x), glm::vec3(1., 0., 0.) );
@@ -16,7 +16,7 @@ glm::mat4 GameObject::matModel() const {
 }
 
 
-void GameObject::render()
+void Object::render() const
 {
     if (_material->hasTexture())
         glBindTexture(GL_TEXTURE_2D, _material->textureId());
@@ -27,6 +27,8 @@ void GameObject::render()
 
     if (_material->hasTexture())
         glBindTexture(GL_TEXTURE_2D, 0);
+
+    glBindVertexArray(0);
 }
 
 }

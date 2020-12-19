@@ -12,10 +12,10 @@ Texture::Texture(TextureName textureName)
 
     // Get texture name from TextureName
     switch (_textureName) {
-        case TextureName::Earth:
-            filename = "earth.jpg";
+        case TextureName::SKY:
+            filename = "skybox.jpg";
             break;
-        case TextureName::Moon:
+        case TextureName::MOON:
             filename = "moon.jpg";
             break;
         default:
@@ -23,7 +23,7 @@ Texture::Texture(TextureName textureName)
     }
     _img = glimac::loadImage(PATH_ASSETS + "textures/" + filename);
 
-    if (_img == NULL)
+    if (_img == nullptr)
         throw LihowarException("Image loading failed:" + filename, __FILE__, __LINE__);
 
     glGenTextures(1, &_id);
