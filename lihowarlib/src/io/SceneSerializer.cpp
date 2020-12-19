@@ -20,8 +20,8 @@ void lihowar::SceneSerializer::save(const Scene &s)
     f << "Scene:\n\n";
 
     f << "GameObjects:\n";
-    auto itgo = s.gObjects().begin();
-    while (itgo != s.gObjects().end()) {
+    auto itgo = s.objects().begin();
+    while (itgo != s.objects().end()) {
         f << serialize(**itgo);
         f << "\n";
         ++itgo;
@@ -50,7 +50,7 @@ void SceneSerializer::load(Scene &s)
     }
 }
 
-string SceneSerializer::serialize(const GameObject &g)
+string SceneSerializer::serialize(const Object &g)
 {
     stringstream res;
     res << "{\n";
@@ -60,7 +60,6 @@ string SceneSerializer::serialize(const GameObject &g)
     res << "        rot: " << g._prs.rot() << "\n";
     res << "        sca: " << g._prs.sca() << "\n";
     res << "    }\n";
-    res << "    program: " << (int) g._program.type() << "\n";
     res << "}\n";
     return res.str();
 }
