@@ -30,6 +30,7 @@ int main(int argc, char** argv) {
             game.handle(e);
         }
 
+        game.update();
         game.render();
         wm.swapBuffers();
 

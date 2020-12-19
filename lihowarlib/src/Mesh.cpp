@@ -33,14 +33,8 @@ void Mesh::initGeometry(MeshName meshName)
         case MeshName::ISLAND1:
             filename = "island1";
             break;
-        case MeshName::PLATONOID:
-            filename = "platonoid";
-            break;
         case MeshName::CUBE:
             filename = "cube";
-            break;
-        case MeshName::CHARACTER:
-            filename = "character";
             break;
         case MeshName::BALLOON:
             filename = "balloon";

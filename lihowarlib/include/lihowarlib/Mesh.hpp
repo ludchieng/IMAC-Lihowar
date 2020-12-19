@@ -11,7 +11,7 @@ namespace lihowar {
 
 enum class MeshName {
     ISLAND1,
-    PLATONOID, CUBE, CHARACTER, BALLOON, SPHERE,
+    CUBE, BALLOON, SPHERE,
     first = ISLAND1, last = SPHERE
 };
 

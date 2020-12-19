@@ -15,9 +15,6 @@ Texture::Texture(TextureName textureName)
         case TextureName::SKY:
             filename = "skybox.jpg";
             break;
-        case TextureName::MOON:
-            filename = "moon.jpg";
-            break;
         default:
             break;
     }

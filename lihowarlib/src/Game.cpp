@@ -66,7 +66,7 @@ void Game::handleMouseBtn(SDL_Event e)
 
 void Game::handleMouseMotion(SDL_Event e)
 {
-    if (_windowManager.isMouseButtonPressed(SDL_BUTTON_LEFT)) {
+    if (_windowManager.isMouseButtonPressed(SDL_BUTTON_RIGHT)) {
         if (e.motion.xrel != 0) {
             _gController.renderer().camera().rotateLeft(-e.motion.xrel / 1.5f);
         }

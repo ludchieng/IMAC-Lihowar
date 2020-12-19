@@ -43,10 +43,22 @@ public:
     // INTERFACE
     TrackballCamera &camera() { return _tbcam; };
     void use(Program &program);
-    void update();
+    void update() override;
     void updateMatMV(const glm::mat4 &matModel = glm::mat4(1.));
     void updateMatProj();
+    void render(const Scene &scene);
     void bindUniformVariables(const Object &object, const Scene &scene);
+
+private:
+    void render(
+            const Scene &scene,
+            const std::list< std::unique_ptr<Object> > &objectsList,
+            const glm::mat4 &matModelParent = glm::mat4(1.));
+
+    void render(
+            const Scene &scene,
+            const Object &object,
+            const glm::mat4 &matModelParent = glm::mat4(1.));
 
 };
 
