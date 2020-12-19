@@ -20,6 +20,9 @@ int main(int argc, char** argv) {
     // Init Game
     lihowar::Game &game = lihowar::Game::instance(wm);
 
+    int cnt = 0;
+    int time = 0;
+
     // Game loop
     while(game.isRunning()) {
         Uint32 startTime = SDL_GetTicks();
@@ -36,6 +39,11 @@ int main(int argc, char** argv) {
 
         // Limit framerate
         Uint32 elapsedTime = SDL_GetTicks() - startTime;
+        time += elapsedTime;
+        if (++cnt % 50 == 0) {
+            std::cout << 1000 / (time / 50) << " fps" << std::endl;
+            time = 0;
+        }
         if (elapsedTime < 1000. / lihowar::MAX_FRAMERATE) {
             SDL_Delay(1000. / lihowar::MAX_FRAMERATE - elapsedTime);
         }

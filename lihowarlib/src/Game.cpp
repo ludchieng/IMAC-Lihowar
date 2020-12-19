@@ -5,6 +5,42 @@ using namespace lihowar;
 
 namespace lihowar {
 
+void Game::update()
+{
+    SDL_PumpEvents();
+    Uint8* keystate = SDL_GetKeyState(NULL);
+    if(keystate[SDLK_LEFT]) {
+        _gController.scene().player().applyForce( glm::vec3(0., 0., -.4) );
+    }
+    if(keystate[SDLK_RIGHT]) {
+        _gController.scene().player().applyForce( glm::vec3(0., 0., .4) );
+    }
+    if(keystate[SDLK_UP]) {
+        _gController.scene().player().applyForce( glm::vec3(.4, 0., 0.) );
+    }
+    if(keystate[SDLK_DOWN]) {
+        _gController.scene().player().applyForce( glm::vec3(-.4, 0., 0.) );
+    }
+    if(keystate[SDLK_p]) {
+        _gController.scene().player().applyForce( glm::vec3(0., .2, 0.) );
+    }
+    if(keystate[SDLK_m]) {
+        _gController.scene().player().applyForce( glm::vec3(0., -.2, 0.) );
+    }
+    if(keystate[SDLK_g]) {
+        _gController.scene().player().applyTorque( glm::vec3(.002, 0., 0.) );
+    }
+    if(keystate[SDLK_h]) {
+        _gController.scene().player().applyTorque( glm::vec3(0., .002, 0.) );
+    }
+    if(keystate[SDLK_j]) {
+        _gController.scene().player().applyTorque( glm::vec3(0., 0., .002) );
+    }
+
+    _gController.update();
+}
+
+
 void Game::handle(SDL_Event e)
 {
     switch (e.type) {
@@ -30,18 +66,6 @@ void Game::handleKeydown(SDL_Event e)
 {
     // if (DEBUG) cout << "SDL Event: keydown: " << (int) e.key.keysym.sym << endl;
     switch (e.key.keysym.sym) {
-        case SDLK_LEFT:
-            _gController.renderer().camera().rotateLeft(5);
-            break;
-        case SDLK_RIGHT:
-            _gController.renderer().camera().rotateLeft(-5);
-            break;
-        case SDLK_UP:
-            _gController.renderer().camera().rotateUp(5);
-            break;
-        case SDLK_DOWN:
-            _gController.renderer().camera().rotateUp(-5);
-            break;
         default:
             break;
     }

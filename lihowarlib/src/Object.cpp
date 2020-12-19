@@ -16,6 +16,22 @@ glm::mat4 Object::matModel() const {
 }
 
 
+void Object::add(std::unique_ptr<Object> object)
+{
+    _subobjects.push_back(std::move(object));
+}
+
+
+void Object::update()
+{
+    auto it = _subobjects.begin();
+    while(it != _subobjects.end()) {
+        (**it).update();
+        ++it;
+    }
+}
+
+
 void Object::render() const
 {
     if (_material->hasTexture())

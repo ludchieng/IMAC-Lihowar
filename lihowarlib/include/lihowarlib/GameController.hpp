@@ -39,6 +39,7 @@ public:
 
 public:
     // INTERFACE
+    Scene &scene() { return *_scene; }
     GameRenderer& renderer() { return _gRenderer; }
 
     void update();
