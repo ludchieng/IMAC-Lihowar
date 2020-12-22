@@ -1,5 +1,4 @@
 #include <lihowarlib/GameController.hpp>
-#include <lihowarlib/Skybox.hpp>
 #include <lihowarlib/LightPoint.hpp>
 #include <lihowarlib/LightDirectional.hpp>
 #include <lihowarlib/ObjectDynamic.hpp>
@@ -66,7 +65,7 @@ void GameController::update()
     //_scene->player().translate( glm::vec3(0., 0., .05) );
     //_scene->player().applyForce( glm::vec3(0., 1., 0.) );
     //_scene->player().applyTorque( glm::vec3(0., 1., 0.) );
-    _scene->player().applyTorque( glm::vec3(0., 0.0007, 0.) );
+    _scene->player().applyTorque( glm::vec3(0., 0.0001, 0.) );
     _scene->player().update();
     auto it = _scene->objects().begin();
     while(it != _scene->objects().end()) {
