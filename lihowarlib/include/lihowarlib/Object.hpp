@@ -46,8 +46,8 @@ public:
 protected:
     // MEMBERS
     Mesh &_mesh;
-    PRS _prs;
     std::shared_ptr<Material> _material;
+    PRS _prs;
     std::list< std::unique_ptr<Object> > _subobjects;
 
 public:
@@ -57,14 +57,14 @@ public:
         GLuint textureId = 0,
         PRS prs = PRS())
        :_mesh(mesh),
-        _prs(std::move(prs)),
-        _material(new Material(textureId))
+        _material(new Material(textureId)),
+        _prs(std::move(prs))
     {}
 
     // TODO
     //Object(const Object& g);
 
-    ~Object() = default;
+    virtual ~Object() = default;
     
 public:
     // INTERFACE
@@ -76,15 +76,16 @@ public:
     std::list< std::unique_ptr<Object> > &subobjects() { return _subobjects; }
     const std::list< std::unique_ptr<Object> > &subobjects() const { return _subobjects; }
 
-    void add(std::unique_ptr<Object> object) { _subobjects.push_back(std::move(object)); }
-    void add(Object *object) { _subobjects.push_back(std::unique_ptr<Object>(object)); }
+    virtual void add(std::unique_ptr<Object> object);
+    virtual void add(Object *object) { add(std::unique_ptr<Object>(object)); }
+
+    virtual void update();
+    void render() const;
 
     void translate(const glm::vec3 &dpos) { _prs.pos() += dpos; }
     void rotate(const glm::vec3 &drot) { _prs.rot() += drot; }
     void scale(const glm::vec3 &dsca) { _prs.sca() += dsca; }
     glm::mat4 matModel() const;
-
-    void render() const;
 
 };
 

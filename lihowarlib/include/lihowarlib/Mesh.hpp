@@ -11,7 +11,7 @@ namespace lihowar {
 
 enum class MeshName {
     ISLAND1,
-    PLATONOID, CUBE, CHARACTER, BALLOON, SPHERE,
+    CUBE, BALLOON, SPHERE,
     first = ISLAND1, last = SPHERE
 };
 
@@ -46,6 +46,8 @@ public:
     GLuint vao() const { return _vao; };
     GLuint vbo() const { return _vbo; };
     GLuint ibo() const { return _ibo; };
+    glm::vec3 center() const { return glimac::center(_geometry.getBoundingBox()); }
+    glm::vec3 size() const { return _geometry.getBoundingBox().size(); }
 
 private:
     void initGeometry(MeshName meshName);

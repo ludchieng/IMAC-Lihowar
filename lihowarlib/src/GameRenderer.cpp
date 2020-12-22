@@ -4,7 +4,6 @@
 #include <lihowarlib/programs/MultiLightsProgram.hpp>
 #include <lihowarlib/LightDirectional.hpp>
 #include <lihowarlib/LightPoint.hpp>
-#include <utility>
 
 using namespace std;
 using namespace lihowar;
@@ -67,7 +66,7 @@ void GameRenderer::bindUniformVariables(const Object &object, const Scene &scene
             glUniform1f(p.uKd(), object.material().kd());
             glUniform1f(p.uKs(), object.material().ks());
             glUniform1f(p.uShininess(), object.material().shininess());
-            glUniform3fv(p.uLightAmbient(), 1, glm::value_ptr( scene.lightAmbient()->intensity() ));
+            glUniform3fv(p.uLightAmbient(), 1, glm::value_ptr( scene.lightAmbient().intensity() ));
             glUniform1i(p.uHasTexture(), object.material().hasTexture());
 
             unsigned int ldIndex = 0; // LightDirectional array index cursor
@@ -117,9 +116,50 @@ void GameRenderer::updateMatMV(const glm::mat4 &matModel)
     _matNormal = glm::transpose(glm::inverse(_matMV));
 }
 
+
 void GameRenderer::updateMatProj()
 {
     _matProj = glm::perspective(glm::radians(_tbcam.fov()), ASPECT_RATIO, Z_NEAR, Z_FAR);
 }
+
+
+void GameRenderer::render(const Scene &scene)
+{
+    glEnable(GL_DEPTH_TEST);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    use(SkyboxProgram::instance());
+    render(scene, scene.skybox());
+
+    use(MultiLightsProgram::instance());
+    render(scene, scene.player());
+    render(scene, scene.objects());
+}
+
+
+void GameRenderer::render(
+        const Scene &scene,
+        const std::list< std::unique_ptr<Object> > &objectsList,
+        const glm::mat4 &matModelParent)
+{
+    auto it = objectsList.begin();
+    while (it != objectsList.end()) {
+        render(scene, **it, matModelParent);
+        ++it;
+    }
+}
+
+
+void GameRenderer::render(
+        const Scene &scene,
+        const Object &object,
+        const glm::mat4 &matModelParent)
+{
+    updateMatMV(matModelParent * object.matModel());
+    bindUniformVariables(object, scene);
+    object.render();
+    render(scene, object.subobjects(), object.matModel());
+}
+
 
 }

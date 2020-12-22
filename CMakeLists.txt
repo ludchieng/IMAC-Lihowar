@@ -4,7 +4,7 @@ project(lihowar)
 
 add_definitions(-std=c++11 -Wall -O2)
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 find_package(SDL REQUIRED)
 set(OpenGL_GL_PREFERENCE LEGACY) # Policy CMP0072

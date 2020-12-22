@@ -2,12 +2,12 @@
 #define LIHOWAR_PLAYER_HPP
 
 #include <lihowarlib/common.hpp>
-#include <lihowarlib/Object.hpp>
+#include <lihowarlib/ObjectDynamic.hpp>
 #include <lihowarlib/AssetManager.hpp>
 
 namespace lihowar {
 
-class Player : public Object {
+class Player : public ObjectDynamic {
     friend class SceneSerializer;
 
 protected:
@@ -16,9 +16,12 @@ protected:
 public:
     // CONSTRUCTORS & DESTRUCTORS
     Player()
-       :Object(
+       :ObjectDynamic(
           *AssetManager::instance().meshes()[MeshName::BALLOON] )
-    {}
+    {
+        _prs.rot() = glm::vec3(0., 0., 5.);
+        _angVel = glm::vec3(0., .001, 0.);
+    }
     
 public:
     // INTERFACE

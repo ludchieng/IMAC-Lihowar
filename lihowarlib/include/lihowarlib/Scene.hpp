@@ -38,14 +38,14 @@ public:
     std::list< std::unique_ptr<Light> > &lights() { return _lights; }
     const std::list< std::unique_ptr<Light> > &lights() const { return _lights; }
 
-    Skybox *skybox() { return _skybox.get(); }
-    Skybox *skybox() const { return _skybox.get(); }
+    Skybox &skybox() { return *_skybox.get(); }
+    Skybox &skybox() const { return *_skybox.get(); }
 
-    Player *player() { return _player.get(); }
-    Player *player() const { return _player.get(); }
+    Player &player() { return *_player.get(); }
+    Player &player() const { return *_player.get(); }
 
-    Light *lightAmbient() { return _lightAmbient.get(); }
-    Light *lightAmbient() const { return _lightAmbient.get(); }
+    Light &lightAmbient() { return *_lightAmbient.get(); }
+    Light &lightAmbient() const { return *_lightAmbient.get(); }
 
     void add(std::unique_ptr<Object> object) { _objects.push_back(std::move(object)); }
     void add(std::unique_ptr<Light> light) { _lights.push_back(std::move(light)); }

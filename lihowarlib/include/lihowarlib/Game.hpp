@@ -41,7 +41,7 @@ public:
     // INTERFACE
     bool isRunning() const { return _isRunning; }
 
-    void update() { _gController.update(); };
+    void update();
     void render() { _gController.render(); };
     void handle(SDL_Event event);
     void handleKeydown(SDL_Event event);
