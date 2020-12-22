@@ -10,8 +10,8 @@ using namespace lihowar;
 
 namespace lihowar {
 
-GameRenderer::GameRenderer(glm::vec3 &camTarget)
-   : _tbcam( TrackballCamera(camTarget, .3f, 15.f, 30.f) ),
+GameRenderer::GameRenderer(Object::PRS &camTargetPRS)
+   : _tbcam( TrackballCamera(camTargetPRS) ),
      _matProj( glm::perspective(glm::radians(_tbcam.fov()), ASPECT_RATIO, Z_NEAR, Z_FAR) ),
      _matMV( glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -5.f)) ),
      _matNormal( glm::transpose(glm::inverse(_matMV)) ),

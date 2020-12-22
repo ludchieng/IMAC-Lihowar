@@ -33,8 +33,9 @@ glm::mat4 TrackballCamera::getMatView() const
     glm::mat4 res = glm::mat4(1.f);
     res = glm::translate(res, glm::vec3(0.f, 0.f, - distance()));
     res = glm::rotate(res, glm::radians(_angleX), glm::vec3(1.f, 0.f, 0.f));
+    res = glm::rotate(res, glm::radians(- _targetPRS.rot().y), glm::vec3(0.f, 1.f, 0.f));
     res = glm::rotate(res, glm::radians(_angleY), glm::vec3(0.f, 1.f, 0.f));
-    res = glm::translate( res, -_target);
+    res = glm::translate( res, -_targetPRS.pos());
     return res;
 }
 

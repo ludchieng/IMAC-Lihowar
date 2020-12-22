@@ -11,7 +11,7 @@ namespace lihowar {
 GameController::GameController()
     : _scene(new Scene()),
       _assetManager(AssetManager::instance()),
-      _gRenderer(GameRenderer::instance(_scene->player().prs().pos()))
+      _gRenderer(GameRenderer::instance(_scene->player().prs()))
 {
 
     _scene->add(new Object(
@@ -61,11 +61,7 @@ GameController::GameController()
 
 void GameController::update()
 {
-    _scene->skybox().setCenter(_gRenderer.camera().target());
-    //_scene->player().translate( glm::vec3(0., 0., .05) );
-    //_scene->player().applyForce( glm::vec3(0., 1., 0.) );
-    //_scene->player().applyTorque( glm::vec3(0., 1., 0.) );
-    _scene->player().applyTorque( glm::vec3(0., 0.0001, 0.) );
+    _scene->skybox().setCenter(_gRenderer.camera().targetPRS().pos());
     _scene->player().update();
     auto it = _scene->objects().begin();
     while(it != _scene->objects().end()) {

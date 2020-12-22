@@ -61,3 +61,7 @@ main loop:
 `MVP`: model view projection (matrices) \
 `tbcam`: trackball camera \
 `prs`: position rotation scale
+
+`acc`: acceleration \
+`vel`: velocity \
+`pos`: position

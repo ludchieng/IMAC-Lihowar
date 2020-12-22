@@ -18,16 +18,16 @@ void Game::update()
     SDL_PumpEvents();
     Uint8* keystate = SDL_GetKeyState(NULL);
     if(keystate[SDLK_LEFT]) {
-        _gController.scene().player().applyForce( glm::vec3(0., 0., -.04) );
+        _gController.scene().player().moveLeftward();
     }
     if(keystate[SDLK_RIGHT]) {
-        _gController.scene().player().applyForce( glm::vec3(0., 0., .04) );
+        _gController.scene().player().moveRightward();
     }
     if(keystate[SDLK_UP]) {
-        _gController.scene().player().applyForce( glm::vec3(.04, 0., 0.) );
+        _gController.scene().player().moveForward();
     }
     if(keystate[SDLK_DOWN]) {
-        _gController.scene().player().applyForce( glm::vec3(-.04, 0., 0.) );
+        _gController.scene().player().moveBackward();
     }
     if(keystate[SDLK_p]) {
         _gController.scene().player().applyForce( glm::vec3(0., .02, 0.) );
@@ -46,16 +46,23 @@ void Game::update()
     }
 
     if (isJoystickOpened()) {
-        SDL_JoystickEventState(SDL_QUERY); // Set to query mode to retrieve axis current position
+        SDL_JoystickEventState(SDL_QUERY); // Set to query mode for over time events
         SDL_JoystickUpdate();
-        float valueRoll = SDL_JoystickGetAxis(_joystick, 0) / 65536.f;
-        float valuePitch = - SDL_JoystickGetAxis(_joystick, 1) / 65536.f;
-        float valueThrottle = - SDL_JoystickGetAxis(_joystick, 2) / 65536.f;
-        _gController.scene().player().applyForce( valueRoll * glm::vec3(0., 0., .04) );
-        _gController.scene().player().applyForce( valuePitch * glm::vec3(.04, 0., 0.) );
-        _gController.scene().player().applyForce( valueThrottle * glm::vec3(0., .04, 0.) );
 
-        SDL_JoystickEventState(SDL_ENABLE); // Back to event mode for jbutton handling
+        // Buttons
+        if (SDL_JoystickGetButton(_joystick, 3))
+            _gController.scene().player().yawAntiClockwise();
+
+        if (SDL_JoystickGetButton(_joystick, 4))
+            _gController.scene().player().yawClockwise();
+
+
+        // Axis
+        _gController.scene().player().moveRightward( SDL_JoystickGetAxis(_joystick, 0) / 65536.f );
+        _gController.scene().player().moveForward( -SDL_JoystickGetAxis(_joystick, 1) / 65536.f );
+        _gController.scene().player().moveUpward( -SDL_JoystickGetAxis(_joystick, 2) / 65536.f );
+
+        SDL_JoystickEventState(SDL_ENABLE); // Back to event mode for one shot events
     }
 
     _gController.update();
@@ -127,7 +134,7 @@ void Game::handleMouseMotion(SDL_Event e)
 
 void Game::handleJoyBtnDown(SDL_Event e)
 {
-    if (DEBUG) cout << "jbutton: " << (int) e.jbutton.button << "  " << (int) e.jbutton.which << endl;
+    //if (DEBUG) cout << "jbutton: " << (int) e.jbutton.button << "  " << (int) e.jbutton.which << endl;
 }
 
 
