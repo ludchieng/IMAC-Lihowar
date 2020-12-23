@@ -67,8 +67,8 @@ vec3 blinnPhong(LightDir l) {
     vec3 wo = normalize(-vFragPos);
     vec3 halfV = (wo + wi) * .5;
     vec3 res = l.intensity * (
-    uKd * max(0., dot( wi, vFragNormal )) +
-    uKs * pow( max(0., dot(halfV, vFragNormal)), uShininess )  );
+    uKd * max(0., dot( wi, normalize(vFragNormal) )) +
+    uKs * pow( max(0., dot(halfV, normalize(vFragNormal))), uShininess )  );
     return res;
 }
 
@@ -83,8 +83,8 @@ vec3 blinnPhong(LightPoint l) {
     vec3 wo = normalize(-vFragPos);
     vec3 halfV = (wo + wi)*.5;
     vec3 res = l.intensity * (
-    uKd * max(0., dot( wi, vFragNormal )) +
-    uKs * pow( max(0., dot(halfV, vFragNormal)), uShininess )  );
+    uKd * max(0., dot( wi, normalize(vFragNormal) )) +
+    uKs * pow( max(0., dot(halfV, normalize(vFragNormal))), uShininess )  );
     res /= distSq;
     return res;
 }

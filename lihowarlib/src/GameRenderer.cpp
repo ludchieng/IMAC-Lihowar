@@ -133,6 +133,7 @@ void GameRenderer::render(const Scene &scene)
 
     use(MultiLightsProgram::instance());
     render(scene, scene.player());
+    render(scene, scene.islands());
     render(scene, scene.objects());
 }
 
@@ -140,6 +141,19 @@ void GameRenderer::render(const Scene &scene)
 void GameRenderer::render(
         const Scene &scene,
         const std::list< std::unique_ptr<Object> > &objectsList,
+        const glm::mat4 &matModelParent)
+{
+    auto it = objectsList.begin();
+    while (it != objectsList.end()) {
+        render(scene, **it, matModelParent);
+        ++it;
+    }
+}
+
+
+void GameRenderer::render(
+        const Scene &scene,
+        const std::vector< std::unique_ptr<Island> > &objectsList,
         const glm::mat4 &matModelParent)
 {
     auto it = objectsList.begin();

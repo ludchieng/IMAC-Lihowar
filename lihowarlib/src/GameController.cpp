@@ -2,6 +2,7 @@
 #include <lihowarlib/LightPoint.hpp>
 #include <lihowarlib/LightDirectional.hpp>
 #include <lihowarlib/ObjectDynamic.hpp>
+#include <lihowarlib/objects/Island.hpp>
 
 using namespace std;
 using namespace lihowar;
@@ -22,19 +23,21 @@ GameController::GameController()
                     glm::vec3(0.),
                     glm::vec3(.5))) );
 
-    _scene->add(new Object(
+    _scene->add(new Island(
             *_assetManager.meshes()[MeshName::ISLAND1],
             _assetManager.NO_TEXTURE,
             Object::PRS(
                     glm::vec3(70., -40., 0.),
-                    glm::vec3(0., -195., 0.))) );
+                    glm::vec3(0., 0., 0.),
+                    glm::vec3(2.))) );
 
-    _scene->add(new Object(
-            *_assetManager.meshes()[MeshName::ISLAND1],
-            _assetManager.NO_TEXTURE,
+    _scene->islands()[0]->add(new Object(
+            *_assetManager.meshes()[MeshName::BEACON1],
+            _assetManager.textureId(TextureName::BEACON1_DIFF),
             Object::PRS(
-                    glm::vec3(180., -40., -50.),
-                    glm::vec3(0., 72., 0.))) );
+                    glm::vec3(-5.621, 28.893, 5.174),
+                    glm::vec3(180., 0., 0.),
+                    glm::vec3(2.))) );
 
     _scene->add(new LightPoint(
             glm::vec3(.25, .15, .1),
@@ -61,10 +64,12 @@ GameController::GameController()
 
 void GameController::update()
 {
+    auto test = _scene->objects().begin()->get();
+    test->prs().rot() += glm::vec3(1., 0., 0.);
     _scene->skybox().setCenter(_gRenderer.camera().targetPRS().pos());
     _scene->player().update();
-    auto it = _scene->objects().begin();
-    while(it != _scene->objects().end()) {
+    auto it = _scene->islands().begin();
+    while(it != _scene->islands().end()) {
         (**it).update();
         ++it;
     }

@@ -57,6 +57,11 @@ private:
 
     void render(
             const Scene &scene,
+            const std::vector< std::unique_ptr<Island> > &objectsList,
+            const glm::mat4 &matModelParent = glm::mat4(1.));
+
+    void render(
+            const Scene &scene,
             const Object &object,
             const glm::mat4 &matModelParent = glm::mat4(1.));
 

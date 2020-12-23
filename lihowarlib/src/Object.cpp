@@ -14,10 +14,10 @@ const glm::vec4 Object::PRS::vec4_Z = glm::vec4(0., 0., 1., 0.);
 
 glm::mat4 Object::matModel() const {
     glm::mat4 res(1.);
-    res = glm::translate( res, _prs.pos() );
-    res = glm::rotate( res, glm::radians(_prs.rot().x), glm::vec3(1., 0., 0.) );
-    res = glm::rotate( res, glm::radians(_prs.rot().y), glm::vec3(0., 1., 0.) );
-    res = glm::rotate( res, glm::radians(_prs.rot().z), glm::vec3(0., 0., 1.) );
+    res = glm::translate( res , _prs.pos() );
+    res = glm::rotate( res, _prs.rotRadians().y, PRS::Y );
+    res = glm::rotate( res, _prs.rotRadians().x, PRS::X );
+    res = glm::rotate( res, _prs.rotRadians().z, PRS::Z );
     res = glm::scale( res, _prs.sca() );
     return res;
 }

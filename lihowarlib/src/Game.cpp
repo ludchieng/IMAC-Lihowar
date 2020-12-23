@@ -51,16 +51,22 @@ void Game::update()
 
         // Buttons
         if (SDL_JoystickGetButton(_joystick, 3))
-            _gController.scene().player().yawAntiClockwise();
+            _gController.scene().player().yawAntiClockwise(10);
 
         if (SDL_JoystickGetButton(_joystick, 4))
-            _gController.scene().player().yawClockwise();
+            _gController.scene().player().yawClockwise(10);
+
+        if (SDL_JoystickGetButton(_joystick, 2))
+            _gController.scene().player().moveUpward(20);
+
+        if (SDL_JoystickGetButton(_joystick, 1))
+            _gController.scene().player().moveDownward(20);
 
 
         // Axis
-        _gController.scene().player().moveRightward( SDL_JoystickGetAxis(_joystick, 0) / 65536.f );
-        _gController.scene().player().moveForward( -SDL_JoystickGetAxis(_joystick, 1) / 65536.f );
-        _gController.scene().player().moveUpward( -SDL_JoystickGetAxis(_joystick, 2) / 65536.f );
+        _gController.scene().player().moveRightward( 50 * SDL_JoystickGetAxis(_joystick, 0) / 65536.f );
+        _gController.scene().player().moveForward( 50 * -SDL_JoystickGetAxis(_joystick, 1) / 65536.f );
+        _gController.scene().player().moveUpward( 50 * -SDL_JoystickGetAxis(_joystick, 2) / 65536.f );
 
         SDL_JoystickEventState(SDL_ENABLE); // Back to event mode for one shot events
     }
@@ -97,6 +103,11 @@ void Game::handleKeydown(SDL_Event e)
 {
     // if (DEBUG) cout << "SDL Event: keydown: " << (int) e.key.keysym.sym << endl;
     switch (e.key.keysym.sym) {
+        case SDLK_RETURN:
+            if (DEBUG) cout << "pos: " << _gController.scene().player().prs().pos() << endl;
+            break;
+        case SDLK_l:
+            if (DEBUG) cout << _gController.scene().player().prs().rot() << endl;
         default:
             break;
     }

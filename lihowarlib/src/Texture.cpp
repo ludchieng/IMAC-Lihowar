@@ -15,6 +15,12 @@ Texture::Texture(TextureName textureName)
         case TextureName::SKY:
             filename = "skybox.jpg";
             break;
+        case TextureName::BEACON1_DIFF:
+            filename = "beacon1_diff.png";
+            break;
+        case TextureName::BEACON1_LUMIN:
+            filename = "beacon1_lumin.png";
+            break;
         default:
             break;
     }
