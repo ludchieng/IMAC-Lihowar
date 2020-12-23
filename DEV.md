@@ -15,28 +15,38 @@ main
       │  └> collection of Mesh
       │     └> foreach Mesh
       │        └> load .obj file
+      │  └> collection of Texture
+      │     └> foreach Texture
+      │        └> load texture
       │
       ├> GameRenderer (s)
       │  └> TrackBallCamera
       │
-      └> collection of GameObject
-         └> foreach GameObject
+      └> collection of Object
+         └> foreach Object
             ├> Program (s)
-            └> GameObject::PRS
+            └> Object::PRS
 ```
 
-Rendering sequence :
+Game loop sequence :
 ```
 main loop:
 ├> handle mouse/keyboard event
+├> Game::update()
+│  └> Pump and process SDL events (keyboard and joystick)
+│  └> GameController::update()
+│     └> update skybox position
+│     └> update objects dynamics (apply forces or torques)
+│     └> update scene objects
+│
 ├> Game::render()
 │  └> GameController::render()
-│     └> foreach GameObject
-│        ├> transform GameObject
-│        ├> use program of GameObject
-│        ├> update matrices MVP
-│        ├> bind variables to GPU as uniform
-│        └> draw GameObject
+│     └> GameRenderer::render(scene)
+│        └> render each scene objects
+│           ├> update model and view matrices
+│           ├> bind variables to GPU as uniform
+│           ├> draw object
+│           └> draw its subobjects
 │
 └> swap buffers
 ```
@@ -51,3 +61,7 @@ main loop:
 `MVP`: model view projection (matrices) \
 `tbcam`: trackball camera \
 `prs`: position rotation scale
+
+`acc`: acceleration \
+`vel`: velocity \
+`pos`: position

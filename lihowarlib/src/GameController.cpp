@@ -1,10 +1,9 @@
 #include <lihowarlib/GameController.hpp>
-#include <lihowarlib/programs/MultiLightsProgram.hpp>
-#include <lihowarlib/Skybox.hpp>
 #include <lihowarlib/LightPoint.hpp>
 #include <lihowarlib/LightDirectional.hpp>
-
-#include <glimac/Sphere.hpp>
+#include <lihowarlib/ObjectDynamic.hpp>
+#include <lihowarlib/Material.hpp>
+#include <lihowarlib/objects/Island.hpp>
 
 using namespace std;
 using namespace lihowar;
@@ -12,74 +11,73 @@ using namespace lihowar;
 namespace lihowar {
 
 GameController::GameController()
-    : _assetManager(AssetManager::instance()),
-      _gRenderer(GameRenderer::instance()),
-      _scene(new Scene())
+    : _scene(new Scene()),
+      _assetManager(AssetManager::instance()),
+      _gRenderer(GameRenderer::instance(_scene->player().prs()))
 {
 
-    _scene->add(new GameObject(
-        *_assetManager.meshes()[MeshName::BALLOON]  ));
+    _scene->add(new Object(
+            *_assetManager.meshes()[MeshName::CUBE],
+            _assetManager.NO_TEXTURE,
+            Object::PRS(
+                    glm::vec3(0., -1.5, 0.),
+                    glm::vec3(0.),
+                    glm::vec3(.5))) );
 
-    _scene->add(new GameObject(
-        *_assetManager.meshes()[MeshName::ISLAND1],
-        0, //_assetManager.textureId(TextureName::MOON),
-        GameObject::PRS( glm::vec3(70., -40., 0.),
-             glm::vec3(0., -195., 0.)   )));
+    _scene->add(new Island(
+            *_assetManager.meshes()[MeshName::ISLAND1],
+            _assetManager.NO_TEXTURE,
+            Object::PRS(
+                    glm::vec3(70., -40., 0.),
+                    glm::vec3(0., 0., 0.),
+                    glm::vec3(2.))) );
 
-    _scene->add(new GameObject(
-        *_assetManager.meshes()[MeshName::ISLAND1],
-        0, //_assetManager.textureId(TextureName::MOON),
-        GameObject::PRS(
-            glm::vec3(180., -40., -50.),
-            glm::vec3(0., 72., 0.)   )));
+    _scene->islands()[0]->add(new Object(
+            *_assetManager.meshes()[MeshName::BEACON1],
+            *new Material(
+                    _assetManager.texId(TextureName::BEACON1_DIFF), 0,
+                    _assetManager.texId(TextureName::BEACON1_LUMIN) ),
+            Object::PRS(
+                    glm::vec3(-5.621, 28.893, 5.174),
+                    glm::vec3(180., 0., 0.),
+                    glm::vec3(2.))) );
 
     _scene->add(new LightPoint(
-            glm::vec3(.25, .15, .1), glm::vec3(0., 1., 0.)) );
+            glm::vec3(.25, .15, .1),
+            _scene->player().prs().pos(),
+            glm::vec3(0., 1., 0.)) );
 
     _scene->add(new LightDirectional(
-            glm::vec3(.95, .85, .83), glm::vec3(0., .8, -1.)) );
+            glm::vec3(.95, .85, .83), glm::vec3(0., -.8, 1.)) );
 
     _scene->add(new LightDirectional(
-            glm::vec3(.61, .48, .41), glm::vec3(0., -1., 0.)) );
+            glm::vec3(.21, .18, .13), glm::vec3(0., 1., 0.)) );
 
-    _scene->add(new LightDirectional(
-            glm::vec3(.21, .18, .11), glm::vec3(.5, .4, .5)) );
 
-    _scene->add(new LightDirectional(
-            glm::vec3(.21, .18, .11), glm::vec3(-.5, .4, .5)) );
+    /*_scene->player().add(new ObjectDynamic(
+            *AssetManager::instance().meshes()[MeshName::CUBE],
+            _assetManager.NO_TEXTURE,
+            Object::PRS( glm::vec3(4.))) );*/
 
     SceneSerializer::save(*_scene);
 
-    //if (DEBUG) cout << "[GameController::GameController] END" << endl;
+    if (DEBUG) cout << "[GameController::GameController] END" << endl;
 }
 
 
-void GameController::render()
+void GameController::update()
 {
-    glEnable(GL_DEPTH_TEST);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    /*LightPoint *lp = dynamic_cast<LightPoint*>(_scene->lights().front().get());
-    lp->pos() = glm::vec3(0., -1., 0.);*/
-
-    GameObject &skybox = *_scene->skybox();
-    skybox.program().use();
-    _gRenderer.updateMatMV(skybox.matModel());
-    _gRenderer.bindUniformVariables(skybox, *_scene);
-    skybox.render();
-
-    auto it = _scene->gObjects().begin();
-    while (it != _scene->gObjects().end()) {
-        GameObject &g = **it;
-        g.program().use();
-        _gRenderer.updateMatMV(g.matModel());
-        _gRenderer.bindUniformVariables(g, *_scene);
-        g.render();
+    auto test = _scene->objects().begin()->get();
+    test->prs().rot() += glm::vec3(1., 0., 0.);
+    auto beacon1 = _scene->islands()[0].get()->subobjects().begin()->get();
+    beacon1->material().kl() = .5 + .5 * glm::cos(.1 * _scene->player().prs().pos().x * 5.);
+    _scene->skybox().setCenter(_gRenderer.camera().targetPRS().pos());
+    _scene->player().update();
+    auto it = _scene->islands().begin();
+    while(it != _scene->islands().end()) {
+        (**it).update();
         ++it;
-        //if (DEBUG) cout << "\n---------------------- NEXT OBJECT\n" << endl;
     }
-
-    //if (DEBUG) cout << "\n====================== NEXT FRAME\n\n" << endl;
 }
 
 }

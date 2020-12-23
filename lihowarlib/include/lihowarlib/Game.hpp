@@ -16,12 +16,11 @@ private:
     bool _isRunning = true;
     GameController &_gController;
     glimac::SDLWindowManager &_windowManager;
+    SDL_Joystick *_joystick;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
-    explicit Game(glimac::SDLWindowManager &wm)
-       :_gController(GameController::instance()),
-        _windowManager(wm) {}
+    explicit Game(glimac::SDLWindowManager &wm);
 
     ~Game() = default;
 
@@ -40,14 +39,18 @@ public:
 public:
     // INTERFACE
     bool isRunning() const { return _isRunning; }
+    bool isJoystickOpened() const { return _joystick; }
 
-    void update() { _gController.update(); };
+    void update();
     void render() { _gController.render(); };
     void handle(SDL_Event event);
     void handleKeydown(SDL_Event event);
     void handleMouseBtn(SDL_Event event);
     void handleMouseMotion(SDL_Event event);
+    void handleJoyBtnDown(SDL_Event event);
 
+private:
+    void initJoystick();
 };
 
 }

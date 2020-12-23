@@ -10,12 +10,13 @@ using namespace lihowar;
 
 namespace lihowar {
 
-GameRenderer::GameRenderer()
-   : _tbcam( TrackballCamera(.3f, 15.f, 30.f) ),
+GameRenderer::GameRenderer(Object::PRS &camTargetPRS)
+   : _tbcam( TrackballCamera(camTargetPRS) ),
      _matProj( glm::perspective(glm::radians(_tbcam.fov()), ASPECT_RATIO, Z_NEAR, Z_FAR) ),
      _matMV( glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -5.f)) ),
      _matNormal( glm::transpose(glm::inverse(_matMV)) ),
-     _matView( glm::mat4(1.f) )
+     _matView( glm::mat4(1.f) ),
+     _program( &MultiLightsProgram::instance() )
 {
     _matView = _tbcam.getMatView();
 
@@ -27,38 +28,52 @@ GameRenderer::GameRenderer()
 GameRenderer::~GameRenderer() {}
 
 
-void GameRenderer::bindUniformVariables(GameObject &gObject, const Scene &scene)
+void GameRenderer::use(Program &program)
+{
+    if (_program == &program)
+        return;
+    _program = &program;
+    _program->use();
+}
+
+
+void GameRenderer::bindUniformVariables(const Object &object, const Scene &scene)
 {
     //if (DEBUG) cout << "[GameRenderer::bindUniformMatrices] " << endl;
-    Program &prog = gObject.program();
 
     // send matrices to GPU
-    glUniformMatrix4fv(prog.uMatMVP(), 1, GL_FALSE, glm::value_ptr(_matProj * _matMV));
-    glUniformMatrix4fv(prog.uMatMV(), 1, GL_FALSE, glm::value_ptr(_matMV));
-    glUniformMatrix4fv(prog.uMatNormal(), 1, GL_FALSE, glm::value_ptr(_matNormal));
+    glUniformMatrix4fv(_program->uMatMVP(), 1, GL_FALSE, glm::value_ptr(_matProj * _matMV));
+    glUniformMatrix4fv(_program->uMatMV(), 1, GL_FALSE, glm::value_ptr(_matMV));
+    glUniformMatrix4fv(_program->uMatNormal(), 1, GL_FALSE, glm::value_ptr(_matNormal));
 
     // send extra variables to GPU depending on program (and shader) type
-    switch(prog.type()) {
+    switch(_program->type()) {
         case ProgramType::DIRLIGHT:
         {
             glm::vec4 lightDir = _matView * glm::vec4(1.f, 1.f, 1.f, 0.f);
-            DirLightProgram &p = *( dynamic_cast<DirLightProgram*>(&prog) );
-            glUniform1f(p.uKd(), gObject.material().kd());
-            glUniform1f(p.uKs(), gObject.material().ks());
-            glUniform1f(p.uShininess(), gObject.material().shininess());
+            DirLightProgram &p = *( dynamic_cast<DirLightProgram*>(_program) );
+            glUniform1f(p.uKd(), object.material().kd());
+            glUniform1f(p.uKs(), object.material().ks());
+            glUniform1f(p.uShininess(), object.material().shininess());
             glUniform3fv(p.uLightDir(), 1, glm::value_ptr( glm::normalize(glm::vec3(lightDir)) ));
             glUniform3fv(p.uLightIntensity(), 1, glm::value_ptr( glm::vec3(1.) ));
-            glUniform1i(p.uHasTexture(), gObject.material().hasTexture() );
+            glUniform1i(p.uHasTexture(), object.material().hasDiffuseMap() );
             break;
         }
         case ProgramType::MULTILIGHTS:
         {
-            MultiLightsProgram &p = *( dynamic_cast<MultiLightsProgram*>(&prog) );
-            glUniform1f(p.uKd(), gObject.material().kd());
-            glUniform1f(p.uKs(), gObject.material().ks());
-            glUniform1f(p.uShininess(), gObject.material().shininess());
-            glUniform3fv(p.uLightAmbient(), 1, glm::value_ptr( scene.lightAmbient()->intensity() ));
-            glUniform1i(p.uHasTexture(), gObject.material().hasTexture());
+            MultiLightsProgram &p = *( dynamic_cast<MultiLightsProgram*>(_program) );
+            glUniform1f(p.uKd(), object.material().kd());
+            glUniform1f(p.uKs(), object.material().ks());
+            glUniform1f(p.uKl(), object.material().kl());
+            glUniform1f(p.uShininess(), object.material().shininess());
+            glUniform1i(p.uHasDiffuseMap(), object.material().hasDiffuseMap());
+            glUniform1i(p.uHasSpecularMap(), object.material().hasSpecularMap());
+            glUniform1i(p.uHasLuminMap(), object.material().hasLuminMap());
+            glUniform1i(p.uDiffuseMap(), Texture::TEX_UNIT_DIFFUSE);
+            glUniform1i(p.uSpecularMap(), Texture::TEX_UNIT_SPECULAR);
+            glUniform1i(p.uLuminMap(), Texture::TEX_UNIT_LUMIN);
+            glUniform3fv(p.uLightAmbient(), 1, glm::value_ptr( scene.lightAmbient().intensity() ));
 
             unsigned int ldIndex = 0; // LightDirectional array index cursor
             unsigned int lpIndex = 0; // LightoPoint array index cursor
@@ -81,9 +96,6 @@ void GameRenderer::bindUniformVariables(GameObject &gObject, const Scene &scene)
                 }
                 ++it;
             }
-
-            //if (DEBUG) cout << "ldIndex: " << ldIndex << endl;
-            //if (DEBUG) cout << "lpIndex: " << lpIndex << endl;
 
             glUniform1i(p.uLightsDirCount(), ldIndex );
             glUniform1i(p.uLightsPointCount(), lpIndex );
@@ -110,9 +122,64 @@ void GameRenderer::updateMatMV(const glm::mat4 &matModel)
     _matNormal = glm::transpose(glm::inverse(_matMV));
 }
 
+
 void GameRenderer::updateMatProj()
 {
     _matProj = glm::perspective(glm::radians(_tbcam.fov()), ASPECT_RATIO, Z_NEAR, Z_FAR);
 }
+
+
+void GameRenderer::render(const Scene &scene)
+{
+    glEnable(GL_DEPTH_TEST);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    use(SkyboxProgram::instance());
+    render(scene, scene.skybox());
+
+    use(MultiLightsProgram::instance());
+    render(scene, scene.player());
+    render(scene, scene.islands());
+    render(scene, scene.objects());
+}
+
+
+void GameRenderer::render(
+        const Scene &scene,
+        const std::list< std::unique_ptr<Object> > &objectsList,
+        const glm::mat4 &matModelParent)
+{
+    auto it = objectsList.begin();
+    while (it != objectsList.end()) {
+        render(scene, **it, matModelParent);
+        ++it;
+    }
+}
+
+
+void GameRenderer::render(
+        const Scene &scene,
+        const std::vector< std::unique_ptr<Island> > &objectsList,
+        const glm::mat4 &matModelParent)
+{
+    auto it = objectsList.begin();
+    while (it != objectsList.end()) {
+        render(scene, **it, matModelParent);
+        ++it;
+    }
+}
+
+
+void GameRenderer::render(
+        const Scene &scene,
+        const Object &object,
+        const glm::mat4 &matModelParent)
+{
+    updateMatMV(matModelParent * object.matModel());
+    bindUniformVariables(object, scene);
+    object.render();
+    render(scene, object.subobjects(), object.matModel());
+}
+
 
 }

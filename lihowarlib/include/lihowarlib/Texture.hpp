@@ -9,11 +9,16 @@
 namespace lihowar {
 
 enum class TextureName {
-    SKY, MOON,
-    first = SKY, last = MOON
+    SKY, BEACON1_DIFF, BEACON1_LUMIN,
+    first = SKY, last = BEACON1_LUMIN
 };
 
 class Texture {
+
+public:
+    static const unsigned int TEX_UNIT_DIFFUSE = 0;
+    static const unsigned int TEX_UNIT_SPECULAR = 1;
+    static const unsigned int TEX_UNIT_LUMIN = 2;
 
 private:
     // MEMBERS

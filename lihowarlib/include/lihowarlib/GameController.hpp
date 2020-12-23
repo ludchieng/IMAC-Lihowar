@@ -15,9 +15,9 @@ class GameController {
 
 private:
     // MEMBERS
+    std::unique_ptr<Scene> _scene;
     AssetManager &_assetManager;
     GameRenderer &_gRenderer;
-    std::unique_ptr<Scene> _scene;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
@@ -39,10 +39,11 @@ public:
 
 public:
     // INTERFACE
+    Scene &scene() { return *_scene; }
     GameRenderer& renderer() { return _gRenderer; }
 
     void update();
-    void render();
+    void render() { _gRenderer.render(*_scene); }
 
 };
 

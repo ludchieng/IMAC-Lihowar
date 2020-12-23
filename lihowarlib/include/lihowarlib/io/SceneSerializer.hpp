@@ -14,7 +14,7 @@ public:
     static void save(const Scene &s);
     static void load(Scene &s);
 
-    static std::string serialize(const GameObject &g);
+    static std::string serialize(const Object &g);
     static std::string serialize(const Light &l);
 
 };

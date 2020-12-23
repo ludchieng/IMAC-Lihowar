@@ -23,10 +23,17 @@ struct LightPoint {
 
 uniform float uKd;
 uniform float uKs;
+uniform float uKl;
 uniform float uShininess;
 
-uniform bool uHasTexture;
-uniform sampler2D uTexture;
+uniform bool uHasDiffuseMap;
+uniform sampler2D uDiffuseMap;
+
+uniform bool uHasSpecularMap;
+uniform sampler2D uSpecularMap;
+
+uniform bool uHasLuminMap;
+uniform sampler2D uLuminMap;
 
 uniform vec3 uLightAmbient;
 
@@ -38,6 +45,7 @@ uniform LightPoint uLightsPoint[MAX_LIGHTSPOINT_COUNT];
 
 
 
+float brightness(vec3);
 vec3 blinnPhong(LightDir);
 vec3 blinnPhong(LightPoint);
 vec3 blinnPhongMultiLights();
@@ -46,42 +54,56 @@ vec3 blinnPhongMultiLights();
 
 void main() {
     vec3 light = uLightAmbient + blinnPhongMultiLights();
-    if (uHasTexture) {
-        vec3 texture = texture(uTexture,vFragTexCoords).xyz;
-        fFragColor = clamp(texture * light, 0., 1.);
-    } else {
-        fFragColor = clamp(light, 0., 1.);
-    }
+    if (uHasLuminMap)
+        light = max(light, uKl * texture(uLuminMap,vFragTexCoords).xyz);
+
+    fFragColor = clamp(light, 0., 1.);
 /*
-    float brightness = dot(fFragColor, vec3(0.2126, 0.7152, 0.0722));
-    if(brightness > 1.0)
+    if(brightness(fFragColor) > 1.0)
         fBrightColor = vec3(fFragColor);
     else
         fBrightColor = vec3(0.0, 0.0, 0.0);*/
 }
 
 
+float brightness(vec3 color) {
+    return dot(fFragColor, vec3(0.2126, 0.7152, 0.0722));
+}
 
 vec3 blinnPhong(LightDir l) {
-    vec3 wi = normalize(l.dir);
+    vec3 wi = normalize(-l.dir);
     vec3 wo = normalize(-vFragPos);
     vec3 halfV = (wo + wi) * .5;
-    vec3 res = l.intensity * (
-    uKd * max(0., dot( wi, vFragNormal )) +
-    uKs * pow( max(0., dot(halfV, vFragNormal)), uShininess )  );
-    return res;
+    vec3 diffuse = vec3(  uKd * max(0., dot( wi, normalize(vFragNormal) ))  );
+    if (uHasDiffuseMap)
+        diffuse *= texture(uDiffuseMap,vFragTexCoords).xyz;
+
+    vec3 specular = vec3(  uKs * pow( max(0., dot(halfV, normalize(vFragNormal))), uShininess )  );
+    if (uHasSpecularMap)
+        specular *= texture(uSpecularMap,vFragTexCoords).xyz;
+
+    return l.intensity * (diffuse + specular);
 }
 
 vec3 blinnPhong(LightPoint l) {
     float dist = distance(l.pos, vFragPos);
+    float distSq = dist * dist;
+
+    if (length(l.intensity) / distSq < .05)
+        return vec3(0.);
+
     vec3 wi = normalize(l.pos-vFragPos);
     vec3 wo = normalize(-vFragPos);
     vec3 halfV = (wo + wi)*.5;
-    vec3 res = l.intensity * (
-    uKd * max(0., dot( wi, vFragNormal )) +
-    uKs * pow( max(0., dot(halfV, vFragNormal)), uShininess )  );
-    res /= (dist * dist);
-    return res;
+    vec3 diffuse = vec3(  uKd * max(0., dot( wi, normalize(vFragNormal) ))  );
+    if (uHasDiffuseMap)
+    diffuse *= texture(uDiffuseMap,vFragTexCoords).xyz;
+
+    vec3 specular = vec3(  uKs * pow( max(0., dot(halfV, normalize(vFragNormal))), uShininess )  );
+    if (uHasSpecularMap)
+    specular *= texture(uSpecularMap,vFragTexCoords).xyz;
+
+    return l.intensity * (diffuse + specular) / distSq;
 }
 
 vec3 blinnPhongMultiLights() {

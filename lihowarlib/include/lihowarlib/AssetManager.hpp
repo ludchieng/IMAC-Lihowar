@@ -10,6 +10,10 @@ namespace lihowar {
 
 class AssetManager {
 
+public:
+    // CONSTANTS
+    const int NO_TEXTURE = 0;
+
 private:
     // MEMBERS
     std::map<MeshName, Mesh*> _meshes;
@@ -35,7 +39,7 @@ public:
     // INTERFACE
     std::map<MeshName, Mesh*> &meshes() { return _meshes; }
     std::map<TextureName, Texture *> textures() { return _textures; }
-    GLuint &textureId(TextureName textureName) { return _textures[textureName]->id(); }
+    GLuint &texId(TextureName textureName) { return _textures[textureName]->id(); }
 
 private:
     void addMesh(MeshName meshName);
