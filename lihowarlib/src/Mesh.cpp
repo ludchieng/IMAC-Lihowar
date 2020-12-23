@@ -31,7 +31,10 @@ void Mesh::initGeometry(MeshName meshName)
     // Get mesh name from MeshName
     switch (meshName) {
         case MeshName::ISLAND1:
-            filename = "island1";
+            filename = "island1_lod2";
+            break;
+        case MeshName::BEACON1:
+            filename = "beacon1";
             break;
         case MeshName::CUBE:
             filename = "cube";

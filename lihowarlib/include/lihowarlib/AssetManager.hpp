@@ -39,7 +39,7 @@ public:
     // INTERFACE
     std::map<MeshName, Mesh*> &meshes() { return _meshes; }
     std::map<TextureName, Texture *> textures() { return _textures; }
-    GLuint &textureId(TextureName textureName) { return _textures[textureName]->id(); }
+    GLuint &texId(TextureName textureName) { return _textures[textureName]->id(); }
 
 private:
     void addMesh(MeshName meshName);

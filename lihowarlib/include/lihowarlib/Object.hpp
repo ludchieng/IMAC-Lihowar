@@ -18,6 +18,15 @@ class Object {
 public:
     // SUB CLASS
     class PRS {
+    public:
+        // CONSTANT
+        static const glm::vec3 X;
+        static const glm::vec3 Y;
+        static const glm::vec3 Z;
+        static const glm::vec4 vec4_X;
+        static const glm::vec4 vec4_Y;
+        static const glm::vec4 vec4_Z;
+
     private:
         // MEMBERS
         glm::vec3 _pos = glm::vec3(0.f);
@@ -39,6 +48,7 @@ public:
         glm::vec3 &sca() { return _sca; }
         glm::vec3 pos() const { return _pos; }
         glm::vec3 rot() const { return _rot; }
+        glm::vec3 rotRadians() const { return glm::radians(_rot); }
         glm::vec3 sca() const { return _sca; }
 
     };
@@ -53,12 +63,21 @@ protected:
 public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit Object(
-        Mesh& mesh,
-        GLuint textureId = 0,
-        PRS prs = PRS())
-       :_mesh(mesh),
-        _material(new Material(textureId)),
-        _prs(std::move(prs))
+            Mesh& mesh,
+            GLuint diffuseTexId = 0,
+            PRS prs = PRS())
+        :_mesh(mesh),
+         _material(new Material(diffuseTexId)),
+         _prs(std::move(prs))
+    {}
+
+    explicit Object(
+            Mesh& mesh,
+            Material &material,
+            PRS prs = PRS())
+        :_mesh(mesh),
+         _material(&material),
+         _prs(std::move(prs))
     {}
 
     // TODO

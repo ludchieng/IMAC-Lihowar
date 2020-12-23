@@ -21,8 +21,8 @@ vec3 blinnPhong() {
     vec3 cameraDir = normalize(-vFragPos);
     vec3 halfVector = (cameraDir + normalize(uLightDir)) * .5;
     vec3 res = uLightIntensity * (
-        uKd * dot( normalize(uLightDir), vFragNormal ) +
-        uKs * pow( dot(halfVector, vFragNormal), uShininess )  );
+        uKd * dot( normalize(uLightDir), normalize(vFragNormal) ) +
+        uKs * pow( dot(halfVector, normalize(vFragNormal)), uShininess )  );
     return clamp(res, uKa, 1.);
 }
 

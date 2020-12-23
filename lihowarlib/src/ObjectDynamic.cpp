@@ -53,9 +53,9 @@ void ObjectDynamic::applyForce(
     glm::vec3 distVec = pointOfApplication - _mesh.center();
     if (glm::length(distVec) > TORQUE_MIN_DIST)
         applyTorque( glm::vec3(
-                glm::cross( projectOnYZ * distVec, force ).length(),
-                glm::cross( projectOnXZ * distVec, force ).length(),
-                glm::cross( projectOnXY * distVec, force ).length()  ));
+                glm::cross( projectOnYZ * distVec, force ).x,
+                glm::cross( projectOnXZ * distVec, force ).y,
+                glm::cross( projectOnXY * distVec, force ).z  ));
 }
 
 

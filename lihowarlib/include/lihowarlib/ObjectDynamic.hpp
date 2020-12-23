@@ -26,7 +26,10 @@ public:
             PRS prs = PRS())
        :Object(mesh, textureId, prs),
         _mass(MASS_DENSITY * _mesh.size().x * mesh.size().y * mesh.size().z),
-        _inertia( INERTIA_COEF * glm::vec3(_mesh.size().x, mesh.size().y,  mesh.size().z) )
+        _inertia( INERTIA_COEF * glm::vec3(
+                mesh.size().x * mesh.size().x,
+                mesh.size().y * mesh.size().y,
+                mesh.size().z * mesh.size().z) )
     {
         updateTotalMass();
     }

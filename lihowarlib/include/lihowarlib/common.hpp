@@ -28,10 +28,10 @@ const float Z_FAR = 5000.f;
 const float MASS_DENSITY = 1.f;
 const float INERTIA_COEF = 1.f;
 const float TORQUE_MIN_DIST = .01f;
-const float LINEAR_DRAG_COEF = 10.f;
-const float ANGULAR_DRAG_COEF = 5.f;
-const float LINEAR_VELOCITY_SLIP_LIMIT = .005f;
-const float ANGULAR_VELOCITY_SLIP_LIMIT = .0005f;
+const float LINEAR_DRAG_COEF = 20.f;
+const float ANGULAR_DRAG_COEF = 20.f;
+const float LINEAR_VELOCITY_SLIP_LIMIT = .0002f;
+const float ANGULAR_VELOCITY_SLIP_LIMIT = .000004f;
 
 }
 

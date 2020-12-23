@@ -39,11 +39,11 @@ int main(int argc, char** argv) {
 
         // Limit framerate
         Uint32 elapsedTime = SDL_GetTicks() - startTime;
-        time += elapsedTime;
+        /*time += elapsedTime;
         if (++cnt % 50 == 0) {
             std::cout << 1000 / (time / 50) << " fps" << std::endl;
             time = 0;
-        }
+        }*/
         if (elapsedTime < 1000. / lihowar::MAX_FRAMERATE) {
             SDL_Delay(1000. / lihowar::MAX_FRAMERATE - elapsedTime);
         }

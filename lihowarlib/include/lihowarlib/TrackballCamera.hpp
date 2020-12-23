@@ -24,7 +24,7 @@ private:
 
 private:
     // MEMBERS
-    glm::vec3 &_target;
+    Object::PRS &_targetPRS;
     float _distanceCursor;
     float _angleX;
     float _angleY;
@@ -32,11 +32,11 @@ private:
 public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit TrackballCamera(
-            glm::vec3 &target,
-            const float distanceCursor = 0.f,
-            const float angX = 0.f,
-            const float angY = 0.f)
-       :_target(target), _distanceCursor(distanceCursor),
+            Object::PRS &targetPRS,
+            const float distanceCursor = .3f,
+            const float angX = 15.f,
+            const float angY = 90.f)
+       :_targetPRS(targetPRS), _distanceCursor(distanceCursor),
         _angleX(angX), _angleY(angY)
     {}
 
@@ -46,7 +46,7 @@ public:
     // INTERFACE
     glm::mat4 getMatView() const;
     float fov() const { return lerp(MIN_FOV, MAX_FOV, _distanceCursor); }
-    glm::vec3 &target() { return _target; }
+    Object::PRS &targetPRS() { return _targetPRS; }
 
     void moveFront(float delta);
     void rotateLeft(float degrees);
