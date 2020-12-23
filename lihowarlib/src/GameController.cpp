@@ -2,6 +2,7 @@
 #include <lihowarlib/LightPoint.hpp>
 #include <lihowarlib/LightDirectional.hpp>
 #include <lihowarlib/ObjectDynamic.hpp>
+#include <lihowarlib/Material.hpp>
 #include <lihowarlib/objects/Island.hpp>
 
 using namespace std;
@@ -33,7 +34,9 @@ GameController::GameController()
 
     _scene->islands()[0]->add(new Object(
             *_assetManager.meshes()[MeshName::BEACON1],
-            _assetManager.textureId(TextureName::BEACON1_DIFF),
+            *new Material(
+                    _assetManager.texId(TextureName::BEACON1_DIFF), 0,
+                    _assetManager.texId(TextureName::BEACON1_LUMIN) ),
             Object::PRS(
                     glm::vec3(-5.621, 28.893, 5.174),
                     glm::vec3(180., 0., 0.),
@@ -66,6 +69,8 @@ void GameController::update()
 {
     auto test = _scene->objects().begin()->get();
     test->prs().rot() += glm::vec3(1., 0., 0.);
+    auto beacon1 = _scene->islands()[0].get()->subobjects().begin()->get();
+    beacon1->material().kl() = .5 + .5 * glm::cos(.1 * _scene->player().prs().pos().x * 5.);
     _scene->skybox().setCenter(_gRenderer.camera().targetPRS().pos());
     _scene->player().update();
     auto it = _scene->islands().begin();

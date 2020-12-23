@@ -41,15 +41,36 @@ void Object::update()
 
 void Object::render() const
 {
-    if (_material->hasTexture())
-        glBindTexture(GL_TEXTURE_2D, _material->textureId());
+    if (_material->hasDiffuseMap()) {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, _material->diffuseTexId());
+    }
+    if (_material->hasSpecularMap()) {
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, _material->specularTexId());
+    }
+    if (_material->hasLuminMap()) {
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, _material->luminTexId());
+    }
 
     glBindVertexArray(_mesh.vao());
     glDrawElements(GL_TRIANGLES, _mesh.geometry().getIndexCount(),
                    GL_UNSIGNED_INT, 0);
 
-    if (_material->hasTexture())
-        glBindTexture(GL_TEXTURE_2D, 0);
+
+    if (_material->hasDiffuseMap()) {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, Texture::TEX_UNIT_DIFFUSE);
+    }
+    if (_material->hasSpecularMap()) {
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, Texture::TEX_UNIT_SPECULAR);
+    }
+    if (_material->hasLuminMap()) {
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, Texture::TEX_UNIT_LUMIN);
+    }
 
     glBindVertexArray(0);
 }

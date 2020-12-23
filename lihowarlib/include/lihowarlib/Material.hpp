@@ -2,6 +2,7 @@
 #define LIHOWAR_MATERIAL_HPP
 
 #include <lihowarlib/common.hpp>
+#include <lihowarlib/Texture.hpp>
 
 namespace lihowar {
 
@@ -11,37 +12,50 @@ private:
     // MEMBERS
     float _kd;
     float _ks;
+    float _kl;
     float _shininess;
-    GLuint _textureId;
+    GLuint _diffuseTexId;
+    GLuint _specularTexId;
+    GLuint _luminTexId;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit Material(
-        float kd = .85, float ks = .15,
-        float shininess = 1., GLuint textureId = 0)
-       :_kd(kd), _ks(ks),
-        _shininess(shininess), _textureId(textureId)
-    {}
-
-    explicit Material(GLuint textureId)
-       :_kd(.85), _ks(.15),
-        _shininess(1.), _textureId(textureId)
+            GLuint diffuseTexId = 0,
+            GLuint specularTexId = 0,
+            GLuint luminTexId = 0)
+       :_kd(.85), _ks(.15), _kl(1.), _shininess(1.),
+        _diffuseTexId(diffuseTexId),
+        _specularTexId(specularTexId),
+        _luminTexId(luminTexId)
     {}
 
     ~Material() = default;
 
 public:
     // INTERFACE
-    float &kd() { return _kd; }
-    float &ks() { return _ks; }
-    float &shininess() { return _shininess; }
-    GLuint &textureId() { return _textureId; }
     float kd() const { return _kd; }
+    float &kd() { return _kd; }
     float ks() const { return _ks; }
-    float shininess() const { return _shininess; }
-    GLuint textureId() const { return _textureId; }
+    float &ks() { return _ks; }
+    float kl() const { return _kl; }
+    float &kl() { return _kl; }
 
-    bool hasTexture() const { return _textureId != 0; }
+    float shininess() const { return _shininess; }
+    float &shininess() { return _shininess; }
+
+    GLuint diffuseTexId() const { return _diffuseTexId; }
+    GLuint &diffuseTexId() { return _diffuseTexId; }
+
+    GLuint specularTexId() const { return _specularTexId; }
+    GLuint &specularTexId() { return _specularTexId; }
+
+    GLuint luminTexId() const { return _luminTexId; }
+    GLuint &luminTexId() { return _luminTexId; }
+
+    bool hasDiffuseMap() const { return _diffuseTexId != 0; }
+    bool hasSpecularMap() const { return _specularTexId != 0; }
+    bool hasLuminMap() const { return _luminTexId != 0; }
 
 };
 

@@ -57,7 +57,7 @@ void GameRenderer::bindUniformVariables(const Object &object, const Scene &scene
             glUniform1f(p.uShininess(), object.material().shininess());
             glUniform3fv(p.uLightDir(), 1, glm::value_ptr( glm::normalize(glm::vec3(lightDir)) ));
             glUniform3fv(p.uLightIntensity(), 1, glm::value_ptr( glm::vec3(1.) ));
-            glUniform1i(p.uHasTexture(), object.material().hasTexture() );
+            glUniform1i(p.uHasTexture(), object.material().hasDiffuseMap() );
             break;
         }
         case ProgramType::MULTILIGHTS:
@@ -65,9 +65,15 @@ void GameRenderer::bindUniformVariables(const Object &object, const Scene &scene
             MultiLightsProgram &p = *( dynamic_cast<MultiLightsProgram*>(_program) );
             glUniform1f(p.uKd(), object.material().kd());
             glUniform1f(p.uKs(), object.material().ks());
+            glUniform1f(p.uKl(), object.material().kl());
             glUniform1f(p.uShininess(), object.material().shininess());
+            glUniform1i(p.uHasDiffuseMap(), object.material().hasDiffuseMap());
+            glUniform1i(p.uHasSpecularMap(), object.material().hasSpecularMap());
+            glUniform1i(p.uHasLuminMap(), object.material().hasLuminMap());
+            glUniform1i(p.uDiffuseMap(), Texture::TEX_UNIT_DIFFUSE);
+            glUniform1i(p.uSpecularMap(), Texture::TEX_UNIT_SPECULAR);
+            glUniform1i(p.uLuminMap(), Texture::TEX_UNIT_LUMIN);
             glUniform3fv(p.uLightAmbient(), 1, glm::value_ptr( scene.lightAmbient().intensity() ));
-            glUniform1i(p.uHasTexture(), object.material().hasTexture());
 
             unsigned int ldIndex = 0; // LightDirectional array index cursor
             unsigned int lpIndex = 0; // LightoPoint array index cursor

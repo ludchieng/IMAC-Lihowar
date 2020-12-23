@@ -20,10 +20,10 @@ public:
     explicit Skybox(float size = 2000.f)
         : Object(
             *AssetManager::instance().meshes()[MeshName::CUBE],
-            AssetManager::instance().textureId(TextureName::SKY),
+            AssetManager::instance().texId(TextureName::SKY),
             Object::PRS(
                 glm::vec3(0.),
-                glm::vec3(0., 0., -90.),
+                glm::vec3(0., 180., -90.),
                 glm::vec3(size) )),
           _ambientColor(glm::vec3(.25, .13, .13))
     {}

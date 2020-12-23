@@ -63,12 +63,21 @@ protected:
 public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit Object(
-        Mesh& mesh,
-        GLuint textureId = 0,
-        PRS prs = PRS())
-       :_mesh(mesh),
-        _material(new Material(textureId)),
-        _prs(std::move(prs))
+            Mesh& mesh,
+            GLuint diffuseTexId = 0,
+            PRS prs = PRS())
+        :_mesh(mesh),
+         _material(new Material(diffuseTexId)),
+         _prs(std::move(prs))
+    {}
+
+    explicit Object(
+            Mesh& mesh,
+            Material &material,
+            PRS prs = PRS())
+        :_mesh(mesh),
+         _material(&material),
+         _prs(std::move(prs))
     {}
 
     // TODO

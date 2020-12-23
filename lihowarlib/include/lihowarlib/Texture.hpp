@@ -15,6 +15,11 @@ enum class TextureName {
 
 class Texture {
 
+public:
+    static const unsigned int TEX_UNIT_DIFFUSE = 0;
+    static const unsigned int TEX_UNIT_SPECULAR = 1;
+    static const unsigned int TEX_UNIT_LUMIN = 2;
+
 private:
     // MEMBERS
     TextureName _textureName;

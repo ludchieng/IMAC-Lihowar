@@ -20,8 +20,14 @@ private:
     ProgramType _type;
     GLint _uKd;
     GLint _uKs;
+    GLint _uKl;
     GLint _uShininess;
-    GLint _uHasTexture;
+    GLint _uHasDiffuseMap;
+    GLint _uHasSpecularMap;
+    GLint _uHasLuminMap;
+    GLint _uDiffuseMap;
+    GLint _uSpecularMap;
+    GLint _uLuminMap;
     GLint _uLightAmbient;
     GLint _uLightsDirCount;
     GLint _uLightsPointCount;
@@ -29,15 +35,21 @@ private:
 private:
     // CONSTRUCTORS & DESTRUCTORS
     MultiLightsProgram(const std::string& vsName, const std::string& fsName)
-       :Program(vsName, fsName),
-        _type( ProgramType::MULTILIGHTS ),
-        _uKd( glGetUniformLocation(_program.getGLId(), "uKd") ),
-        _uKs( glGetUniformLocation(_program.getGLId(), "uKs") ),
-        _uShininess( glGetUniformLocation(_program.getGLId(), "uShininess") ),
-        _uHasTexture( glGetUniformLocation(_program.getGLId(), "uHasTexture") ),
-        _uLightAmbient( glGetUniformLocation(_program.getGLId(), "uLightAmbient") ),
-        _uLightsDirCount( glGetUniformLocation(_program.getGLId(), "uLightsDirCount") ),
-        _uLightsPointCount( glGetUniformLocation(_program.getGLId(), "uLightsPointCount") )
+       : Program(vsName, fsName),
+         _type( ProgramType::MULTILIGHTS ),
+         _uKd( glGetUniformLocation(_program.getGLId(), "uKd") ),
+         _uKs( glGetUniformLocation(_program.getGLId(), "uKs") ),
+         _uKl( glGetUniformLocation(_program.getGLId(), "uKl") ),
+         _uShininess( glGetUniformLocation(_program.getGLId(), "uShininess") ),
+         _uHasDiffuseMap( glGetUniformLocation(_program.getGLId(), "uHasDiffuseMap") ),
+         _uHasSpecularMap( glGetUniformLocation(_program.getGLId(), "uHasSpecularMap") ),
+         _uHasLuminMap( glGetUniformLocation(_program.getGLId(), "uHasLuminMap") ),
+         _uDiffuseMap( glGetUniformLocation(_program.getGLId(), "uDiffuseMap") ),
+         _uSpecularMap( glGetUniformLocation(_program.getGLId(), "uSpecularMap") ),
+         _uLuminMap( glGetUniformLocation(_program.getGLId(), "uLuminMap") ),
+         _uLightAmbient( glGetUniformLocation(_program.getGLId(), "uLightAmbient") ),
+         _uLightsDirCount( glGetUniformLocation(_program.getGLId(), "uLightsDirCount") ),
+         _uLightsPointCount( glGetUniformLocation(_program.getGLId(), "uLightsPointCount") )
     {}
 
 public:
@@ -52,8 +64,14 @@ public:
     ProgramType type() const override { return _type; }
     GLint uKd() const { return _uKd; }
     GLint uKs() const { return _uKs; }
+    GLint uKl() const { return _uKl; }
     GLint uShininess() const { return _uShininess; }
-    GLint uHasTexture() const { return _uHasTexture; }
+    GLint uHasDiffuseMap() const { return _uHasDiffuseMap; }
+    GLint uHasSpecularMap() const { return _uHasSpecularMap; }
+    GLint uHasLuminMap() const { return _uHasLuminMap; }
+    GLint uDiffuseMap() const { return _uDiffuseMap; }
+    GLint uSpecularMap() const { return _uSpecularMap; }
+    GLint uLuminMap() const { return _uLuminMap; }
     GLint uLightAmbient() const { return _uLightAmbient; }
     GLint uLightsDirCount() const { return _uLightsDirCount; }
     GLint uLightsPointCount() const { return _uLightsPointCount; }
