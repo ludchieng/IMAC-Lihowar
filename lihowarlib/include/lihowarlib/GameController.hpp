@@ -39,26 +39,11 @@ public:
 
 public:
     // INTERFACE
+    Scene &scene() { return *_scene; }
     GameRenderer& renderer() { return _gRenderer; }
 
     void update();
-    void render();
-
-private:
-    void render(
-            const std::list< std::unique_ptr<Object> > &objectsList,
-            const glm::mat4 &matModelParent = glm::mat4(1.));
-
-    void render(
-            const Object &object,
-            const glm::mat4 &matModelParent = glm::mat4(1.));
-
-    void render(
-            const Object *object,
-            const glm::mat4 &matModelParent = glm::mat4(1.))
-    {
-        render(*object, matModelParent);
-    }
+    void render() { _gRenderer.render(*_scene); }
 
 };
 

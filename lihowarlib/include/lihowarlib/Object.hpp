@@ -18,6 +18,15 @@ class Object {
 public:
     // SUB CLASS
     class PRS {
+    public:
+        // CONSTANT
+        static const glm::vec3 X;
+        static const glm::vec3 Y;
+        static const glm::vec3 Z;
+        static const glm::vec4 vec4_X;
+        static const glm::vec4 vec4_Y;
+        static const glm::vec4 vec4_Z;
+
     private:
         // MEMBERS
         glm::vec3 _pos = glm::vec3(0.f);
@@ -39,6 +48,7 @@ public:
         glm::vec3 &sca() { return _sca; }
         glm::vec3 pos() const { return _pos; }
         glm::vec3 rot() const { return _rot; }
+        glm::vec3 rotRadians() const { return glm::radians(_rot); }
         glm::vec3 sca() const { return _sca; }
 
     };
@@ -46,25 +56,34 @@ public:
 protected:
     // MEMBERS
     Mesh &_mesh;
-    PRS _prs;
     std::shared_ptr<Material> _material;
+    PRS _prs;
     std::list< std::unique_ptr<Object> > _subobjects;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit Object(
-        Mesh& mesh,
-        GLuint textureId = 0,
-        PRS prs = PRS())
-       :_mesh(mesh),
-        _prs(std::move(prs)),
-        _material(new Material(textureId))
+            Mesh& mesh,
+            GLuint diffuseTexId = 0,
+            PRS prs = PRS())
+        :_mesh(mesh),
+         _material(new Material(diffuseTexId)),
+         _prs(std::move(prs))
+    {}
+
+    explicit Object(
+            Mesh& mesh,
+            Material &material,
+            PRS prs = PRS())
+        :_mesh(mesh),
+         _material(&material),
+         _prs(std::move(prs))
     {}
 
     // TODO
     //Object(const Object& g);
 
-    ~Object() = default;
+    virtual ~Object() = default;
     
 public:
     // INTERFACE
@@ -76,15 +95,16 @@ public:
     std::list< std::unique_ptr<Object> > &subobjects() { return _subobjects; }
     const std::list< std::unique_ptr<Object> > &subobjects() const { return _subobjects; }
 
-    void add(std::unique_ptr<Object> object) { _subobjects.push_back(std::move(object)); }
-    void add(Object *object) { _subobjects.push_back(std::unique_ptr<Object>(object)); }
+    virtual void add(std::unique_ptr<Object> object);
+    virtual void add(Object *object) { add(std::unique_ptr<Object>(object)); }
+
+    virtual void update();
+    void render() const;
 
     void translate(const glm::vec3 &dpos) { _prs.pos() += dpos; }
     void rotate(const glm::vec3 &drot) { _prs.rot() += drot; }
     void scale(const glm::vec3 &dsca) { _prs.sca() += dsca; }
     glm::mat4 matModel() const;
-
-    void render() const;
 
 };
 
