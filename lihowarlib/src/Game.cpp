@@ -132,7 +132,15 @@ void Game::handleMouseBtn(SDL_Event e)
 
 void Game::handleMouseMotion(SDL_Event e)
 {
-    if (_windowManager.isMouseButtonPressed(SDL_BUTTON_RIGHT)) {
+    if (_windowManager.isMouseButtonPressed(SDL_BUTTON_LEFT)
+     && _windowManager.isMouseButtonPressed(SDL_BUTTON_RIGHT)) {
+        if (e.motion.xrel != 0) {
+            _gController.renderer().camera().moveLeft(e.motion.xrel / 50.f);
+        }
+        if (e.motion.yrel != 0) {
+            _gController.renderer().camera().moveUp(-e.motion.yrel / 50.f);
+        }
+    } else if (_windowManager.isMouseButtonPressed(SDL_BUTTON_RIGHT)) {
         if (e.motion.xrel != 0) {
             _gController.renderer().camera().rotateLeft(-e.motion.xrel / 1.5f);
         }

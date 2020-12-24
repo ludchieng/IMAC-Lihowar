@@ -32,6 +32,7 @@ glm::mat4 TrackballCamera::getMatView() const
 {
     glm::mat4 res = glm::mat4(1.f);
     res = glm::translate(res, glm::vec3(0.f, 0.f, - distance()));
+    res = glm::translate(res, _posOffset);
     res = glm::rotate(res, glm::radians(_angleX), glm::vec3(1.f, 0.f, 0.f));
     res = glm::rotate(res, glm::radians(- _targetPRS.rot().y), glm::vec3(0.f, 1.f, 0.f));
     res = glm::rotate(res, glm::radians(_angleY), glm::vec3(0.f, 1.f, 0.f));
@@ -53,7 +54,23 @@ float TrackballCamera::distance() const
 void TrackballCamera::moveFront(float delta)
 {
     _distanceCursor = glm::clamp(_distanceCursor + delta, MIN_DISTANCE_CURSOR, MAX_DISTANCE_CURSOR);
-    //if (DEBUG) cout << "[TrackballCamera::moveFront] : distance :" << distance() << endl;
+    updatePosOffset();
+    notify(); // notify observers that attributes have changed
+}
+
+
+void TrackballCamera::moveLeft(float delta)
+{
+    _posOffset.x -= delta;
+    updatePosOffset();
+    notify(); // notify observers that attributes have changed
+}
+
+
+void TrackballCamera::moveUp(float delta)
+{
+    _posOffset.y -= delta;
+    updatePosOffset();
     notify(); // notify observers that attributes have changed
 }
 
@@ -69,6 +86,12 @@ void TrackballCamera::rotateUp(float degrees)
 {
     _angleX += degrees;
     notify(); // notify observers that attributes have changed
+}
+
+void TrackballCamera::updatePosOffset()
+{
+    _posOffset.x = glm::clamp(_posOffset.x, -maxPosOffsetX(), maxPosOffsetX());
+    _posOffset.y = glm::clamp(_posOffset.y, -maxPosOffsetY(), maxPosOffsetY());
 }
 
 }
