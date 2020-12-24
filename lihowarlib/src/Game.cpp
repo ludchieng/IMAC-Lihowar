@@ -7,8 +7,8 @@ namespace lihowar {
 
 
 Game::Game(glimac::SDLWindowManager &wm)
-:_gController(GameController::instance()),
-_windowManager(wm)
+: _gController(GameController::instance()),
+  _window(wm)
 {
     initJoystick();
 }
@@ -16,29 +16,28 @@ _windowManager(wm)
 void Game::update()
 {
     SDL_PumpEvents();
-    Uint8* keystate = SDL_GetKeyState(NULL);
-    if(keystate[SDLK_a]) {
+    if(_window.isKeyPressed(SDL_SCANCODE_Q)) {
         _gController.scene().player().yawAntiClockwise(10.);
     }
-    if(keystate[SDLK_e]) {
+    if(_window.isKeyPressed(SDL_SCANCODE_E)) {
         _gController.scene().player().yawClockwise(10.);
     }
-    if(keystate[SDLK_LEFT] || keystate[SDLK_q]) {
+    if(_window.isKeyPressed(SDL_SCANCODE_LEFT, SDL_SCANCODE_A)) {
         _gController.scene().player().moveLeftward(25.);
     }
-    if(keystate[SDLK_RIGHT] || keystate[SDLK_d]) {
+    if(_window.isKeyPressed(SDL_SCANCODE_RIGHT, SDL_SCANCODE_D)) {
         _gController.scene().player().moveRightward(25.);
     }
-    if(keystate[SDLK_UP] || keystate[SDLK_z]) {
+    if(_window.isKeyPressed(SDL_SCANCODE_UP, SDL_SCANCODE_W)) {
         _gController.scene().player().moveForward(25.);
     }
-    if(keystate[SDLK_DOWN] || keystate[SDLK_s]) {
+    if(_window.isKeyPressed(SDL_SCANCODE_DOWN, SDL_SCANCODE_S)) {
         _gController.scene().player().moveBackward(25.);
     }
-    if(keystate[SDLK_LSHIFT]) {
+    if(_window.isKeyPressed(SDL_SCANCODE_LSHIFT)) {
         _gController.scene().player().moveUpward(20.);
     }
-    if(keystate[SDLK_LCTRL]) {
+    if(_window.isKeyPressed(SDL_SCANCODE_LCTRL)) {
         _gController.scene().player().moveDownward(20.);
     }
 
@@ -72,7 +71,6 @@ void Game::update()
 
         SDL_JoystickEventState(SDL_ENABLE); // Back to event mode for one shot events
     }
-
     _gController.update();
 }
 
@@ -88,6 +86,9 @@ void Game::handle(SDL_Event e)
             break;
         case SDL_MOUSEMOTION:
             handleMouseMotion(e);
+            break;
+        case SDL_MOUSEWHEEL:
+            handleMouseWheel(e);
             break;
         case SDL_KEYDOWN:
             handleKeydown(e);
@@ -123,12 +124,6 @@ void Game::handleMouseBtn(SDL_Event e)
         case SDL_BUTTON_MIDDLE:
             _gController.renderer().camera().reset();
             break;
-        case SDL_BUTTON_WHEELUP:
-            _gController.renderer().camera().moveFront(-.01f);
-            break;
-        case SDL_BUTTON_WHEELDOWN:
-            _gController.renderer().camera().moveFront(.01f);
-            break;
         default:
             break;
     }
@@ -137,15 +132,15 @@ void Game::handleMouseBtn(SDL_Event e)
 
 void Game::handleMouseMotion(SDL_Event e)
 {
-    if (_windowManager.isMouseButtonPressed(SDL_BUTTON_LEFT)
-     && _windowManager.isMouseButtonPressed(SDL_BUTTON_RIGHT)) {
+    if (_window.isMouseButtonPressed(SDL_BUTTON_LEFT)
+        && _window.isMouseButtonPressed(SDL_BUTTON_RIGHT)) {
         if (e.motion.xrel != 0) {
             _gController.renderer().camera().moveLeft(e.motion.xrel / 50.f);
         }
         if (e.motion.yrel != 0) {
             _gController.renderer().camera().moveUp(-e.motion.yrel / 50.f);
         }
-    } else if (_windowManager.isMouseButtonPressed(SDL_BUTTON_RIGHT)) {
+    } else if (_window.isMouseButtonPressed(SDL_BUTTON_RIGHT)) {
         if (e.motion.xrel != 0) {
             _gController.renderer().camera().rotateLeft(-e.motion.xrel / 1.5f);
         }
@@ -153,6 +148,12 @@ void Game::handleMouseMotion(SDL_Event e)
             _gController.renderer().camera().rotateUp(-e.motion.yrel / 1.5f);
         }
     }
+}
+
+void Game::handleMouseWheel(SDL_Event e)
+{
+    if(e.wheel.y != 0)
+        _gController.renderer().camera().moveFront(-.01f * e.wheel.y);
 }
 
 

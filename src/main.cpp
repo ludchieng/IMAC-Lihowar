@@ -9,7 +9,9 @@ int main(int argc, char** argv) {
     glimac::SDLWindowManager wm(
             lihowar::WINDOW_WIDTH,
             lihowar::WINDOW_HEIGHT,
-            "Lihowar");
+            "Lihowar",
+            SDL_INIT_VIDEO | SDL_INIT_JOYSTICK,
+            SDL_WINDOW_OPENGL);
 
     // Init GLEW
     if (GLEW_OK != glewInit()) {
