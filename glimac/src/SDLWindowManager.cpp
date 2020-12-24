@@ -8,11 +8,18 @@ SDLWindowManager::SDLWindowManager(
         uint32_t height,
         const char* title,
         int initFlags,
-        int windowFlags)
+        int windowFlags,
+        unsigned int msaaSamples)
 {
     if(0 != SDL_Init(initFlags)) {
         std::cerr << SDL_GetError() << std::endl;
         return;
+    }
+
+    if (msaaSamples > 1) {
+        // Use anti aliasing
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, msaaSamples);
     }
 
     m_window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED,

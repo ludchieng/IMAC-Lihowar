@@ -11,7 +11,8 @@ int main(int argc, char** argv) {
             lihowar::WINDOW_HEIGHT,
             "Lihowar",
             SDL_INIT_VIDEO | SDL_INIT_JOYSTICK,
-            SDL_WINDOW_OPENGL);
+            (lihowar::FULLSCREEN) ? SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN : SDL_WINDOW_OPENGL,
+            (lihowar::USE_ANTIALIASING) ? lihowar::MSAA : 1);
 
     // Init GLEW
     if (GLEW_OK != glewInit()) {

@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef GLIMAC_SDLWINDOWMANAGER_HPP
-#define GLIMAC_SDLWINDOWMANAGER_HPP
-
 #include <cstdint>
 #include <SDL2/SDL.h>
 #include "glm.hpp"
@@ -16,7 +13,8 @@ public:
             uint32_t height,
             const char* title,
             int initFlags = SDL_INIT_VIDEO,
-            int windowFlags = SDL_WINDOW_OPENGL);
+            int windowFlags = SDL_WINDOW_OPENGL,
+            unsigned int msaaSamples = 1);
 
     ~SDLWindowManager();
 
@@ -50,6 +48,3 @@ private:
 };
 
 }
-
-
-#endif //GLIMAC_SDLWINDOWMANAGER_HPP

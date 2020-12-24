@@ -77,6 +77,7 @@ void Game::update()
 
 void Game::handle(SDL_Event e)
 {
+    // if (DEBUG) cout << "SDL Event: type: " << (int) e.type << endl;
     switch (e.type) {
         case SDL_QUIT:
             _isRunning = false;
@@ -132,6 +133,7 @@ void Game::handleMouseBtn(SDL_Event e)
 
 void Game::handleMouseMotion(SDL_Event e)
 {
+    // if (DEBUG) cout << "SDL Event: mouse motion: " << (int) e.button.button << endl;
     if (_window.isMouseButtonPressed(SDL_BUTTON_LEFT)
         && _window.isMouseButtonPressed(SDL_BUTTON_RIGHT)) {
         if (e.motion.xrel != 0) {
@@ -152,6 +154,7 @@ void Game::handleMouseMotion(SDL_Event e)
 
 void Game::handleMouseWheel(SDL_Event e)
 {
+    // if (DEBUG) cout << "SDL Event: mouse wheel: " << (int) e.button.button << endl;
     if(e.wheel.y != 0)
         _gController.renderer().camera().moveFront(-.01f * e.wheel.y);
 }
@@ -159,7 +162,7 @@ void Game::handleMouseWheel(SDL_Event e)
 
 void Game::handleJoyBtnDown(SDL_Event e)
 {
-    //if (DEBUG) cout << "jbutton: " << (int) e.jbutton.button << "  " << (int) e.jbutton.which << endl;
+    // if (DEBUG) cout << "SDL Event: jbutton: " << (int) e.jbutton.button << "  " << (int) e.jbutton.which << endl;
 }
 
 
@@ -177,7 +180,7 @@ void Game::initJoystick()
         return;
     }
 
-    if (DEBUG) cout << "Joystick detected and opened: " << SDL_JoystickName(0) << endl;
+    if (DEBUG) cout << "Joystick detected and opened: " << SDL_JoystickName(_joystick) << endl;
     if (DEBUG) cout << " - " << SDL_JoystickNumAxes(_joystick) << " axes" << endl;
     if (DEBUG) cout << " - " << SDL_JoystickNumHats(_joystick) << " hats" << endl;
     if (DEBUG) cout << " - " << SDL_JoystickNumButtons(_joystick) << " buttons" << endl;

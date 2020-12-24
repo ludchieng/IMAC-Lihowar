@@ -22,6 +22,9 @@ GameRenderer::GameRenderer(Object::PRS &camTargetPRS)
 
     // Design pattern observer on trackballcamera
     addSubject(&_tbcam);
+
+    if (USE_ANTIALIASING)
+        glEnable(GL_MULTISAMPLE);
 }
 
 
