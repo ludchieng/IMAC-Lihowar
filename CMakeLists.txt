@@ -19,7 +19,6 @@ include_directories(
         ${GLEW_INCLUDE_DIR}
         glimac/include
         third-party/include
-        third-party/taocpp-json-1.0.0-beta.11/include
         lihowarlib/include)
 
 # Set variable containing lib names
