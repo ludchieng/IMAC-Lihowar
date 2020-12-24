@@ -4,8 +4,7 @@
 #include <GL/glew.h>
 #include <glimac/FilePath.hpp>
 #include <glimac/Geometry.hpp>
-#include <lihowarlib/common.hpp>
-#include <lihowarlib/exceptions/LihowarException.hpp>
+#include <lihowarlib/GameConfig.hpp>
 
 namespace lihowar {
 

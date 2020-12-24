@@ -12,7 +12,7 @@ namespace lihowar {
 
 GameRenderer::GameRenderer(Object::PRS &camTargetPRS)
    : _tbcam( TrackballCamera(camTargetPRS) ),
-     _matProj( glm::perspective(glm::radians(_tbcam.fov()), ASPECT_RATIO, Z_NEAR, Z_FAR) ),
+     _matProj( glm::perspective(glm::radians(_tbcam.fov()), cfg::ASPECT_RATIO, cfg::Z_NEAR, cfg::Z_FAR) ),
      _matMV( glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -5.f)) ),
      _matNormal( glm::transpose(glm::inverse(_matMV)) ),
      _matView( glm::mat4(1.f) ),
@@ -23,7 +23,7 @@ GameRenderer::GameRenderer(Object::PRS &camTargetPRS)
     // Design pattern observer on trackballcamera
     addSubject(&_tbcam);
 
-    if (USE_ANTIALIASING)
+    if (cfg::USE_ANTIALIASING)
         glEnable(GL_MULTISAMPLE);
 }
 
@@ -42,7 +42,7 @@ void GameRenderer::use(Program &program)
 
 void GameRenderer::bindUniformVariables(const Object &object, const Scene &scene)
 {
-    //if (DEBUG) cout << "[GameRenderer::bindUniformMatrices] " << endl;
+    //if (cfg::DEBUG) cout << "[GameRenderer::bindUniformMatrices] " << endl;
 
     // send matrices to GPU
     glUniformMatrix4fv(_program->uMatMVP(), 1, GL_FALSE, glm::value_ptr(_matProj * _matMV));
@@ -112,7 +112,7 @@ void GameRenderer::bindUniformVariables(const Object &object, const Scene &scene
 
 void GameRenderer::update()
 {
-    //if (DEBUG) cout << "[GameRenderer::update]" << endl;
+    //if (cfg::DEBUG) cout << "[GameRenderer::update]" << endl;
     updateMatMV();
     updateMatProj();
 }
@@ -128,7 +128,7 @@ void GameRenderer::updateMatMV(const glm::mat4 &matModel)
 
 void GameRenderer::updateMatProj()
 {
-    _matProj = glm::perspective(glm::radians(_tbcam.fov()), ASPECT_RATIO, Z_NEAR, Z_FAR);
+    _matProj = glm::perspective(glm::radians(_tbcam.fov()), cfg::ASPECT_RATIO, cfg::Z_NEAR, cfg::Z_FAR);
 }
 
 

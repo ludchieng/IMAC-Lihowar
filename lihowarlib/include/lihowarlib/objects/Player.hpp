@@ -1,7 +1,7 @@
 #ifndef LIHOWAR_PLAYER_HPP
 #define LIHOWAR_PLAYER_HPP
 
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/ObjectDynamic.hpp>
 #include <lihowarlib/AssetManager.hpp>
 

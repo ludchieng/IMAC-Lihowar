@@ -47,10 +47,9 @@ message(STATUS "Adding main...")
 file(GLOB main_files "src")
 add_subdirectory(${main_files})
 
-# Copy assets dir into bin
+# Copy directories into bin
 file(COPY assets DESTINATION ${EXECUTABLE_OUTPUT_PATH})
-# Copy config file into bin
-file(COPY config/config.json DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+file(COPY config DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
 #######
 

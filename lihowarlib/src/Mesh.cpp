@@ -1,4 +1,6 @@
 #include <lihowarlib/Mesh.hpp>
+#include <lihowarlib/exceptions/LihowarException.hpp>
+#include <iostream>
 
 using namespace std;
 using namespace lihowar;
@@ -8,7 +10,7 @@ namespace lihowar {
 Mesh::Mesh(MeshName meshName)
     : _meshName(meshName)
 {
-    if (DEBUG) cout << "[Mesh::Mesh] meshName: " << (int) _meshName << endl;
+    if (cfg::DEBUG) cout << "[Mesh::Mesh] meshName: " << (int) _meshName << endl;
     initGeometry(meshName);
     initVBO();
     initIBO();
@@ -18,7 +20,7 @@ Mesh::Mesh(MeshName meshName)
 
 Mesh::~Mesh()
 {
-    if (DEBUG) cout << "[Mesh::Mesh meshName: " << (int) _meshName << endl;
+    if (cfg::DEBUG) cout << "[Mesh::Mesh meshName: " << (int) _meshName << endl;
     glDeleteBuffers(1, &_vbo);
     glDeleteVertexArrays(1, &_vao);
 }
@@ -49,10 +51,10 @@ void Mesh::initGeometry(MeshName meshName)
             throw LihowarException("Unknown path for specified MeshName", __FILE__, __LINE__);
     }
 
-    if (DEBUG) cout << "[Mesh::initGeometry] meshName: " << filename << endl;
+    if (cfg::DEBUG) cout << "[Mesh::initGeometry] meshName: " << filename << endl;
 
-    glimac::FilePath objPath = PATH_ASSETS + "meshes/" + filename + ".obj";
-    glimac::FilePath mtlPath = PATH_ASSETS + "meshes/" + "default" + ".mtl";
+    glimac::FilePath objPath = cfg::PATH_ASSETS + "meshes/" + filename + ".obj";
+    glimac::FilePath mtlPath = cfg::PATH_ASSETS + "meshes/" + "default" + ".mtl";
 
     if (!_geometry.loadOBJ(objPath, mtlPath, true))
         throw LihowarException("OBJ loading failed: " + filename, __FILE__, __LINE__);

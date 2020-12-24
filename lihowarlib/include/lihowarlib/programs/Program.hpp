@@ -2,7 +2,7 @@
 #define LIHOWAR_PROGRAM_IPROGRAM_HPP
 
 #include <glimac/Program.hpp>
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 
 namespace lihowar {
 
@@ -24,8 +24,8 @@ protected:
     // CONSTRUCTORS & DESTRUCTORS
     Program(const std::string& vsName, const std::string& fsName)
         :_program( glimac::loadProgram(
-        PATH_SHADERS + vsName + ".vs.glsl",
-        PATH_SHADERS + fsName + ".fs.glsl")),
+        cfg::PATH_SHADERS + vsName + ".vs.glsl",
+        cfg::PATH_SHADERS + fsName + ".fs.glsl")),
          _uMatMVP( glGetUniformLocation(_program.getGLId(), "uMatMVP") ),
          _uMatMV( glGetUniformLocation(_program.getGLId(), "uMatMV") ),
          _uMatNormal( glGetUniformLocation(_program.getGLId(), "uMatNormal") )

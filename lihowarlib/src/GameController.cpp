@@ -61,7 +61,7 @@ GameController::GameController()
 
     SceneSerializer::save(*_scene);
 
-    if (DEBUG) cout << "[GameController::GameController] END" << endl;
+    if (cfg::DEBUG) cout << "[GameController::GameController] END" << endl;
 }
 
 

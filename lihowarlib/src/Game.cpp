@@ -1,4 +1,5 @@
 #include "lihowarlib/Game.hpp"
+#include "lihowarlib/GameConfig.hpp"
 
 using namespace std;
 using namespace lihowar;
@@ -60,8 +61,8 @@ void Game::update()
 
 
         // Axis
-        //if (DEBUG) cout << "Axis pitch: " << SDL_JoystickGetAxis(_joystick, 1) / 65536.f << endl;
-        //if (DEBUG) cout << "Axis roll : " << SDL_JoystickGetAxis(_joystick, 0) / 65536.f << endl;
+        //if (cfg::DEBUG) cout << "Axis pitch: " << SDL_JoystickGetAxis(_joystick, 1) / 65536.f << endl;
+        //if (cfg::DEBUG) cout << "Axis roll : " << SDL_JoystickGetAxis(_joystick, 0) / 65536.f << endl;
         _gController.scene().player().moveRightward( 25 * SDL_JoystickGetAxis(_joystick, 0) / (.5 * 65536.f) );
         _gController.scene().player().moveForward( 25 * -SDL_JoystickGetAxis(_joystick, 1) / (.5 * 65536.f) );
         _gController.scene().player().moveUpward( 25 * -SDL_JoystickGetAxis(_joystick, 2) / (.5 * 65536.f) );
@@ -77,7 +78,7 @@ void Game::update()
 
 void Game::handle(SDL_Event e)
 {
-    // if (DEBUG) cout << "SDL Event: type: " << (int) e.type << endl;
+    // if (cfg::DEBUG) cout << "SDL Event: type: " << (int) e.type << endl;
     switch (e.type) {
         case SDL_QUIT:
             _isRunning = false;
@@ -105,13 +106,13 @@ void Game::handle(SDL_Event e)
 
 void Game::handleKeydown(SDL_Event e)
 {
-    // if (DEBUG) cout << "SDL Event: keydown: " << (int) e.key.keysym.sym << endl;
+    // if (cfg::DEBUG) cout << "SDL Event: keydown: " << (int) e.key.keysym.sym << endl;
     switch (e.key.keysym.sym) {
         case SDLK_RETURN:
-            if (DEBUG) cout << "pos: " << _gController.scene().player().prs().pos() << endl;
+            if (cfg::DEBUG) cout << "pos: " << _gController.scene().player().prs().pos() << endl;
             break;
         case SDLK_l:
-            if (DEBUG) cout << _gController.scene().player().prs().rot() << endl;
+            if (cfg::DEBUG) cout << _gController.scene().player().prs().rot() << endl;
         default:
             break;
     }
@@ -120,7 +121,7 @@ void Game::handleKeydown(SDL_Event e)
 
 void Game::handleMouseBtn(SDL_Event e)
 {
-    // if (DEBUG) cout << "SDL Event: mouse button: " << (int) e.button.button << endl;
+    // if (cfg::DEBUG) cout << "SDL Event: mouse button: " << (int) e.button.button << endl;
     switch (e.button.button) {
         case SDL_BUTTON_MIDDLE:
             _gController.renderer().camera().reset();
@@ -133,7 +134,7 @@ void Game::handleMouseBtn(SDL_Event e)
 
 void Game::handleMouseMotion(SDL_Event e)
 {
-    // if (DEBUG) cout << "SDL Event: mouse motion: " << (int) e.button.button << endl;
+    // if (cfg::DEBUG) cout << "SDL Event: mouse motion: " << (int) e.button.button << endl;
     if (_window.isMouseButtonPressed(SDL_BUTTON_LEFT)
         && _window.isMouseButtonPressed(SDL_BUTTON_RIGHT)) {
         if (e.motion.xrel != 0) {
@@ -154,7 +155,7 @@ void Game::handleMouseMotion(SDL_Event e)
 
 void Game::handleMouseWheel(SDL_Event e)
 {
-    // if (DEBUG) cout << "SDL Event: mouse wheel: " << (int) e.button.button << endl;
+    // if (cfg::DEBUG) cout << "SDL Event: mouse wheel: " << (int) e.button.button << endl;
     if(e.wheel.y != 0)
         _gController.renderer().camera().moveFront(-.01f * e.wheel.y);
 }
@@ -162,29 +163,29 @@ void Game::handleMouseWheel(SDL_Event e)
 
 void Game::handleJoyBtnDown(SDL_Event e)
 {
-    // if (DEBUG) cout << "SDL Event: jbutton: " << (int) e.jbutton.button << "  " << (int) e.jbutton.which << endl;
+    // if (cfg::DEBUG) cout << "SDL Event: jbutton: " << (int) e.jbutton.button << "  " << (int) e.jbutton.which << endl;
 }
 
 
 void Game::initJoystick()
 {
     if (SDL_NumJoysticks() == 0) {
-        if (DEBUG) cout << "No joystick detected" << endl;
+        if (cfg::DEBUG) cout << "No joystick detected" << endl;
         return;
     }
 
     _joystick = SDL_JoystickOpen(0);
 
     if (!_joystick) {
-        if (DEBUG) cerr << "Joystick detected but unable to open it" << endl;
+        if (cfg::DEBUG) cerr << "Joystick detected but unable to open it" << endl;
         return;
     }
 
-    if (DEBUG) cout << "Joystick detected and opened: " << SDL_JoystickName(_joystick) << endl;
-    if (DEBUG) cout << " - " << SDL_JoystickNumAxes(_joystick) << " axes" << endl;
-    if (DEBUG) cout << " - " << SDL_JoystickNumHats(_joystick) << " hats" << endl;
-    if (DEBUG) cout << " - " << SDL_JoystickNumButtons(_joystick) << " buttons" << endl;
-    if (DEBUG) cout << " - " << SDL_JoystickNumBalls(_joystick) << " balls" << endl;
+    if (cfg::DEBUG) cout << "Joystick detected and opened: " << SDL_JoystickName(_joystick) << endl;
+    if (cfg::DEBUG) cout << " - " << SDL_JoystickNumAxes(_joystick) << " axes" << endl;
+    if (cfg::DEBUG) cout << " - " << SDL_JoystickNumHats(_joystick) << " hats" << endl;
+    if (cfg::DEBUG) cout << " - " << SDL_JoystickNumButtons(_joystick) << " buttons" << endl;
+    if (cfg::DEBUG) cout << " - " << SDL_JoystickNumBalls(_joystick) << " balls" << endl;
 }
 
 }

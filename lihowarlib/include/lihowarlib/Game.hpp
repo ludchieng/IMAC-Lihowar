@@ -4,7 +4,6 @@
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 #include <glimac/SDLWindowManager.hpp>
-#include <lihowarlib/common.hpp>
 #include <lihowarlib/GameController.hpp>
 
 namespace lihowar {

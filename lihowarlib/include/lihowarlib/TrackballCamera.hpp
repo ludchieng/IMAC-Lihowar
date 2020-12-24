@@ -2,7 +2,7 @@
 #define LIHOWAR_TRACKBALLCAMERA_HPP
 
 #include <functional>
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/designpattern/Subject.hpp>
 #include <lihowarlib/designpattern/Observer.hpp>
 #include <lihowarlib/Object.hpp>
@@ -50,7 +50,7 @@ public:
 public:
     // INTERFACE
     glm::mat4 getMatView() const;
-    float fov() const { return lerp(MIN_FOV, MAX_FOV, _distanceCursor); }
+    float fov() const { return lerp(cfg::MIN_FOV, cfg::MAX_FOV, _distanceCursor); }
     Object::PRS &targetPRS() { return _targetPRS; }
 
     void reset();

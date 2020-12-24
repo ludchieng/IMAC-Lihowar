@@ -1,12 +1,21 @@
 #ifndef LIHOWAR_OBJECTDYNAMIC_HPP
 #define LIHOWAR_OBJECTDYNAMIC_HPP
 
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/Object.hpp>
 
 namespace lihowar {
 
 class ObjectDynamic : public Object {
+
+private:
+    static constexpr float MASS_DENSITY = 1.f;
+    static constexpr float INERTIA_COEF = 1.f;
+    static constexpr float TORQUE_MIN_DIST = .01f;
+    static constexpr float LINEAR_DRAG_COEF = 20.f;
+    static constexpr float ANGULAR_DRAG_COEF = 20.f;
+    static constexpr float LINEAR_VELOCITY_SLIP_LIMIT = .0002f;
+    static constexpr float ANGULAR_VELOCITY_SLIP_LIMIT = .000004f;
 
 protected:
     // MEMBERS

@@ -1,0 +1,16 @@
+{
+    "debug": true,
+    "path_assets": "assets/",
+    "path_shaders": "shaders/",
+    "path_scenes": "scenes/",
+    "fullscreen": true,
+    "window_height": 1920,
+    "window_width": 1080,
+    "max_framerate": 60,
+    "min_fov": 70,
+    "max_fov": 95,
+    "z_near": 0.1,
+    "z_far": 5000,
+    "use_antialiasing": true,
+    "msaa": 4
+}

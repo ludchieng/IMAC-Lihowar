@@ -1,7 +1,7 @@
 #ifndef LIHOWAR_MATERIAL_HPP
 #define LIHOWAR_MATERIAL_HPP
 
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/Texture.hpp>
 
 namespace lihowar {
