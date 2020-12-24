@@ -51,6 +51,15 @@ float TrackballCamera::distance() const
 }
 
 
+void TrackballCamera::reset()
+{
+    _distanceCursor = DEFAULT_DISTANCE_CURSOR;
+    _posOffset = glm::vec3(0., 0., 0.);
+    _angleX = DEFAULT_ANGLE_X;
+    _angleY = DEFAULT_ANGLE_Y;
+}
+
+
 void TrackballCamera::moveFront(float delta)
 {
     _distanceCursor = glm::clamp(_distanceCursor + delta, MIN_DISTANCE_CURSOR, MAX_DISTANCE_CURSOR);
