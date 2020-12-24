@@ -1,10 +1,13 @@
 #include <GL/glew.h>
 #include <glimac/SDLWindowManager.hpp>
 #include <lihowarlib/common.hpp>
+#include <lihowarlib/io/ConfigManager.hpp>
 #include <lihowarlib/Game.hpp>
 #include <iostream>
 
 int main(int argc, char** argv) {
+    lihowar::ConfigManager::load();
+
     // Init SDL Window
     glimac::SDLWindowManager wm(
             lihowar::WINDOW_WIDTH,
@@ -23,8 +26,8 @@ int main(int argc, char** argv) {
     // Init Game
     lihowar::Game &game = lihowar::Game::instance(wm);
 
-    int cnt = 0;
-    int time = 0;
+    //int cnt = 0;
+    //int time = 0;
 
     // Game loop
     while(game.isRunning()) {

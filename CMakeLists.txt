@@ -19,6 +19,7 @@ include_directories(
         ${GLEW_INCLUDE_DIR}
         glimac/include
         third-party/include
+        third-party/taocpp-json-1.0.0-beta.11/include
         lihowarlib/include)
 
 # Set variable containing lib names
@@ -36,12 +37,10 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 # Add glimac
 message(STATUS "Adding glimac..." )
 add_subdirectory(glimac)
-include_directories(${CMAKE_SOURCE_DIR}/glimac/include)
 
 # Add lihowarlib
 message(STATUS "Adding lihowarlib...")
 add_subdirectory(lihowarlib)
-include_directories(${CMAKE_SOURCE_DIR}/lihowarlib/include)
 
 # Compile global main
 message(STATUS "Adding main...")
@@ -50,6 +49,8 @@ add_subdirectory(${main_files})
 
 # Copy assets dir into bin
 file(COPY assets DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+# Copy config file into bin
+file(COPY config/config.json DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
 #######
 

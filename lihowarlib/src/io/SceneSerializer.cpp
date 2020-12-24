@@ -1,13 +1,14 @@
 #include <lihowarlib/io/SceneSerializer.hpp>
 #include <fstream>
 #include <sstream>
+#include <tao/json.hpp>
 
 using namespace std;
 using namespace lihowar;
 
 namespace lihowar {
 
-void lihowar::SceneSerializer::save(const Scene &s)
+void SceneSerializer::save(const Scene &s)
 {
     string filename("scene1");
     ofstream f;
