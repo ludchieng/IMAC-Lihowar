@@ -17,32 +17,29 @@ void Game::update()
 {
     SDL_PumpEvents();
     Uint8* keystate = SDL_GetKeyState(NULL);
-    if(keystate[SDLK_LEFT]) {
-        _gController.scene().player().moveLeftward();
+    if(keystate[SDLK_a]) {
+        _gController.scene().player().yawAntiClockwise(10.);
     }
-    if(keystate[SDLK_RIGHT]) {
-        _gController.scene().player().moveRightward();
+    if(keystate[SDLK_e]) {
+        _gController.scene().player().yawClockwise(10.);
     }
-    if(keystate[SDLK_UP]) {
-        _gController.scene().player().moveForward();
+    if(keystate[SDLK_LEFT] || keystate[SDLK_q]) {
+        _gController.scene().player().moveLeftward(25.);
     }
-    if(keystate[SDLK_DOWN]) {
-        _gController.scene().player().moveBackward();
+    if(keystate[SDLK_RIGHT] || keystate[SDLK_d]) {
+        _gController.scene().player().moveRightward(25.);
     }
-    if(keystate[SDLK_p]) {
-        _gController.scene().player().applyForce( glm::vec3(0., .02, 0.) );
+    if(keystate[SDLK_UP] || keystate[SDLK_z]) {
+        _gController.scene().player().moveForward(25.);
     }
-    if(keystate[SDLK_m]) {
-        _gController.scene().player().applyForce( glm::vec3(0., -.02, 0.) );
+    if(keystate[SDLK_DOWN] || keystate[SDLK_s]) {
+        _gController.scene().player().moveBackward(25.);
     }
-    if(keystate[SDLK_g]) {
-        _gController.scene().player().applyTorque( glm::vec3(.0005, 0., 0.) );
+    if(keystate[SDLK_LSHIFT]) {
+        _gController.scene().player().moveUpward(20.);
     }
-    if(keystate[SDLK_h]) {
-        _gController.scene().player().applyTorque( glm::vec3(0., .0005, 0.) );
-    }
-    if(keystate[SDLK_j]) {
-        _gController.scene().player().applyTorque( glm::vec3(0., 0., .0005) );
+    if(keystate[SDLK_LCTRL]) {
+        _gController.scene().player().moveDownward(20.);
     }
 
     if (isJoystickOpened()) {
@@ -64,9 +61,14 @@ void Game::update()
 
 
         // Axis
-        _gController.scene().player().moveRightward( 50 * SDL_JoystickGetAxis(_joystick, 0) / 65536.f );
-        _gController.scene().player().moveForward( 50 * -SDL_JoystickGetAxis(_joystick, 1) / 65536.f );
-        _gController.scene().player().moveUpward( 50 * -SDL_JoystickGetAxis(_joystick, 2) / 65536.f );
+        //if (DEBUG) cout << "Axis pitch: " << SDL_JoystickGetAxis(_joystick, 1) / 65536.f << endl;
+        //if (DEBUG) cout << "Axis roll : " << SDL_JoystickGetAxis(_joystick, 0) / 65536.f << endl;
+        _gController.scene().player().moveRightward( 25 * SDL_JoystickGetAxis(_joystick, 0) / (.5 * 65536.f) );
+        _gController.scene().player().moveForward( 25 * -SDL_JoystickGetAxis(_joystick, 1) / (.5 * 65536.f) );
+        _gController.scene().player().moveUpward( 25 * -SDL_JoystickGetAxis(_joystick, 2) / (.5 * 65536.f) );
+        //_gController.scene().player().roll( 25 * -SDL_JoystickGetAxis(_joystick, 0) / (.5 * 65536.f) );
+        //_gController.scene().player().pitch( 25 * SDL_JoystickGetAxis(_joystick, 1) / (.5 * 65536.f) );
+        //_gController.scene().player().moveUpward( 25 * -SDL_JoystickGetAxis(_joystick, 2) / (.5 * 65536.f) );
 
         SDL_JoystickEventState(SDL_ENABLE); // Back to event mode for one shot events
     }
@@ -118,6 +120,9 @@ void Game::handleMouseBtn(SDL_Event e)
 {
     // if (DEBUG) cout << "SDL Event: mouse button: " << (int) e.button.button << endl;
     switch (e.button.button) {
+        case SDL_BUTTON_MIDDLE:
+            _gController.renderer().camera().reset();
+            break;
         case SDL_BUTTON_WHEELUP:
             _gController.renderer().camera().moveFront(-.01f);
             break;
@@ -132,7 +137,15 @@ void Game::handleMouseBtn(SDL_Event e)
 
 void Game::handleMouseMotion(SDL_Event e)
 {
-    if (_windowManager.isMouseButtonPressed(SDL_BUTTON_RIGHT)) {
+    if (_windowManager.isMouseButtonPressed(SDL_BUTTON_LEFT)
+     && _windowManager.isMouseButtonPressed(SDL_BUTTON_RIGHT)) {
+        if (e.motion.xrel != 0) {
+            _gController.renderer().camera().moveLeft(e.motion.xrel / 50.f);
+        }
+        if (e.motion.yrel != 0) {
+            _gController.renderer().camera().moveUp(-e.motion.yrel / 50.f);
+        }
+    } else if (_windowManager.isMouseButtonPressed(SDL_BUTTON_RIGHT)) {
         if (e.motion.xrel != 0) {
             _gController.renderer().camera().rotateLeft(-e.motion.xrel / 1.5f);
         }
