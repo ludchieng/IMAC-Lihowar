@@ -13,7 +13,7 @@ namespace lihowar {
 GameController::GameController()
     : _scene(new Scene()),
       _assetManager(AssetManager::instance()),
-      _gRenderer(GameRenderer::instance(_scene->player().prs()))
+      _gRenderer(GameRenderer::instance(_scene->player()))
 {
 
     _scene->add(new Object(

@@ -45,6 +45,12 @@ public:
 
 public:
     // INTERFACE
+    float mass() const { return _mass; }
+    const glm::vec3 & inertia() const { return _inertia; }
+    const glm::vec3 &acc() const { return _acc; }
+    const glm::vec3 &vel() const { return _vel; }
+    const glm::vec3 &angAcc() const { return _angAcc; }
+    const glm::vec3 &angVel() const { return _angVel; }
     float totalMass() const { return _totalMass; }
     bool isStatic() const;
 
@@ -52,12 +58,13 @@ public:
     void add(Object *object) override { add(std::unique_ptr<Object>(object)); }
 
     void update() override;
-    void applyForce(const glm::vec3 &force);
-    void applyForce(
+
+    virtual void applyForce(const glm::vec3 &force);
+    virtual void applyForce(
             const glm::vec3 &force,
             const glm::vec3 &pointOfApplication);
-    void applyTorque(const glm::vec3 &torque);
-    void updateDynamic();
+    virtual void applyTorque(const glm::vec3 &torque);
+    virtual void updateDynamic();
 
 private:
     void applyLinearDrag();

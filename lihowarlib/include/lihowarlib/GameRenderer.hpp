@@ -24,13 +24,13 @@ private:
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
-    GameRenderer(Object::PRS &camTargetPRS);
+    GameRenderer(Player &camTarget);
     ~GameRenderer() override;
 
 public:
     /// \brief get instance of the GameRenderer singleton class
-    static GameRenderer& instance(Object::PRS &camTargetPRS) {
-        static GameRenderer instance(camTargetPRS);
+    static GameRenderer& instance(Player &camTarget) {
+        static GameRenderer instance(camTarget);
         return instance;
     }
     // prevent instance duplication

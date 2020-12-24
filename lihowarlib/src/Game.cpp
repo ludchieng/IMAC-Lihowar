@@ -157,7 +157,7 @@ void Game::handleMouseWheel(SDL_Event e)
 {
     // if (cfg::DEBUG) cout << "SDL Event: mouse wheel: " << (int) e.button.button << endl;
     if(e.wheel.y != 0)
-        _gController.renderer().camera().moveFront(-.01f * e.wheel.y);
+        _gController.renderer().camera().zoomIn(-.01f * e.wheel.y);
 }
 
 

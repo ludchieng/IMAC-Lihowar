@@ -10,8 +10,8 @@ using namespace lihowar;
 
 namespace lihowar {
 
-GameRenderer::GameRenderer(Object::PRS &camTargetPRS)
-   : _tbcam( TrackballCamera(camTargetPRS) ),
+GameRenderer::GameRenderer(Player &camTarget)
+   : _tbcam( TrackballCamera(camTarget) ),
      _matProj( glm::perspective(glm::radians(_tbcam.fov()), cfg::ASPECT_RATIO, cfg::Z_NEAR, cfg::Z_FAR) ),
      _matMV( glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -5.f)) ),
      _matNormal( glm::transpose(glm::inverse(_matMV)) ),
@@ -19,9 +19,6 @@ GameRenderer::GameRenderer(Object::PRS &camTargetPRS)
      _program( &MultiLightsProgram::instance() )
 {
     _matView = _tbcam.getMatView();
-
-    // Design pattern observer on trackballcamera
-    addSubject(&_tbcam);
 
     if (cfg::USE_ANTIALIASING)
         glEnable(GL_MULTISAMPLE);
