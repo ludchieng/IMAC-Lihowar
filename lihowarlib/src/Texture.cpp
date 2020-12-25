@@ -1,4 +1,5 @@
 #include <lihowarlib/Texture.hpp>
+#include <lihowarlib/exceptions/LihowarException.hpp>
 
 using namespace std;
 using namespace lihowar;
@@ -24,7 +25,7 @@ Texture::Texture(TextureName textureName)
         default:
             break;
     }
-    _img = glimac::loadImage(PATH_ASSETS + "textures/" + filename);
+    _img = glimac::loadImage(cfg::PATH_ASSETS + "textures/" + filename);
 
     if (_img == nullptr)
         throw LihowarException("Image loading failed:" + filename, __FILE__, __LINE__);

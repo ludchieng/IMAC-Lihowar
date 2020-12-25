@@ -2,7 +2,7 @@
 #define LIHOWAR_OBJECT_HPP
 
 #include <list>
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/AssetManager.hpp>
 #include <lihowarlib/Mesh.hpp>
 #include <lihowarlib/Texture.hpp>

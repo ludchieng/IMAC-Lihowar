@@ -4,7 +4,6 @@
 #include <exception>
 #include <cstdlib>
 #include <string>
-#include <lihowarlib/common.hpp>
 
 namespace lihowar {
 

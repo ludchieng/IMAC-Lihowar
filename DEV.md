@@ -64,4 +64,5 @@ main loop:
 
 `acc`: acceleration \
 `vel`: velocity \
-`pos`: position
+`pos`: position \
+`ang`: angle or angular

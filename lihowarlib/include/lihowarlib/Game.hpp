@@ -1,10 +1,9 @@
 #ifndef LIHOWAR_GAME_HPP
 #define LIHOWAR_GAME_HPP
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include <GL/glew.h>
 #include <glimac/SDLWindowManager.hpp>
-#include <lihowarlib/common.hpp>
 #include <lihowarlib/GameController.hpp>
 
 namespace lihowar {
@@ -15,7 +14,7 @@ private:
     // MEMBERS
     bool _isRunning = true;
     GameController &_gController;
-    glimac::SDLWindowManager &_windowManager;
+    glimac::SDLWindowManager &_window;
     SDL_Joystick *_joystick;
 
 private:
@@ -47,6 +46,7 @@ public:
     void handleKeydown(SDL_Event event);
     void handleMouseBtn(SDL_Event event);
     void handleMouseMotion(SDL_Event event);
+    void handleMouseWheel(SDL_Event event);
     void handleJoyBtnDown(SDL_Event event);
 
 private:

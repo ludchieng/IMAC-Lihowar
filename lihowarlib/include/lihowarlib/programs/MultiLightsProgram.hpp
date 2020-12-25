@@ -3,7 +3,7 @@
 
 #include <glimac/Program.hpp>
 #include <glimac/FilePath.hpp>
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/programs/Program.hpp>
 #include <lihowarlib/exceptions/LihowarException.hpp>
 

@@ -1,7 +1,6 @@
 #ifndef LIHOWAR_AAA_HPP
 #define LIHOWAR_AAA_HPP
 
-#include <lihowarlib/common.hpp>
 
 namespace lihowar {
 
