@@ -7,11 +7,22 @@ A short C++ project made for programming courses. :mortar_board:
 
 ## **Instructions** :wrench::gear:
 
+### System requirements
+
+- Not tested on Windows and Mac OS
+- Hardware acceleration supporting OpenGL. Basic virtual machines might run very slowly
+
 ### Dependencies
 
-**SDL1.2**, **SDL1.2_Image**, **SDL1.2_ttf**, **SDL1.2_mixer** and **OpenGL**.
+The build requires **g++**, **CMake 3.10+**, **SDL2**, **OpenGL**, **GLEW** and **Doxygen**.
 
-The build requires **CMake 3.10+**.
+```sh
+sudo apt install g++ cmake \
+libsdl2-dev \
+libglu1-mesa-dev mesa-common-dev mesa-utils \
+libglew-dev freeglut3-dev \
+doxygen
+```
 
 ### Clone, build and run
 
@@ -22,10 +33,15 @@ mkdir build
 cd build
 cmake ..
 make
-bin/lihowar
+cd bin
+./lihowar config/fullscreen.json
 ```
 
+You are able to edit or add config files that match your preferences. (e.g. you want to disable MSAA because of low performance)
+
 ### Generating the documentation (Doxygen)
+
+(comming soon)
 
 ```
 cd build
@@ -37,8 +53,18 @@ cd lihowarlib/doc/doc/html/
 
 ### **Rules**
 
-TODO
+Explore the islands and light on all the beacons
 
 **Controls**:
 
-TODO
+Keyboard: \
+`Z`,`Q`,`S`,`D` or `↑`,`←`,`↓`,`→`: move (qwerty is not supported yet) \
+`A`,`E`: yaw \
+`LSHIFT`: move up \
+`LCTRL`: move down
+
+Joystick: (tested on Logitech Attack 3) \
+`Pitch axis`: move forwards \
+`Roll axis`: move sidewards \
+`Throttle axis` or `3`,`2`: move upwards \
+`4`,`5`: yaw
