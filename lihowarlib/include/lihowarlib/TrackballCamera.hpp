@@ -2,15 +2,16 @@
 #define LIHOWAR_TRACKBALLCAMERA_HPP
 
 #include <functional>
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/designpattern/Subject.hpp>
 #include <lihowarlib/designpattern/Observer.hpp>
 #include <lihowarlib/Object.hpp>
+#include <lihowarlib/objects/Player.hpp>
 #include <utility>
 
 namespace lihowar {
 
-class TrackballCamera : public dp::Subject {
+class TrackballCamera : public dp::Observer {
 
 private:
     // CONSTANTS
@@ -22,38 +23,43 @@ private:
     static constexpr float MIN_DISTANCE = 1.f;
     static constexpr float MAX_DISTANCE = 20.f;
     static constexpr float POS_OFFSET_ANGLE_FACTOR = .8f;
+    static constexpr float POS_OFFSET_Z_MIN = -5.f;
+    static constexpr float POS_OFFSET_Z_MAX = 5.f;
+    static constexpr float POS_OFFSET_Z_COEF = 5.f;
+    static constexpr float ANG_OFFSET_XY_MIN = -15.f;
+    static constexpr float ANG_OFFSET_XY_MAX = 15.f;
+    static constexpr float ANG_OFFSET_X_COEF = 10.f;
+    static constexpr float ANG_OFFSET_Y_COEF = 8000.f;
     const static std::function<float(float, float, float)> lerp;
     const static std::function<float(float, float, float, float)> easeQuad;
     const static std::function<float(float, float, float, float)> easeCos;
 
 private:
     // MEMBERS
-    Object::PRS &_targetPRS;
-    glm::vec3 _posOffset;
+    Player &_target;
     float _distanceCursor;
-    float _angleX;
-    float _angleY;
+    glm::vec3 _ang;
+    glm::vec3 _posOffset;
+    glm::vec3 _angOffset;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit TrackballCamera(
-            Object::PRS &targetPRS,
-            const float distanceCursor = DEFAULT_DISTANCE_CURSOR,
-            const float angX = DEFAULT_ANGLE_X,
-            const float angY = DEFAULT_ANGLE_Y)
-       :_targetPRS(targetPRS), _distanceCursor(distanceCursor),
-        _angleX(angX), _angleY(angY)
-    {}
+            Player &target,
+            float distanceCursor = DEFAULT_DISTANCE_CURSOR,
+            glm::vec3 ang = glm::vec3(DEFAULT_ANGLE_X, DEFAULT_ANGLE_Y, 0.));
 
     ~TrackballCamera() override = default;
     
 public:
     // INTERFACE
     glm::mat4 getMatView() const;
-    float fov() const { return lerp(MIN_FOV, MAX_FOV, _distanceCursor); }
-    Object::PRS &targetPRS() { return _targetPRS; }
+    float fov() const { return lerp(cfg::MIN_FOV, cfg::MAX_FOV, _distanceCursor); }
+    Object::PRS &targetPRS() { return _target.prs(); }
 
+    void update() override;
     void reset();
+    void zoomIn(float delta);
     void moveFront(float delta);
     void moveLeft(float delta);
     void moveUp(float delta);

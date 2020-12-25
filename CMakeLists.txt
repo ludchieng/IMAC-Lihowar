@@ -6,16 +6,14 @@ add_definitions(-std=c++11 -Wall -O2)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-find_package(SDL REQUIRED)
+find_package(SDL2 REQUIRED)
 set(OpenGL_GL_PREFERENCE LEGACY) # Policy CMP0072
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
-find_package(SDL_image REQUIRED)
-find_package(SDL_ttf REQUIRED)
-find_package(SDL_mixer REQUIRED)
+#find_package(SDL_mixer REQUIRED)
 
 include_directories(
-        ${SDL_INCLUDE_DIR}
+        ${SDL2_INCLUDE_DIR}
         #${SDL_MIXER_INCLUDE_DIRS}
         ${OPENGL_INCLUDE_DIR}
         ${GLEW_INCLUDE_DIR}
@@ -25,8 +23,8 @@ include_directories(
 
 # Set variable containing lib names
 set(ALL_LIBRARIES
-        ${SDL_LIBRARY}
-        ${SDL_MIXER_LIBRARIES}
+        ${SDL2_LIBRARIES}
+        #${SDL_MIXER_LIBRARIES}
         ${OPENGL_LIBRARIES}
         ${GLEW_LIBRARY}
         glimac
@@ -38,20 +36,19 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 # Add glimac
 message(STATUS "Adding glimac..." )
 add_subdirectory(glimac)
-include_directories(${CMAKE_SOURCE_DIR}/glimac/include)
 
 # Add lihowarlib
 message(STATUS "Adding lihowarlib...")
 add_subdirectory(lihowarlib)
-include_directories(${CMAKE_SOURCE_DIR}/lihowarlib/include)
 
 # Compile global main
 message(STATUS "Adding main...")
 file(GLOB main_files "src")
 add_subdirectory(${main_files})
 
-# Copy assets dir into bin
+# Copy directories into bin
 file(COPY assets DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+file(COPY config DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
 #######
 

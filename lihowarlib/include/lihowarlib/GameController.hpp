@@ -2,7 +2,7 @@
 #define LIHOWAR_GAMECONTROLLER_HPP
 
 #include <list>
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/AssetManager.hpp>
 #include <lihowarlib/GameRenderer.hpp>
 #include <lihowarlib/Scene.hpp>

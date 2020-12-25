@@ -1,15 +1,21 @@
 #include <GL/glew.h>
 #include <glimac/SDLWindowManager.hpp>
-#include <lihowarlib/common.hpp>
 #include <lihowarlib/Game.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <iostream>
 
 int main(int argc, char** argv) {
+    // Load config file
+    lihowar::GameConfig::load(argc, argv);
+
     // Init SDL Window
     glimac::SDLWindowManager wm(
-            lihowar::WINDOW_WIDTH,
-            lihowar::WINDOW_HEIGHT,
-            "Lihowar");
+            lihowar::cfg::WINDOW_WIDTH,
+            lihowar::cfg::WINDOW_HEIGHT,
+            "Lihowar",
+            SDL_INIT_VIDEO | SDL_INIT_JOYSTICK,
+            (lihowar::cfg::FULLSCREEN) ? SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN : SDL_WINDOW_OPENGL,
+            (lihowar::cfg::USE_ANTIALIASING) ? lihowar::cfg::MSAA : 1);
 
     // Init GLEW
     if (GLEW_OK != glewInit()) {
@@ -20,8 +26,8 @@ int main(int argc, char** argv) {
     // Init Game
     lihowar::Game &game = lihowar::Game::instance(wm);
 
-    int cnt = 0;
-    int time = 0;
+    //int cnt = 0;
+    //int time = 0;
 
     // Game loop
     while(game.isRunning()) {
@@ -44,8 +50,8 @@ int main(int argc, char** argv) {
             std::cout << 1000 / (time / 50) << " fps" << std::endl;
             time = 0;
         }*/
-        if (elapsedTime < 1000. / lihowar::MAX_FRAMERATE) {
-            SDL_Delay(1000. / lihowar::MAX_FRAMERATE - elapsedTime);
+        if (elapsedTime < 1000. / lihowar::cfg::MAX_FRAMERATE) {
+            SDL_Delay(1000. / lihowar::cfg::MAX_FRAMERATE - elapsedTime);
         }
     }
 

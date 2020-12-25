@@ -2,7 +2,7 @@
 #define LIHOWAR_SCENE_HPP
 
 #include <list>
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/Object.hpp>
 #include <lihowarlib/Light.hpp>
 #include <lihowarlib/objects/Skybox.hpp>

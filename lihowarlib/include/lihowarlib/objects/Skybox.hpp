@@ -1,7 +1,7 @@
 #ifndef LIHOWAR_SKYBOX_HPP
 #define LIHOWAR_SKYBOX_HPP
 
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/Object.hpp>
 #include <lihowarlib/AssetManager.hpp>
 #include <lihowarlib/programs/SkyboxProgram.hpp>

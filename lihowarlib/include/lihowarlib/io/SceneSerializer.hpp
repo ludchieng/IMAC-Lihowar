@@ -1,9 +1,7 @@
 #ifndef LIHOWAR_SCENESERIALIZER_HPP
 #define LIHOWAR_SCENESERIALIZER_HPP
 
-#include <lihowarlib/common.hpp>
 #include <lihowarlib/Scene.hpp>
-#include <lihowarlib/exceptions/LihowarIOException.hpp>
 
 namespace lihowar {
 

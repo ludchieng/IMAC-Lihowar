@@ -48,7 +48,7 @@ void ObjectDynamic::applyForce(
         const glm::vec3 &force,
         const glm::vec3 &pointOfApplication)
 {
-    // if (DEBUG) cout << "[Physics]: apply force: " << force / _mass << endl;
+    // if (cfg::DEBUG) cout << "[Physics]: apply force: " << force / _mass << endl;
     _acc += force / _mass;
     glm::vec3 distVec = pointOfApplication - _mesh.center();
     if (glm::length(distVec) > TORQUE_MIN_DIST)
@@ -61,7 +61,7 @@ void ObjectDynamic::applyForce(
 
 void ObjectDynamic::applyTorque(const glm::vec3 &torque)
 {
-    // if (DEBUG) cout << "[Physics]: apply torque: " << torque / _inertia << endl;
+    // if (cfg::DEBUG) cout << "[Physics]: apply torque: " << torque / _inertia << endl;
     _angAcc += torque / _inertia;
 }
 
@@ -97,7 +97,7 @@ void ObjectDynamic::updateDynamic()
     _vel += _acc;
     _vel = (glm::length(_vel) < LINEAR_VELOCITY_SLIP_LIMIT) ? glm::vec3(0.) : _vel;
     _prs.pos() += _vel;
-    // if (DEBUG) cout << "[Physics]: STATUS: \t\t    acc: " << _acc << " \t\t    vel:" << _vel << " \t\t pos:" << _prs.pos() << endl;
+    // if (cfg::DEBUG) cout << "[Physics]: STATUS: \t\t    acc: " << _acc << " \t\t    vel:" << _vel << " \t\t pos:" << _prs.pos() << endl;
     _acc = glm::vec3(0.);
 
     if (glm::length(_angVel) >= ANGULAR_VELOCITY_SLIP_LIMIT)
@@ -106,7 +106,7 @@ void ObjectDynamic::updateDynamic()
     _angVel += _angAcc;
     _angVel = (glm::length(_angVel) < ANGULAR_VELOCITY_SLIP_LIMIT) ? glm::vec3(0.) : _angVel;
     _prs.rot() += 360.f / M_2_PIf32 * _angVel;
-    // if (DEBUG) cout << "\t\t angAcc: " << _angAcc << " \t\t angVel:" << _angVel << " \t\t rot:" << _prs.rot() << endl;
+    // if (cfg::DEBUG) cout << "\t\t angAcc: " << _angAcc << " \t\t angVel:" << _angVel << " \t\t rot:" << _prs.rot() << endl;
     _angAcc = glm::vec3(0.);
 
 }

@@ -1,13 +1,15 @@
 #ifndef LIHOWAR_PLAYER_HPP
 #define LIHOWAR_PLAYER_HPP
 
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
+#include <lihowarlib/designpattern/Subject.hpp>
+#include <lihowarlib/designpattern/Observer.hpp>
 #include <lihowarlib/ObjectDynamic.hpp>
 #include <lihowarlib/AssetManager.hpp>
 
 namespace lihowar {
 
-class Player : public ObjectDynamic {
+class Player : public ObjectDynamic, public dp::Subject {
     friend class SceneSerializer;
 
 public:
@@ -30,6 +32,8 @@ public:
     
 public:
     // INTERFACE
+    float longitudinalVel() const;
+
     void move(const glm::vec3 &acc) { applyForce(acc); }
     void moveForward(float acc = 1.)   { move( glm::vec3(acc * LINEAR_ACC_Z * glm::rotate(glm::mat4(1.), _prs.rotRadians().y, PRS::Y) * -PRS::vec4_Z )); }
     void moveBackward(float acc = 1.)  { moveForward(-acc); }
@@ -49,6 +53,14 @@ public:
     void roll(float acc) { applyTorque( acc * ROLL_ACC * glm::vec3(0., 0., 1.) ); }
     void rollClockwise(float acc = 1.)     { roll(-acc); }
     void rollAntiClockwise(float acc = 1.) { roll(acc); }
+
+
+    void add(std::unique_ptr<Object> object) override;
+    void applyForce(const glm::vec3 &force) override;
+    void applyForce(
+            const glm::vec3 &force,
+            const glm::vec3 &pointOfApplication) override;
+    void applyTorque(const glm::vec3 &torque) override;
 
 
 };

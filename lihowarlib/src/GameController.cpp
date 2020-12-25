@@ -13,7 +13,7 @@ namespace lihowar {
 GameController::GameController()
     : _scene(new Scene()),
       _assetManager(AssetManager::instance()),
-      _gRenderer(GameRenderer::instance(_scene->player().prs()))
+      _gRenderer(GameRenderer::instance(_scene->player()))
 {
 
     _scene->add(new Object(
@@ -61,7 +61,7 @@ GameController::GameController()
 
     SceneSerializer::save(*_scene);
 
-    if (DEBUG) cout << "[GameController::GameController] END" << endl;
+    if (cfg::DEBUG) cout << "[GameController::GameController] END" << endl;
 }
 
 

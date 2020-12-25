@@ -1,7 +1,7 @@
 #ifndef LIHOWAR_LIGHTPOINT_HPP
 #define LIHOWAR_LIGHTPOINT_HPP
 
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/Light.hpp>
 #include <lihowarlib/Object.hpp>
 

@@ -1,7 +1,7 @@
 #ifndef LIHOWAR_LIGHT_HPP
 #define LIHOWAR_LIGHT_HPP
 
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 
 namespace lihowar {
 

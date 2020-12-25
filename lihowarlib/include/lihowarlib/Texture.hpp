@@ -3,8 +3,7 @@
 
 #include <GL/glew.h>
 #include <glimac/Image.hpp>
-#include <lihowarlib/common.hpp>
-#include <lihowarlib/exceptions/LihowarException.hpp>
+#include <lihowarlib/GameConfig.hpp>
 
 namespace lihowar {
 
