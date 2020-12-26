@@ -7,6 +7,15 @@ using namespace lihowar;
 
 namespace lihowar {
 
+const map<MeshName, string> Mesh::PATHS = {
+        { MeshName::ISLAND1, "island1/island1_lod2.obj" },
+        { MeshName::BEACON1, "beacons/beacon1.obj" },
+        { MeshName::CUBE,    "cube.obj" },
+        { MeshName::BALLOON, "balloon.obj" },
+        { MeshName::SPHERE,  "island1/island1_lod2.obj" },
+};
+
+
 Mesh::Mesh(MeshName meshName)
     : _meshName(meshName)
 {
@@ -26,38 +35,25 @@ Mesh::~Mesh()
 }
 
 
+string &Mesh::getPath(MeshName meshName)
+{
+    try {
+        return const_cast<string &>(PATHS.at(meshName));
+    } catch (out_of_range &e) {
+        throw LihowarException("Unknown path for specified MeshName: index: " + to_string((int) meshName), __FILE__, __LINE__);
+    }
+}
+
+
 void Mesh::initGeometry(MeshName meshName)
 {
-    string filename;
-
-    // Get mesh name from MeshName
-    switch (meshName) {
-        case MeshName::ISLAND1:
-            filename = "island1_lod2";
-            break;
-        case MeshName::BEACON1:
-            filename = "beacon1";
-            break;
-        case MeshName::CUBE:
-            filename = "cube";
-            break;
-        case MeshName::BALLOON:
-            filename = "balloon";
-            break;
-        case MeshName::SPHERE:
-            filename = "sphere";
-            break;
-        default:
-            throw LihowarException("Unknown path for specified MeshName", __FILE__, __LINE__);
-    }
-
-    if (cfg::DEBUG) cout << "[Mesh::initGeometry] meshName: " << filename << endl;
-
-    glimac::FilePath objPath = cfg::PATH_ASSETS + "meshes/" + filename + ".obj";
-    glimac::FilePath mtlPath = cfg::PATH_ASSETS + "meshes/" + "default" + ".mtl";
+    glimac::FilePath objPath = cfg::PATH_ASSETS + "meshes/" + getPath(meshName);
+    glimac::FilePath mtlPath = cfg::PATH_ASSETS + "meshes/default.mtl";
 
     if (!_geometry.loadOBJ(objPath, mtlPath, true))
-        throw LihowarException("OBJ loading failed: " + filename, __FILE__, __LINE__);
+        throw LihowarException("OBJ loading failed: " + objPath.str(), __FILE__, __LINE__);
+
+    if (cfg::DEBUG) cout << "[Mesh::initGeometry] successfully loaded mesh at: " << getPath(meshName) << endl;
 }
 
 

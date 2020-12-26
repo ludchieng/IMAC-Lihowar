@@ -1,6 +1,7 @@
 #ifndef LIHOWAR_MESH_HPP
 #define LIHOWAR_MESH_HPP
 
+#include <map>
 #include <GL/glew.h>
 #include <glimac/FilePath.hpp>
 #include <glimac/Geometry.hpp>
@@ -16,6 +17,10 @@ enum class MeshName {
 
 class Mesh {
     friend class SceneSerializer;
+
+private:
+    // CONSTANTS
+    const static std::map<MeshName, std::string> PATHS;
 
 private:
     // MEMBERS
@@ -53,6 +58,10 @@ private:
     void initVBO();
     void initIBO();
     void initVAO();
+
+private:
+    std::string &getPath(MeshName meshName);
+
 };
 
 }

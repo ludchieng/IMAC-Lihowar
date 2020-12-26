@@ -6,29 +6,22 @@ using namespace lihowar;
 
 namespace lihowar {
 
-Texture::Texture(TextureName textureName)
-    :_textureName(textureName)
+const map<TextureName, string> Texture::PATHS = {
+        { TextureName::SKY,           "skybox.jpg" },
+        { TextureName::BEACON1_DIFF,  "beacon1_diff.png" },
+        { TextureName::BEACON1_LUMIN, "beacon1_lumin.png" },
+};
+
+
+Texture::Texture(TextureName texName)
+    :_textureName(texName)
 {
-    string filename;
+    glimac::FilePath imgPath = cfg::PATH_ASSETS + "textures/" + getPath(texName);
 
-    // Get texture name from TextureName
-    switch (_textureName) {
-        case TextureName::SKY:
-            filename = "skybox.jpg";
-            break;
-        case TextureName::BEACON1_DIFF:
-            filename = "beacon1_diff.png";
-            break;
-        case TextureName::BEACON1_LUMIN:
-            filename = "beacon1_lumin.png";
-            break;
-        default:
-            break;
-    }
-    _img = glimac::loadImage(cfg::PATH_ASSETS + "textures/" + filename);
+    _img = glimac::loadImage(imgPath);
 
-    if (_img == nullptr)
-        throw LihowarException("Image loading failed:" + filename, __FILE__, __LINE__);
+    if (nullptr == _img)
+        throw LihowarException("Image loading failed:" + imgPath.str(), __FILE__, __LINE__);
 
     glGenTextures(1, &_id);
     glBindTexture(GL_TEXTURE_2D, _id);
@@ -41,11 +34,24 @@ Texture::Texture(TextureName textureName)
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);
+
+    if (cfg::DEBUG) cout << "[Texture::Texture] successfully loaded texture at: " << getPath(texName) << endl;
 }
+
 
 Texture::~Texture()
 {
     glDeleteTextures(1, &_id);
+}
+
+
+string &Texture::getPath(TextureName texName)
+{
+    try {
+        return const_cast<string &>(PATHS.at(texName));
+    } catch (out_of_range &e) {
+        throw LihowarException("Unknown path for specified TextureName: index: " + to_string((int) texName), __FILE__, __LINE__);
+    }
 }
 
 }

@@ -1,6 +1,7 @@
 #ifndef LIHOWAR_TEXTURE_HPP
 #define LIHOWAR_TEXTURE_HPP
 
+#include <map>
 #include <GL/glew.h>
 #include <glimac/Image.hpp>
 #include <lihowarlib/GameConfig.hpp>
@@ -15,9 +16,14 @@ enum class TextureName {
 class Texture {
 
 public:
+    // CONSTANTS
     static const unsigned int TEX_UNIT_DIFFUSE = 0;
     static const unsigned int TEX_UNIT_SPECULAR = 1;
     static const unsigned int TEX_UNIT_LUMIN = 2;
+
+private:
+    // CONSTANTS
+    const static std::map<TextureName, std::string> PATHS;
 
 private:
     // MEMBERS
@@ -27,12 +33,15 @@ private:
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
-    explicit Texture(TextureName textureId);
+    explicit Texture(TextureName texName);
     ~Texture();
     
 public:
     // INTERFACE
     GLuint &id() { return _id; }
+
+private:
+    std::string &getPath(TextureName texName);
 
 };
 
