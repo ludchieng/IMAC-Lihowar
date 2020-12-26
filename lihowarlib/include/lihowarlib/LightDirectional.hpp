@@ -1,7 +1,7 @@
 #ifndef LIHOWAR_LIGHTDIRECTIONAL_HPP
 #define LIHOWAR_LIGHTDIRECTIONAL_HPP
 
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/Light.hpp>
 
 namespace lihowar {

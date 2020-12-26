@@ -2,7 +2,7 @@
 #define LIHOWAR_DP_SUBJECT_HPP
 
 #include <list>
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/designpattern/ISubject.hpp>
 #include <lihowarlib/designpattern/IObserver.hpp>
 

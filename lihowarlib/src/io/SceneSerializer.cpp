@@ -1,20 +1,22 @@
 #include <lihowarlib/io/SceneSerializer.hpp>
 #include <fstream>
 #include <sstream>
+#include <tao/json.hpp>
+#include <lihowarlib/exceptions/LihowarIOException.hpp>
 
 using namespace std;
 using namespace lihowar;
 
 namespace lihowar {
 
-void lihowar::SceneSerializer::save(const Scene &s)
+void SceneSerializer::save(const Scene &s)
 {
     string filename("scene1");
     ofstream f;
-    f.open(PATH_SCENES + filename, ofstream::out | ofstream::trunc);
+    f.open(cfg::PATH_SCENES + filename, ofstream::out | ofstream::trunc);
 
     if (!f.is_open())
-        throw LihowarIOException("Scene saving failed at: " + PATH_SCENES + filename, __FILE__, __LINE__);
+        throw LihowarIOException("Scene saving failed at: " + cfg::PATH_SCENES + filename, __FILE__, __LINE__);
 
     f << "LIHOWAR\n";
     f << "Scene:\n\n";

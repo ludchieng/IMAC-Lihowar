@@ -1,7 +1,7 @@
 #ifndef LIHOWAR_DP_ISUBJECT_HPP
 #define LIHOWAR_DP_ISUBJECT_HPP
 
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/designpattern/IObserver.hpp>
 
 using namespace lihowar;

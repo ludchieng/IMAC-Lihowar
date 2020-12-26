@@ -1,7 +1,7 @@
 #ifndef LIHOWAR_ISLAND_HPP
 #define LIHOWAR_ISLAND_HPP
 
-#include <lihowarlib/common.hpp>
+#include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/Object.hpp>
 
 namespace lihowar {
