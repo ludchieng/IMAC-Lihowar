@@ -12,5 +12,6 @@
     "z_near": 0.1,
     "z_far": 5000,
     "use_antialiasing": false,
-    "msaa": 2
+    "msaa": 2,
+    "scene": "scene1.json"
 }

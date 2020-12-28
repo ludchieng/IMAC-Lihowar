@@ -1,6 +1,7 @@
 #include <lihowarlib/GameRenderer.hpp>
 #include <lihowarlib/programs/Program.hpp>
 #include <lihowarlib/programs/DirLightProgram.hpp>
+#include <lihowarlib/programs/NormalProgram.hpp>
 #include <lihowarlib/programs/MultiLightsProgram.hpp>
 #include <lihowarlib/LightDirectional.hpp>
 #include <lihowarlib/LightPoint.hpp>
@@ -66,13 +67,19 @@ void GameRenderer::bindUniformVariables(const Object &object, const Scene &scene
             glUniform1f(p.uKd(), object.material().kd());
             glUniform1f(p.uKs(), object.material().ks());
             glUniform1f(p.uKl(), object.material().kl());
+            glUniform1f(p.uKao(), object.material().kao());
+            glUniform1f(p.uKn(), object.material().kn());
             glUniform1f(p.uShininess(), object.material().shininess());
             glUniform1i(p.uHasDiffuseMap(), object.material().hasDiffuseMap());
             glUniform1i(p.uHasSpecularMap(), object.material().hasSpecularMap());
             glUniform1i(p.uHasLuminMap(), object.material().hasLuminMap());
+            glUniform1i(p.uHasAOMap(), object.material().hasAOMap());
+            glUniform1i(p.uHasNormalMap(), object.material().hasNormalMap());
             glUniform1i(p.uDiffuseMap(), Texture::TEX_UNIT_DIFFUSE);
             glUniform1i(p.uSpecularMap(), Texture::TEX_UNIT_SPECULAR);
             glUniform1i(p.uLuminMap(), Texture::TEX_UNIT_LUMIN);
+            glUniform1i(p.uAOMap(), Texture::TEX_UNIT_AO);
+            glUniform1i(p.uNormalMap(), Texture::TEX_UNIT_NORMAL);
             glUniform3fv(p.uLightAmbient(), 1, glm::value_ptr( scene.lightAmbient().intensity() ));
 
             unsigned int ldIndex = 0; // LightDirectional array index cursor
@@ -137,6 +144,7 @@ void GameRenderer::render(const Scene &scene)
     use(SkyboxProgram::instance());
     render(scene, scene.skybox());
 
+    use(NormalProgram::instance());
     use(MultiLightsProgram::instance());
     render(scene, scene.player());
     render(scene, scene.islands());

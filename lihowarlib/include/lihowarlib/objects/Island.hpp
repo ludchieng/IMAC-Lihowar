@@ -14,10 +14,12 @@ private:
 public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit Island(
-        Mesh& mesh,
-        GLuint textureId = 0,
-        PRS prs = PRS())
-       :Object(mesh, textureId, prs)
+            MeshName meshName,
+            PRS prs = PRS())
+       :Object(
+            *AssetManager::mesh(meshName),
+            AssetManager::NO_TEXTURE,
+            prs)
     {}
     
 public:

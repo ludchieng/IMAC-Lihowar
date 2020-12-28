@@ -3,19 +3,20 @@
 
 #include <lihowarlib/GameConfig.hpp>
 #include <lihowarlib/Object.hpp>
+#include <lihowarlib/Material.hpp>
 
 namespace lihowar {
 
 class ObjectDynamic : public Object {
 
 private:
-    static constexpr float MASS_DENSITY = 1.f;
+    static constexpr float MASS_DENSITY = 10.f;
     static constexpr float INERTIA_COEF = 1.f;
     static constexpr float TORQUE_MIN_DIST = .01f;
-    static constexpr float LINEAR_DRAG_COEF = 20.f;
-    static constexpr float ANGULAR_DRAG_COEF = 20.f;
-    static constexpr float LINEAR_VELOCITY_SLIP_LIMIT = .0002f;
-    static constexpr float ANGULAR_VELOCITY_SLIP_LIMIT = .000004f;
+    static constexpr float LINEAR_DRAG_COEF = 100.f;
+    static constexpr float ANGULAR_DRAG_COEF = 200.f;
+    static constexpr float LINEAR_VELOCITY_SLIP_LIMIT = .00002f;
+    static constexpr float ANGULAR_VELOCITY_SLIP_LIMIT = .0000004f;
 
 protected:
     // MEMBERS
@@ -33,13 +34,21 @@ public:
             Mesh& mesh,
             GLuint textureId = 0,
             PRS prs = PRS())
-       :Object(mesh, textureId, prs),
-        _mass(MASS_DENSITY * _mesh.size().x * mesh.size().y * mesh.size().z),
-        _inertia( INERTIA_COEF * glm::vec3(
-                mesh.size().x * mesh.size().x,
-                mesh.size().y * mesh.size().y,
-                mesh.size().z * mesh.size().z) )
+       :Object(mesh, textureId, prs)
     {
+        updateMass();
+        updateInertia();
+        updateTotalMass();
+    }
+
+    explicit ObjectDynamic(
+            Mesh& mesh,
+            Material &material,
+            PRS prs = PRS())
+       :Object(mesh, material, prs)
+    {
+        updateMass();
+        updateInertia();
         updateTotalMass();
     }
 
@@ -55,7 +64,6 @@ public:
     bool isStatic() const;
 
     void add(std::unique_ptr<Object> object) override;
-    void add(Object *object) override { add(std::unique_ptr<Object>(object)); }
 
     void update() override;
 
@@ -69,6 +77,8 @@ public:
 private:
     void applyLinearDrag();
     void applyAngularDrag();
+    void updateMass();
+    void updateInertia();
     void updateTotalMass();
 };
 

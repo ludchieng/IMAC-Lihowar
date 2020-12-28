@@ -1,6 +1,7 @@
 #ifndef LIHOWAR_MESH_HPP
 #define LIHOWAR_MESH_HPP
 
+#include <map>
 #include <GL/glew.h>
 #include <glimac/FilePath.hpp>
 #include <glimac/Geometry.hpp>
@@ -9,13 +10,18 @@
 namespace lihowar {
 
 enum class MeshName {
-    ISLAND1,
-    BEACON1, CUBE, BALLOON, SPHERE,
-    first = ISLAND1, last = SPHERE
+    ISLAND1, ISLAND2,
+    BEACON1, CUBE, SPHERE, PENTABALL, PLATEFORM,
+    AIRSHIP_BALLOON, AIRSHIP_NACELLE, AIRSHIP_WOODFLOOR,
+    first = ISLAND1, last = AIRSHIP_WOODFLOOR
 };
 
 class Mesh {
     friend class SceneSerializer;
+
+public:
+    // CONSTANTS
+    const static std::map<MeshName, std::string> PATHS;
 
 private:
     // MEMBERS
@@ -53,6 +59,10 @@ private:
     void initVBO();
     void initIBO();
     void initVAO();
+
+private:
+    std::string &getPath(MeshName meshName);
+
 };
 
 }

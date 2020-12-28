@@ -12,34 +12,36 @@ Game::Game(glimac::SDLWindowManager &wm)
   _window(wm)
 {
     initJoystick();
+    if (cfg::DEBUG) cout << "[Game::Game] END" << endl
+            << "================================" << endl << endl << endl;
 }
 
 void Game::update()
 {
     SDL_PumpEvents();
     if(_window.isKeyPressed(SDL_SCANCODE_Q)) {
-        _gController.scene().player().yawAntiClockwise((cfg::DEBUG) ? 10. : 1.);
+        _gController.scene().player().yawAntiClockwise((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_E)) {
-        _gController.scene().player().yawClockwise((cfg::DEBUG) ? 10. : 1.);
+        _gController.scene().player().yawClockwise((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_LEFT, SDL_SCANCODE_A)) {
-        _gController.scene().player().moveLeftward((cfg::DEBUG) ? 25. : 1.);
+        _gController.scene().player().moveLeftward((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_RIGHT, SDL_SCANCODE_D)) {
-        _gController.scene().player().moveRightward((cfg::DEBUG) ? 25. : 1.);
+        _gController.scene().player().moveRightward((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_UP, SDL_SCANCODE_W)) {
-        _gController.scene().player().moveForward((cfg::DEBUG) ? 25. : 1.);
+        _gController.scene().player().moveForward((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_DOWN, SDL_SCANCODE_S)) {
-        _gController.scene().player().moveBackward((cfg::DEBUG) ? 25. : 1.);
+        _gController.scene().player().moveBackward((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_LSHIFT)) {
-        _gController.scene().player().moveUpward((cfg::DEBUG) ? 20. : 1.);
+        _gController.scene().player().moveUpward((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_LCTRL)) {
-        _gController.scene().player().moveDownward((cfg::DEBUG) ? 20. : 1.);
+        _gController.scene().player().moveDownward((cfg::DEBUG) ? 100. : 1.);
     }
 
     if (isJoystickOpened()) {
@@ -48,24 +50,24 @@ void Game::update()
 
         // Buttons
         if (SDL_JoystickGetButton(_joystick, 3))
-            _gController.scene().player().yawAntiClockwise((cfg::DEBUG) ? 10. : 1.);
+            _gController.scene().player().yawAntiClockwise((cfg::DEBUG) ? 100. : 1.);
 
         if (SDL_JoystickGetButton(_joystick, 4))
-            _gController.scene().player().yawClockwise((cfg::DEBUG) ? 10. : 1.);
+            _gController.scene().player().yawClockwise((cfg::DEBUG) ? 100. : 1.);
 
         if (SDL_JoystickGetButton(_joystick, 2))
-            _gController.scene().player().moveUpward((cfg::DEBUG) ? 20. : 1.);
+            _gController.scene().player().moveUpward((cfg::DEBUG) ? 100. : 1.);
 
         if (SDL_JoystickGetButton(_joystick, 1))
-            _gController.scene().player().moveDownward((cfg::DEBUG) ? 20. : 1.);
+            _gController.scene().player().moveDownward((cfg::DEBUG) ? 100. : 1.);
 
 
         // Axis
         //if (cfg::DEBUG) cout << "Axis pitch: " << SDL_JoystickGetAxis(_joystick, 1) / 65536.f << endl;
         //if (cfg::DEBUG) cout << "Axis roll : " << SDL_JoystickGetAxis(_joystick, 0) / 65536.f << endl;
-        _gController.scene().player().moveRightward( ((cfg::DEBUG) ? 25. : 1.) * SDL_JoystickGetAxis(_joystick, 0) / (.5 * 65536.f) );
-        _gController.scene().player().moveForward( ((cfg::DEBUG) ? 25. : 1.) * -SDL_JoystickGetAxis(_joystick, 1) / (.5 * 65536.f) );
-        _gController.scene().player().moveUpward( ((cfg::DEBUG) ? 25. : 1.) * -SDL_JoystickGetAxis(_joystick, 2) / (.5 * 65536.f) );
+        _gController.scene().player().moveRightward( ((cfg::DEBUG) ? 100. : 1.) * SDL_JoystickGetAxis(_joystick, 0) / (.5 * 65536.f) );
+        _gController.scene().player().moveForward( ((cfg::DEBUG) ? 100. : 1.) * -SDL_JoystickGetAxis(_joystick, 1) / (.5 * 65536.f) );
+        _gController.scene().player().moveUpward( ((cfg::DEBUG) ? 100. : 1.) * -SDL_JoystickGetAxis(_joystick, 2) / (.5 * 65536.f) );
         //_gController.scene().player().roll( 25 * -SDL_JoystickGetAxis(_joystick, 0) / (.5 * 65536.f) );
         //_gController.scene().player().pitch( 25 * SDL_JoystickGetAxis(_joystick, 1) / (.5 * 65536.f) );
         //_gController.scene().player().moveUpward( 25 * -SDL_JoystickGetAxis(_joystick, 2) / (.5 * 65536.f) );
@@ -170,22 +172,23 @@ void Game::handleJoyBtnDown(SDL_Event e)
 void Game::initJoystick()
 {
     if (SDL_NumJoysticks() == 0) {
-        if (cfg::DEBUG) cout << "No joystick detected" << endl;
+        if (cfg::DEBUG) cout << "No joystick detected" << endl << endl;
         return;
     }
 
     _joystick = SDL_JoystickOpen(0);
 
     if (!_joystick) {
-        if (cfg::DEBUG) cerr << "Joystick detected but unable to open it" << endl;
+        if (cfg::DEBUG) cerr << "Joystick detected but unable to open it" << endl << endl;
         return;
     }
 
-    if (cfg::DEBUG) cout << "Joystick detected and opened: " << SDL_JoystickName(_joystick) << endl;
-    if (cfg::DEBUG) cout << " - " << SDL_JoystickNumAxes(_joystick) << " axes" << endl;
-    if (cfg::DEBUG) cout << " - " << SDL_JoystickNumHats(_joystick) << " hats" << endl;
-    if (cfg::DEBUG) cout << " - " << SDL_JoystickNumButtons(_joystick) << " buttons" << endl;
-    if (cfg::DEBUG) cout << " - " << SDL_JoystickNumBalls(_joystick) << " balls" << endl;
+    if (cfg::DEBUG) cout << "[Game::initJoystick] name: "
+            << SDL_JoystickName(_joystick) << endl
+            << "[Game::initJoystick] # of axes:    " << SDL_JoystickNumAxes(_joystick) << endl
+            << "[Game::initJoystick] # of hats:    " << SDL_JoystickNumHats(_joystick) << endl
+            << "[Game::initJoystick] # of buttons: " << SDL_JoystickNumButtons(_joystick) << endl
+            << "[Game::initJoystick] # of balls:   " << SDL_JoystickNumBalls(_joystick) << endl << endl;
 }
 
 }

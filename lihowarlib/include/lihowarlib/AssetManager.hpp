@@ -12,7 +12,7 @@ class AssetManager {
 
 public:
     // CONSTANTS
-    const int NO_TEXTURE = 0;
+    static const int NO_TEXTURE = 0;
 
 private:
     // MEMBERS
@@ -37,13 +37,22 @@ public:
 
 public:
     // INTERFACE
-    std::map<MeshName, Mesh*> &meshes() { return _meshes; }
-    std::map<TextureName, Texture *> textures() { return _textures; }
-    GLuint &texId(TextureName textureName) { return _textures[textureName]->id(); }
+    static std::map<MeshName, Mesh*> &meshes() { return instance()._meshes; }
+    static std::map<TextureName, Texture*> &textures() { return instance()._textures; }
+
+    static Mesh* mesh(MeshName meshName);
+    static Texture* tex(TextureName textureName);
+
+    static GLuint &texId(TextureName textureName) { return tex(textureName)->id(); }
 
 private:
-    void addMesh(MeshName meshName);
-    void addTexture(TextureName texName);
+    static Mesh* addMesh(MeshName meshName);
+    static Texture* addTexture(TextureName texName);
+
+    static bool hasMesh(MeshName meshName) { return meshes().find(meshName) != meshes().end(); }
+    static bool hasTexture(TextureName texName) { return textures().find(texName) != textures().end(); }
+
+    static bool checkAssets();
 };
 
 }

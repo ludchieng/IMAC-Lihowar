@@ -1,9 +1,13 @@
 #include <lihowarlib/GameController.hpp>
+#include <lihowarlib/AssetManager.hpp>
 #include <lihowarlib/LightPoint.hpp>
 #include <lihowarlib/LightDirectional.hpp>
 #include <lihowarlib/ObjectDynamic.hpp>
 #include <lihowarlib/Material.hpp>
 #include <lihowarlib/objects/Island.hpp>
+#include <lihowarlib/objects/Beacon.hpp>
+#include <lihowarlib/objects/Pentaball.hpp>
+#include <lihowarlib/objects/Plateform.hpp>
 
 using namespace std;
 using namespace lihowar;
@@ -11,41 +15,13 @@ using namespace lihowar;
 namespace lihowar {
 
 GameController::GameController()
-    : _scene(new Scene()),
-      _assetManager(AssetManager::instance()),
+    : _scene(SceneSerializer::load()),
       _gRenderer(GameRenderer::instance(_scene->player()))
 {
-
-    _scene->add(new Object(
-            *_assetManager.meshes()[MeshName::CUBE],
-            _assetManager.NO_TEXTURE,
-            Object::PRS(
-                    glm::vec3(0., -1.5, 0.),
-                    glm::vec3(0.),
-                    glm::vec3(.5))) );
-
-    _scene->add(new Island(
-            *_assetManager.meshes()[MeshName::ISLAND1],
-            _assetManager.NO_TEXTURE,
-            Object::PRS(
-                    glm::vec3(70., -40., 0.),
-                    glm::vec3(0., 0., 0.),
-                    glm::vec3(2.))) );
-
-    _scene->islands()[0]->add(new Object(
-            *_assetManager.meshes()[MeshName::BEACON1],
-            *new Material(
-                    _assetManager.texId(TextureName::BEACON1_DIFF), 0,
-                    _assetManager.texId(TextureName::BEACON1_LUMIN) ),
-            Object::PRS(
-                    glm::vec3(-5.621, 28.893, 5.174),
-                    glm::vec3(180., 0., 0.),
-                    glm::vec3(2.))) );
-
     _scene->add(new LightPoint(
-            glm::vec3(.25, .15, .1),
+            glm::vec3(.05, .03, .02),
             _scene->player().prs().pos(),
-            glm::vec3(0., 1., 0.)) );
+            glm::vec3(0., -.5, 0.)) );
 
     _scene->add(new LightDirectional(
             glm::vec3(.95, .85, .83), glm::vec3(0., -.8, 1.)) );
@@ -53,22 +29,12 @@ GameController::GameController()
     _scene->add(new LightDirectional(
             glm::vec3(.21, .18, .13), glm::vec3(0., 1., 0.)) );
 
-
-    /*_scene->player().add(new ObjectDynamic(
-            *AssetManager::instance().meshes()[MeshName::CUBE],
-            _assetManager.NO_TEXTURE,
-            Object::PRS( glm::vec3(4.))) );*/
-
-    SceneSerializer::save(*_scene);
-
-    if (cfg::DEBUG) cout << "[GameController::GameController] END" << endl;
+    if (cfg::DEBUG) cout << "[GameController::GameController] END" << endl << endl << endl;
 }
 
 
 void GameController::update()
 {
-    auto test = _scene->objects().begin()->get();
-    test->prs().rot() += glm::vec3(1., 0., 0.);
     auto beacon1 = _scene->islands()[0].get()->subobjects().begin()->get();
     beacon1->material().kl() = .5 + .5 * glm::cos(.1 * _scene->player().prs().pos().x * 5.);
     _scene->skybox().setCenter(_gRenderer.camera().targetPRS().pos());

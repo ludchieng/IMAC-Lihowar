@@ -69,7 +69,7 @@ void TrackballCamera::update()
 {
     _angOffset.x = glm::clamp(_target.vel().y * -ANG_OFFSET_X_COEF, ANG_OFFSET_XY_MIN, ANG_OFFSET_XY_MAX);
     _angOffset.y = glm::clamp(_target.angVel().y * ANG_OFFSET_Y_COEF, ANG_OFFSET_XY_MIN, ANG_OFFSET_XY_MAX);
-    _posOffset.z = _target.longitudinalVel() * -POS_OFFSET_Z_COEF;
+    _posOffset.z = _target.longitudinalVel() * _distanceCursor * -POS_OFFSET_Z_COEF;
     updatePosOffset();
 }
 
