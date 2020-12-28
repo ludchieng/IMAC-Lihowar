@@ -8,18 +8,22 @@ using namespace lihowar;
 namespace lihowar {
 
 const map<MeshName, string> Mesh::PATHS = {
-        { MeshName::ISLAND1, "island1/island1_lod2.obj" },
-        { MeshName::BEACON1, "beacons/beacon1.obj" },
-        { MeshName::CUBE,    "cube.obj" },
-        { MeshName::BALLOON, "balloon.obj" },
-        { MeshName::SPHERE,  "island1/island1_lod2.obj" },
+        { MeshName::ISLAND1           , "island1/island1_lod2.obj"  },
+        { MeshName::ISLAND2           , "island2/island2_lod2.obj"  },
+        { MeshName::BEACON1           , "beacons/beacon1.obj"       },
+        { MeshName::CUBE              , "cube.obj"                  },
+        { MeshName::SPHERE            , "sphere.obj"                },
+        { MeshName::PENTABALL         , "pentaball2.obj"             },
+        { MeshName::PLATEFORM         , "plateform.obj"             },
+        { MeshName::AIRSHIP_BALLOON   , "airship/balloon.obj"       },
+        { MeshName::AIRSHIP_NACELLE   , "airship/nacelle.obj"       },
+        { MeshName::AIRSHIP_WOODFLOOR , "airship/woodfloor.obj"     },
 };
 
 
 Mesh::Mesh(MeshName meshName)
     : _meshName(meshName)
 {
-    if (cfg::DEBUG) cout << "[Mesh::Mesh] meshName: " << (int) _meshName << endl;
     initGeometry(meshName);
     initVBO();
     initIBO();
@@ -29,7 +33,7 @@ Mesh::Mesh(MeshName meshName)
 
 Mesh::~Mesh()
 {
-    if (cfg::DEBUG) cout << "[Mesh::Mesh meshName: " << (int) _meshName << endl;
+    if (cfg::DEBUG) cout << "[Mesh::~Mesh] meshName: " << (int) _meshName << endl;
     glDeleteBuffers(1, &_vbo);
     glDeleteVertexArrays(1, &_vao);
 }

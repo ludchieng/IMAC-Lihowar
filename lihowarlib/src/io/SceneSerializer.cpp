@@ -1,6 +1,4 @@
 #include <lihowarlib/io/SceneSerializer.hpp>
-#include <fstream>
-#include <sstream>
 #include <tao/json.hpp>
 #include <lihowarlib/exceptions/LihowarIOException.hpp>
 
@@ -11,45 +9,12 @@ namespace lihowar {
 
 void SceneSerializer::save(const Scene &s)
 {
-    string filename("scene1");
-    ofstream f;
-    f.open(cfg::PATH_SCENES + filename, ofstream::out | ofstream::trunc);
-
-    if (!f.is_open())
-        throw LihowarIOException("Scene saving failed at: " + cfg::PATH_SCENES + filename, __FILE__, __LINE__);
-
-    f << "LIHOWAR\n";
-    f << "Scene:\n\n";
-
-    f << "GameObjects:\n";
-    auto itgo = s.objects().begin();
-    while (itgo != s.objects().end()) {
-        f << serialize(**itgo);
-        f << "\n";
-        ++itgo;
-    }
-
-    f << "Lights:\n";
-    auto itl = s.lights().begin();
-    while (itl != s.lights().end()) {
-        f << serialize(**itl);
-        ++itl;
-    }
-
-    f.close();
+    //tao::json::parse_file(configFilePath)
 }
 
 void SceneSerializer::load(Scene &s)
 {
-    fstream f;
-    f.open("tpoint.txt",ios::in);
-    if (f.is_open()){
-        string tp;
-        while(getline(f, tp)){
-            cout << tp << "\n";
-        }
-        f.close();
-    }
+    //tao::json::parse_file(configFilePath)
 }
 
 string SceneSerializer::serialize(const Object &g)

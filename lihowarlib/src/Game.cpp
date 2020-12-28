@@ -18,28 +18,28 @@ void Game::update()
 {
     SDL_PumpEvents();
     if(_window.isKeyPressed(SDL_SCANCODE_Q)) {
-        _gController.scene().player().yawAntiClockwise((cfg::DEBUG) ? 10. : 1.);
+        _gController.scene().player().yawAntiClockwise((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_E)) {
-        _gController.scene().player().yawClockwise((cfg::DEBUG) ? 10. : 1.);
+        _gController.scene().player().yawClockwise((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_LEFT, SDL_SCANCODE_A)) {
-        _gController.scene().player().moveLeftward((cfg::DEBUG) ? 25. : 1.);
+        _gController.scene().player().moveLeftward((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_RIGHT, SDL_SCANCODE_D)) {
-        _gController.scene().player().moveRightward((cfg::DEBUG) ? 25. : 1.);
+        _gController.scene().player().moveRightward((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_UP, SDL_SCANCODE_W)) {
-        _gController.scene().player().moveForward((cfg::DEBUG) ? 25. : 1.);
+        _gController.scene().player().moveForward((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_DOWN, SDL_SCANCODE_S)) {
-        _gController.scene().player().moveBackward((cfg::DEBUG) ? 25. : 1.);
+        _gController.scene().player().moveBackward((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_LSHIFT)) {
-        _gController.scene().player().moveUpward((cfg::DEBUG) ? 20. : 1.);
+        _gController.scene().player().moveUpward((cfg::DEBUG) ? 100. : 1.);
     }
     if(_window.isKeyPressed(SDL_SCANCODE_LCTRL)) {
-        _gController.scene().player().moveDownward((cfg::DEBUG) ? 20. : 1.);
+        _gController.scene().player().moveDownward((cfg::DEBUG) ? 100. : 1.);
     }
 
     if (isJoystickOpened()) {
@@ -48,24 +48,24 @@ void Game::update()
 
         // Buttons
         if (SDL_JoystickGetButton(_joystick, 3))
-            _gController.scene().player().yawAntiClockwise((cfg::DEBUG) ? 10. : 1.);
+            _gController.scene().player().yawAntiClockwise((cfg::DEBUG) ? 100. : 1.);
 
         if (SDL_JoystickGetButton(_joystick, 4))
-            _gController.scene().player().yawClockwise((cfg::DEBUG) ? 10. : 1.);
+            _gController.scene().player().yawClockwise((cfg::DEBUG) ? 100. : 1.);
 
         if (SDL_JoystickGetButton(_joystick, 2))
-            _gController.scene().player().moveUpward((cfg::DEBUG) ? 20. : 1.);
+            _gController.scene().player().moveUpward((cfg::DEBUG) ? 100. : 1.);
 
         if (SDL_JoystickGetButton(_joystick, 1))
-            _gController.scene().player().moveDownward((cfg::DEBUG) ? 20. : 1.);
+            _gController.scene().player().moveDownward((cfg::DEBUG) ? 100. : 1.);
 
 
         // Axis
         //if (cfg::DEBUG) cout << "Axis pitch: " << SDL_JoystickGetAxis(_joystick, 1) / 65536.f << endl;
         //if (cfg::DEBUG) cout << "Axis roll : " << SDL_JoystickGetAxis(_joystick, 0) / 65536.f << endl;
-        _gController.scene().player().moveRightward( ((cfg::DEBUG) ? 25. : 1.) * SDL_JoystickGetAxis(_joystick, 0) / (.5 * 65536.f) );
-        _gController.scene().player().moveForward( ((cfg::DEBUG) ? 25. : 1.) * -SDL_JoystickGetAxis(_joystick, 1) / (.5 * 65536.f) );
-        _gController.scene().player().moveUpward( ((cfg::DEBUG) ? 25. : 1.) * -SDL_JoystickGetAxis(_joystick, 2) / (.5 * 65536.f) );
+        _gController.scene().player().moveRightward( ((cfg::DEBUG) ? 100. : 1.) * SDL_JoystickGetAxis(_joystick, 0) / (.5 * 65536.f) );
+        _gController.scene().player().moveForward( ((cfg::DEBUG) ? 100. : 1.) * -SDL_JoystickGetAxis(_joystick, 1) / (.5 * 65536.f) );
+        _gController.scene().player().moveUpward( ((cfg::DEBUG) ? 100. : 1.) * -SDL_JoystickGetAxis(_joystick, 2) / (.5 * 65536.f) );
         //_gController.scene().player().roll( 25 * -SDL_JoystickGetAxis(_joystick, 0) / (.5 * 65536.f) );
         //_gController.scene().player().pitch( 25 * SDL_JoystickGetAxis(_joystick, 1) / (.5 * 65536.f) );
         //_gController.scene().player().moveUpward( 25 * -SDL_JoystickGetAxis(_joystick, 2) / (.5 * 65536.f) );

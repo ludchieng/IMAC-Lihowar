@@ -40,6 +40,8 @@ void ObjectDynamic::add(std::unique_ptr<Object> object)
 
 void ObjectDynamic::applyForce(const glm::vec3 &force)
 {
+    if (glm::length(force) == 0.)
+        return;
     _acc += force / _mass;
 }
 
@@ -48,6 +50,8 @@ void ObjectDynamic::applyForce(
         const glm::vec3 &force,
         const glm::vec3 &pointOfApplication)
 {
+    if (glm::length(force) == 0.)
+        return;
     // if (cfg::DEBUG) cout << "[Physics]: apply force: " << force / _mass << endl;
     _acc += force / _mass;
     glm::vec3 distVec = pointOfApplication - _mesh.center();
@@ -61,6 +65,8 @@ void ObjectDynamic::applyForce(
 
 void ObjectDynamic::applyTorque(const glm::vec3 &torque)
 {
+    if (glm::length(torque) == 0.)
+        return;
     // if (cfg::DEBUG) cout << "[Physics]: apply torque: " << torque / _inertia << endl;
     _angAcc += torque / _inertia;
 }
@@ -69,14 +75,19 @@ void ObjectDynamic::applyTorque(const glm::vec3 &torque)
 void ObjectDynamic::applyLinearDrag()
 {
     glm::vec3 dragDir = -glm::normalize(_vel);
-    applyForce( LINEAR_DRAG_COEF * dragDir * glm::pow(glm::length(_vel), 1.5f) );
+    applyForce( LINEAR_DRAG_COEF * dragDir * glm::pow(glm::length(_vel), 2.f) );
+    if (glm::dot(_vel, _vel + _acc) < -0.00001) {
+        // Prevent direction inversion
+        _acc = glm::vec3(0.);
+        _vel = glm::vec3(0.);
+    }
 }
 
 
 void ObjectDynamic::applyAngularDrag()
 {
     glm::vec3 dragAxis = -glm::normalize(_angVel);
-    applyTorque( ANGULAR_DRAG_COEF * dragAxis * glm::pow(glm::length(_angVel), 1.5f) );
+    applyTorque( ANGULAR_DRAG_COEF * dragAxis * glm::pow(glm::length(_angVel), 2.f) );
 }
 
 
@@ -109,6 +120,23 @@ void ObjectDynamic::updateDynamic()
     // if (cfg::DEBUG) cout << "\t\t angAcc: " << _angAcc << " \t\t angVel:" << _angVel << " \t\t rot:" << _prs.rot() << endl;
     _angAcc = glm::vec3(0.);
 
+}
+
+
+void ObjectDynamic::updateMass()
+{
+    _mass = MASS_DENSITY
+        * _mesh.size().x * _prs.sca().x
+        * _mesh.size().y * _prs.sca().y
+        * _mesh.size().z * _prs.sca().z;
+}
+
+
+void ObjectDynamic::updateInertia()
+{
+    _inertia = INERTIA_COEF * MASS_DENSITY
+            * _mesh.size() * _prs.sca()
+            * _mesh.size() * _prs.sca(); //squared
 }
 
 

@@ -1,0 +1,33 @@
+{
+  "objects": [
+    {
+      "type": "Island",
+      "meshName": "ISLAND1",
+      "prs": {
+        "pos": [70.0, -40.0, 0.0],
+        "rot": [0.0, 0.0, 0.0],
+        "sca": [2.0, 2.0, 2.0]
+      },
+      "subobjects": [
+        {
+          "type" : "",
+          "meshName": "",
+          "material": {
+            "diff": "",
+            "spec": "",
+            "lumin": "",
+            "ao": "",
+            "normal": ""
+          },
+          "prs": {
+            "pos": [70.0, -40.0, 0.0],
+            "rot": [0.0, 0.0, 0.0],
+            "sca": [1.0, 1.0, 1.0]
+          }
+        }
+      ]
+    },{
+
+    }
+  ]
+}

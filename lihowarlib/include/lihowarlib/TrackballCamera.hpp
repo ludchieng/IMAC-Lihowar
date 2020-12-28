@@ -25,7 +25,7 @@ private:
     static constexpr float POS_OFFSET_ANGLE_FACTOR = .8f;
     static constexpr float POS_OFFSET_Z_MIN = -5.f;
     static constexpr float POS_OFFSET_Z_MAX = 5.f;
-    static constexpr float POS_OFFSET_Z_COEF = 5.f;
+    static constexpr float POS_OFFSET_Z_COEF = 10.f;
     static constexpr float ANG_OFFSET_XY_MIN = -15.f;
     static constexpr float ANG_OFFSET_XY_MAX = 15.f;
     static constexpr float ANG_OFFSET_X_COEF = 10.f;

@@ -7,9 +7,27 @@ using namespace lihowar;
 namespace lihowar {
 
 const map<TextureName, string> Texture::PATHS = {
-        { TextureName::SKY,           "skybox.jpg" },
-        { TextureName::BEACON1_DIFF,  "beacon1_diff.png" },
-        { TextureName::BEACON1_LUMIN, "beacon1_lumin.png" },
+        { TextureName::SKY                     , "skybox.jpg"                     },
+        { TextureName::BEACON1_DIFF            , "beacons/beacon1_diff.png"       },
+        { TextureName::BEACON1_LUMIN           , "beacons/beacon1_lumin.png"      },
+        { TextureName::BEACON2_DIFF            , "beacons/beacon2_diff.png"       },
+        { TextureName::BEACON2_LUMIN           , "beacons/beacon2_lumin.png"      },
+        { TextureName::AIRSHIP_BALLOON_DIFF    , "airship/1k/balloon_diff.png"    },
+        { TextureName::AIRSHIP_BALLOON_AO      , "airship/1k/balloon_ao.png"      },
+        { TextureName::AIRSHIP_BALLOON_NORMAL  , "airship/1k/balloon_normal.png"  },
+        { TextureName::AIRSHIP_NACELLE_DIFF    , "airship/1k/nacelle_diff.png"    },
+        { TextureName::AIRSHIP_NACELLE_AO      , "airship/1k/nacelle_ao.png"      },
+        { TextureName::AIRSHIP_NACELLE_NORMAL  , "airship/1k/nacelle_normal.png"  },
+        { TextureName::AIRSHIP_WOODFLOOR_DIFF  , "airship/1k/woodfloor_diff.png"  },
+        { TextureName::AIRSHIP_WOODFLOOR_AO    , "airship/1k/woodfloor_ao.png"    },
+        { TextureName::PENTABALL_DIFF          , "pentaball/1k/pentaball_diff.png"   },
+        { TextureName::PENTABALL_AO            , "pentaball/1k/pentaball_ao.png"     },
+        { TextureName::PENTABALL_NORMAL        , "pentaball/1k/pentaball_normal.png" },
+        { TextureName::PENTABALL_LUMIN         , "pentaball/1k/pentaball_lumin.png"  },
+        { TextureName::PENTABALL_SPEC          , "pentaball/1k/pentaball_spec.png"   },
+        { TextureName::PLATEFORM_DIFF          , "plateform/1k/plateform_diff.png"   },
+        { TextureName::PLATEFORM_AO            , "plateform/1k/plateform_ao.png"     },
+        { TextureName::PLATEFORM_NORMAL        , "plateform/1k/plateform_normal.png" },
 };
 
 

@@ -1,4 +1,4 @@
-# DEV
+²# DEV
 
 ## Architecture
 
@@ -66,3 +66,10 @@ main loop:
 `vel`: velocity \
 `pos`: position \
 `ang`: angle or angular
+
+
+`diff`: diffuse map \
+`spec`: specular map \
+`lumin`: luminance map \
+`ao`: ambient occlusion map \
+`normal`: normal map

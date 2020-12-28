@@ -9,21 +9,27 @@
 namespace lihowar {
 
 enum class TextureName {
-    SKY, BEACON1_DIFF, BEACON1_LUMIN,
-    first = SKY, last = BEACON1_LUMIN
+    SKY,
+    BEACON1_DIFF, BEACON1_LUMIN,
+    BEACON2_DIFF, BEACON2_LUMIN,
+    AIRSHIP_BALLOON_DIFF  , AIRSHIP_BALLOON_AO  , AIRSHIP_BALLOON_NORMAL,
+    AIRSHIP_NACELLE_DIFF  , AIRSHIP_NACELLE_AO  , AIRSHIP_NACELLE_NORMAL,
+    AIRSHIP_WOODFLOOR_DIFF, AIRSHIP_WOODFLOOR_AO,
+    PENTABALL_DIFF, PENTABALL_AO, PENTABALL_NORMAL, PENTABALL_LUMIN, PENTABALL_SPEC,
+    PLATEFORM_DIFF, PLATEFORM_AO, PLATEFORM_NORMAL,
+    first = SKY, last = PLATEFORM_NORMAL
 };
 
 class Texture {
 
 public:
     // CONSTANTS
+    const static std::map<TextureName, std::string> PATHS;
     static const unsigned int TEX_UNIT_DIFFUSE = 0;
     static const unsigned int TEX_UNIT_SPECULAR = 1;
     static const unsigned int TEX_UNIT_LUMIN = 2;
-
-private:
-    // CONSTANTS
-    const static std::map<TextureName, std::string> PATHS;
+    static const unsigned int TEX_UNIT_AO = 3;
+    static const unsigned int TEX_UNIT_NORMAL = 4;
 
 private:
     // MEMBERS
