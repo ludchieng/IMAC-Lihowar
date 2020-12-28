@@ -36,6 +36,8 @@ public:
     static bool USE_ANTIALIASING;
     static unsigned int MSAA;
 
+    static std::string SCENE;
+
 public:
     // INTERFACE
     static void load(int argc, char** argv) {
@@ -73,6 +75,8 @@ public:
 
         USE_ANTIALIASING           = ConfigSerializer::get<bool>        ("use_antialiasing");
         MSAA                       = ConfigSerializer::get<unsigned int>("msaa");
+
+        SCENE                      = ConfigSerializer::get<std::string> ("scene");
     }
 };
 

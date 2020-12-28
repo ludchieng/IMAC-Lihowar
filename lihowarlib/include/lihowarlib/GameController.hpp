@@ -3,7 +3,6 @@
 
 #include <list>
 #include <lihowarlib/GameConfig.hpp>
-#include <lihowarlib/AssetManager.hpp>
 #include <lihowarlib/GameRenderer.hpp>
 #include <lihowarlib/Scene.hpp>
 #include <lihowarlib/io/SceneSerializer.hpp>
@@ -16,7 +15,6 @@ class GameController {
 private:
     // MEMBERS
     std::unique_ptr<Scene> _scene;
-    AssetManager &_assetManager;
     GameRenderer &_gRenderer;
 
 private:

@@ -1,6 +1,4 @@
 #include <lihowarlib/io/SceneSerializer.hpp>
-#include <fstream>
-#include <sstream>
 #include <tao/json.hpp>
 #include <lihowarlib/exceptions/LihowarIOException.hpp>
 
@@ -9,70 +7,196 @@ using namespace lihowar;
 
 namespace lihowar {
 
-void SceneSerializer::save(const Scene &s)
+unique_ptr<Scene> SceneSerializer::load()
 {
-    string filename("scene1");
-    ofstream f;
-    f.open(cfg::PATH_SCENES + filename, ofstream::out | ofstream::trunc);
+    if (cfg::DEBUG) cout << "[SceneSerializer::load] START" << endl;
+    auto res = unique_ptr<Scene>(new Scene());
+    tao::json::value data = tao::json::parse_file(cfg::PATH_SCENES + cfg::SCENE);
 
-    if (!f.is_open())
-        throw LihowarIOException("Scene saving failed at: " + cfg::PATH_SCENES + filename, __FILE__, __LINE__);
+    if (nullptr != data.find("objects"))
+        deserializeArrayIntoList<Object>(data.at("objects"), res->objects());
 
-    f << "LIHOWAR\n";
-    f << "Scene:\n\n";
+    if (nullptr != data.find("islands"))
+        deserializeArrayIntoVector<Island>(data.at("islands"), res->islands());
 
-    f << "GameObjects:\n";
-    auto itgo = s.objects().begin();
-    while (itgo != s.objects().end()) {
-        f << serialize(**itgo);
-        f << "\n";
-        ++itgo;
-    }
-
-    f << "Lights:\n";
-    auto itl = s.lights().begin();
-    while (itl != s.lights().end()) {
-        f << serialize(**itl);
-        ++itl;
-    }
-
-    f.close();
+    if (cfg::DEBUG) cout << "[SceneSerializer::load] END" << endl;
+    return res;
 }
 
-void SceneSerializer::load(Scene &s)
+
+template<typename T>
+void SceneSerializer::deserializeArrayIntoList(
+        const tao::json::value &data,
+        std::list<std::unique_ptr<T>> &destList)
 {
-    fstream f;
-    f.open("tpoint.txt",ios::in);
-    if (f.is_open()){
-        string tp;
-        while(getline(f, tp)){
-            cout << tp << "\n";
+    vector<tao::json::value> objects = data.get_array();
+
+    auto it = objects.begin();
+    while (it != objects.end()) {
+        try {
+
+            destList.push_back(
+                    static_cast<unique_ptr<T>>(
+                            dynamic_cast<T*>(&deserializeObject(*it)) ));
+
+        } catch (exception &e) {
+            cerr << e.what() << endl;
+            cerr << "This object will be ignored" << endl << endl;
         }
-        f.close();
+        ++it;
     }
 }
 
-string SceneSerializer::serialize(const Object &g)
+
+template<typename T>
+void SceneSerializer::deserializeArrayIntoVector(
+        const tao::json::value &data,
+        std::vector<std::unique_ptr<T>> &destVector)
 {
-    stringstream res;
-    res << "{\n";
-    res << "    meshname: " << (int) g._mesh._meshName << "\n";
-    res << "    prs: {\n";
-    res << "        pos: " << g._prs.pos() << "\n";
-    res << "        rot: " << g._prs.rot() << "\n";
-    res << "        sca: " << g._prs.sca() << "\n";
-    res << "    }\n";
-    res << "}\n";
-    return res.str();
+    vector<tao::json::value> objects = data.get_array();
+
+    auto it = objects.begin();
+    while (it != objects.end()) {
+        try {
+
+            destVector.push_back(
+                    static_cast<unique_ptr<T>>(
+                            dynamic_cast<T*>(&deserializeObject(*it)) ));
+
+        } catch (exception &e) {
+            cerr << e.what() << endl;
+            cerr << "This object will be ignored" << endl << endl;
+        }
+        ++it;
+    }
 }
 
-string SceneSerializer::serialize(const Light &l)
+
+Object &SceneSerializer::deserializeObject(const tao::json::value &data)
 {
-    stringstream res;
-    res << "{\n";
-    res << "light\n";
-    res << "}\n";
-    return res.str();
+    Object *res;
+    string dType = format(data.at("type").get_string());
+
+    // TODO might find a way to refactor this, thought, hurts my eyes
+    if     (dType == "island") res = static_cast<Object*>( &deserializeIsland(data) );
+    else if (dType == "beacon") res = static_cast<Object*>( &deserializeBeacon(data) );
+    else if (dType == "pentaball") res = static_cast<Object*>( &deserializePentaball(data) );
+    else if (dType == "plateform") res = static_cast<Object*>( &deserializePlateform(data) );
+    else    throw LihowarIOException("Invalid object type: " + dType, __FILE__, __LINE__);
+
+    if (nullptr != data.find("subobjects")) {
+        deserializeArrayIntoList(data.at("subobjects"), res->subobjects());
+    }
+
+    return *res;
+}
+
+
+glm::vec3 SceneSerializer::deserializeVec3(const tao::json::value &data)
+{
+    return glm::vec3(
+            data.at(0).as<float>(),
+            data.at(1).as<float>(),
+            data.at(2).as<float>()  );
+}
+
+
+Object::PRS &SceneSerializer::deserializePRS(const tao::json::value &data)
+{
+    glm::vec3 pos = (nullptr != data.find("pos")) ? deserializeVec3(data.at("pos")) : glm::vec3(0.);
+    glm::vec3 rot = (nullptr != data.find("rot")) ? deserializeVec3(data.at("rot")) : glm::vec3(0.);
+    glm::vec3 sca = (nullptr != data.find("sca")) ? deserializeVec3(data.at("sca")) : glm::vec3(1.);
+    return *new Object::PRS(pos, rot, sca);
+}
+
+
+Material &SceneSerializer::deserializeMaterial(const tao::json::value &data)
+{
+    GLuint diff =   getTexId(data, "diff"  );
+    GLuint spec =   getTexId(data, "spec"  );
+    GLuint lumin =  getTexId(data, "lumin" );
+    GLuint ao =     getTexId(data, "ao"    );
+    GLuint normal = getTexId(data, "normal");
+    return *new Material(diff, spec, lumin, ao, normal);
+}
+
+
+Island &SceneSerializer::deserializeIsland(const tao::json::value &data)
+{
+    MeshName meshName;
+    string dMeshName = format(data.at("meshName").get_string());
+
+    if      (dMeshName == "island1") meshName = MeshName::ISLAND1;
+    else if (dMeshName == "island2") meshName = MeshName::ISLAND2;
+    else    throw LihowarIOException("Invalid island meshname type: " + dMeshName, __FILE__, __LINE__);
+
+    return *new Island(
+            meshName,
+            deserializePRS(data.at("prs"))  );
+}
+
+
+Beacon &SceneSerializer::deserializeBeacon(const tao::json::value &data)
+{
+    MeshName meshName;
+    string dMeshName = format(data.at("meshName").get_string());
+
+    if      (dMeshName == "beacon1") meshName = MeshName::BEACON1;
+    else    throw LihowarIOException("Invalid island meshname type: " + dMeshName, __FILE__, __LINE__);
+
+    return *new Beacon(
+            meshName,
+            deserializeMaterial(data.at("material")),
+            deserializePRS(data.at("prs"))  );
+}
+
+
+Pentaball &SceneSerializer::deserializePentaball(const tao::json::value &data)
+{
+    return *new Pentaball(deserializePRS(data.at("prs")));
+}
+
+
+Plateform &SceneSerializer::deserializePlateform(const tao::json::value &data)
+{
+    return *new Plateform(deserializePRS(data.at("prs")));
+}
+
+
+GLuint SceneSerializer::getTexId(const tao::json::value &data, const string &key)
+{
+    string dTex;
+    try {
+        dTex = format( data.at(key).get_string() );
+        if (dTex == "sky"                   ) return AssetManager::texId(TextureName::SKY                    ) ;
+        if (dTex == "beacon1_diff"          ) return AssetManager::texId(TextureName::BEACON1_DIFF           ) ;
+        if (dTex == "beacon1_lumin"         ) return AssetManager::texId(TextureName::BEACON1_LUMIN          ) ;
+        if (dTex == "beacon2_diff"          ) return AssetManager::texId(TextureName::BEACON2_DIFF           ) ;
+        if (dTex == "beacon2_lumin"         ) return AssetManager::texId(TextureName::BEACON2_LUMIN          ) ;
+        if (dTex == "airship_balloon_diff"  ) return AssetManager::texId(TextureName::AIRSHIP_BALLOON_DIFF   ) ;
+        if (dTex == "airship_balloon_ao"    ) return AssetManager::texId(TextureName::AIRSHIP_BALLOON_AO     ) ;
+        if (dTex == "airship_balloon_normal") return AssetManager::texId(TextureName::AIRSHIP_BALLOON_NORMAL ) ;
+        if (dTex == "airship_nacelle_diff"  ) return AssetManager::texId(TextureName::AIRSHIP_NACELLE_DIFF   ) ;
+        if (dTex == "airship_nacelle_ao"    ) return AssetManager::texId(TextureName::AIRSHIP_NACELLE_AO     ) ;
+        if (dTex == "airship_nacelle_normal") return AssetManager::texId(TextureName::AIRSHIP_NACELLE_NORMAL ) ;
+        if (dTex == "airship_woodfloor_diff") return AssetManager::texId(TextureName::AIRSHIP_WOODFLOOR_DIFF ) ;
+        if (dTex == "airship_woodfloor_ao"  ) return AssetManager::texId(TextureName::AIRSHIP_WOODFLOOR_AO   ) ;
+        if (dTex == "pentaball_diff"        ) return AssetManager::texId(TextureName::PENTABALL_DIFF         ) ;
+        if (dTex == "pentaball_ao"          ) return AssetManager::texId(TextureName::PENTABALL_AO           ) ;
+        if (dTex == "pentaball_normal"      ) return AssetManager::texId(TextureName::PENTABALL_NORMAL       ) ;
+        if (dTex == "pentaball_lumin"       ) return AssetManager::texId(TextureName::PENTABALL_LUMIN        ) ;
+        if (dTex == "pentaball_spec"        ) return AssetManager::texId(TextureName::PENTABALL_SPEC         ) ;
+        if (dTex == "plateform_diff"        ) return AssetManager::texId(TextureName::PLATEFORM_DIFF         ) ;
+        if (dTex == "plateform_ao"          ) return AssetManager::texId(TextureName::PLATEFORM_AO           ) ;
+        if (dTex == "plateform_normal"      ) return AssetManager::texId(TextureName::PLATEFORM_NORMAL       ) ;
+        throw LihowarIOException("Invalid shader map name: " + dTex, __FILE__, __LINE__);
+    } catch (LihowarIOException &e) {
+        cerr << e.what() << endl;
+        cerr << "No texture will be applied" << endl;
+        return AssetManager::NO_TEXTURE;
+    } catch (out_of_range &e) {
+        return AssetManager::NO_TEXTURE;
+    }
 }
 
 }

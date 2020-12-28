@@ -11,21 +11,26 @@ main
 ├> glimac::SDLWindowManager
 └> Game (s)
    └> GameController (s)
-      ├> AssetManager (s)
-      │  └> collection of Mesh
-      │     └> foreach Mesh
-      │        └> load .obj file
-      │  └> collection of Texture
-      │     └> foreach Texture
-      │        └> load texture
+      ├> SceneSerializer::load() (s)
+      │  ├> AssetManager (s)
+      │  │ └> collection of Mesh
+      │  │    └> foreach Mesh
+      │  │       └> load .obj file
+      │  │ └> collection of Texture
+      │  │    └> foreach Texture
+      │  │       └> load texture
+      │  │
+      │  ├> Scene
+      │  │  ├> Skybox
+      │  │  └> Player
+      │  │
+      │  ├> load objects and their subobjects into Scene
+      │  └> load islands and their subobjects into Scene
       │
       ├> GameRenderer (s)
       │  └> TrackBallCamera
       │
-      └> collection of Object
-         └> foreach Object
-            ├> Program (s)
-            └> Object::PRS
+      └> init lights
 ```
 
 Game loop sequence :
@@ -66,3 +71,10 @@ main loop:
 `vel`: velocity \
 `pos`: position \
 `ang`: angle or angular
+
+
+`diff`: diffuse map \
+`spec`: specular map \
+`lumin`: luminance map \
+`ao`: ambient occlusion map \
+`normal`: normal map
