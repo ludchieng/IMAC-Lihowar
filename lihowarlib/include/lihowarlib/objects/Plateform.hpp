@@ -15,7 +15,7 @@ public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit Plateform(PRS prs = PRS())
        :Object(
-            *AssetManager::meshes()[MeshName::PLATEFORM],
+            *AssetManager::mesh(MeshName::PLATEFORM),
             *new Material(
                     AssetManager::texId(TextureName::PLATEFORM_DIFF),
                     AssetManager::NO_TEXTURE,

@@ -15,7 +15,7 @@ public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit Pentaball(PRS prs = PRS())
        :Object(
-            *AssetManager::meshes()[MeshName::PENTABALL],
+            *AssetManager::mesh(MeshName::PENTABALL),
             *new Material(
                     AssetManager::texId(TextureName::PENTABALL_DIFF),
                     AssetManager::texId(TextureName::PENTABALL_SPEC),

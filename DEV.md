@@ -1,4 +1,4 @@
-²# DEV
+# DEV
 
 ## Architecture
 
@@ -11,21 +11,26 @@ main
 ├> glimac::SDLWindowManager
 └> Game (s)
    └> GameController (s)
-      ├> AssetManager (s)
-      │  └> collection of Mesh
-      │     └> foreach Mesh
-      │        └> load .obj file
-      │  └> collection of Texture
-      │     └> foreach Texture
-      │        └> load texture
+      ├> SceneSerializer::load() (s)
+      │  ├> AssetManager (s)
+      │  │ └> collection of Mesh
+      │  │    └> foreach Mesh
+      │  │       └> load .obj file
+      │  │ └> collection of Texture
+      │  │    └> foreach Texture
+      │  │       └> load texture
+      │  │
+      │  ├> Scene
+      │  │  ├> Skybox
+      │  │  └> Player
+      │  │
+      │  ├> load objects and their subobjects into Scene
+      │  └> load islands and their subobjects into Scene
       │
       ├> GameRenderer (s)
       │  └> TrackBallCamera
       │
-      └> collection of Object
-         └> foreach Object
-            ├> Program (s)
-            └> Object::PRS
+      └> init lights
 ```
 
 Game loop sequence :

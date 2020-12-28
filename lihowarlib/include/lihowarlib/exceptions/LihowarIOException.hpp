@@ -17,22 +17,13 @@ public:
         const char* file,
         const int line)
        :LihowarException(message, file, line)
-    {}
+    {
+        _what = "LihowarIOException: ["
+                + std::string(file) + ":" + std::to_string(line)
+                + "]: " + message;
+    }
 
     ~LihowarIOException() = default;
-
-public:
-    // INTERFACE
-    inline const char* what() const noexcept override
-    {
-        std::string msg = "LihowarIOException: ["
-                + _file + ":" + std::to_string(_line)
-                + "]: " + _message;
-
-        std::cerr << msg << std::endl;
-
-        return msg.c_str();
-    };
 
 };
 

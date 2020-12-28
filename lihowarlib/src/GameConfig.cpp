@@ -26,4 +26,6 @@ float        GameConfig::Z_FAR            = 5000.f;
 bool         GameConfig::USE_ANTIALIASING = false;
 unsigned int GameConfig::MSAA             = 1*2;
 
+std::string  GameConfig::SCENE            ("scene1.json");
+
 }

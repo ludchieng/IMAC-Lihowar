@@ -12,6 +12,8 @@ Game::Game(glimac::SDLWindowManager &wm)
   _window(wm)
 {
     initJoystick();
+    if (cfg::DEBUG) cout << "[Game::Game] END" << endl
+            << "================================" << endl << endl << endl;
 }
 
 void Game::update()
@@ -170,22 +172,23 @@ void Game::handleJoyBtnDown(SDL_Event e)
 void Game::initJoystick()
 {
     if (SDL_NumJoysticks() == 0) {
-        if (cfg::DEBUG) cout << "No joystick detected" << endl;
+        if (cfg::DEBUG) cout << "No joystick detected" << endl << endl;
         return;
     }
 
     _joystick = SDL_JoystickOpen(0);
 
     if (!_joystick) {
-        if (cfg::DEBUG) cerr << "Joystick detected but unable to open it" << endl;
+        if (cfg::DEBUG) cerr << "Joystick detected but unable to open it" << endl << endl;
         return;
     }
 
-    if (cfg::DEBUG) cout << "Joystick detected and opened: " << SDL_JoystickName(_joystick) << endl;
-    if (cfg::DEBUG) cout << " - " << SDL_JoystickNumAxes(_joystick) << " axes" << endl;
-    if (cfg::DEBUG) cout << " - " << SDL_JoystickNumHats(_joystick) << " hats" << endl;
-    if (cfg::DEBUG) cout << " - " << SDL_JoystickNumButtons(_joystick) << " buttons" << endl;
-    if (cfg::DEBUG) cout << " - " << SDL_JoystickNumBalls(_joystick) << " balls" << endl;
+    if (cfg::DEBUG) cout << "[Game::initJoystick] name: "
+            << SDL_JoystickName(_joystick) << endl
+            << "[Game::initJoystick] # of axes:    " << SDL_JoystickNumAxes(_joystick) << endl
+            << "[Game::initJoystick] # of hats:    " << SDL_JoystickNumHats(_joystick) << endl
+            << "[Game::initJoystick] # of buttons: " << SDL_JoystickNumButtons(_joystick) << endl
+            << "[Game::initJoystick] # of balls:   " << SDL_JoystickNumBalls(_joystick) << endl << endl;
 }
 
 }

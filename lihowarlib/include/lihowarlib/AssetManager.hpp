@@ -38,12 +38,21 @@ public:
 public:
     // INTERFACE
     static std::map<MeshName, Mesh*> &meshes() { return instance()._meshes; }
-    static std::map<TextureName, Texture *> textures() { return instance()._textures; }
-    static GLuint &texId(TextureName textureName) { return instance()._textures[textureName]->id(); }
+    static std::map<TextureName, Texture*> &textures() { return instance()._textures; }
+
+    static Mesh* mesh(MeshName meshName);
+    static Texture* tex(TextureName textureName);
+
+    static GLuint &texId(TextureName textureName) { return tex(textureName)->id(); }
 
 private:
-    void addMesh(MeshName meshName);
-    void addTexture(TextureName texName);
+    static Mesh* addMesh(MeshName meshName);
+    static Texture* addTexture(TextureName texName);
+
+    static bool hasMesh(MeshName meshName) { return meshes().find(meshName) != meshes().end(); }
+    static bool hasTexture(TextureName texName) { return textures().find(texName) != textures().end(); }
+
+    static bool checkAssets();
 };
 
 }

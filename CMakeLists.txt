@@ -53,6 +53,7 @@ add_subdirectory(tools)
 # Copy directories into bin
 file(COPY assets DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 file(COPY config DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+file(COPY scenes DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
 #######
 

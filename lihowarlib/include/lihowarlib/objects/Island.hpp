@@ -17,7 +17,7 @@ public:
             MeshName meshName,
             PRS prs = PRS())
        :Object(
-            *AssetManager::meshes()[meshName],
+            *AssetManager::mesh(meshName),
             AssetManager::NO_TEXTURE,
             prs)
     {}

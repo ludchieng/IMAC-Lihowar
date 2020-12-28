@@ -19,17 +19,15 @@ int main(int argc, char** argv) {
 
     // Init GLEW
     if (GLEW_OK != glewInit()) {
-        std::cerr << "Could not init GLEW" << std::endl;
+        std::cerr << "[main] Could not init GLEW" << std::endl;
         return EXIT_FAILURE;
     }
 
     // Init Game
     lihowar::Game &game = lihowar::Game::instance(wm);
 
-    //int cnt = 0;
-    //int time = 0;
-
     // Game loop
+    if (cfg::DEBUG) std::cout << "[main] GAME LOOP START" << std::endl;
     while(game.isRunning()) {
         Uint32 startTime = SDL_GetTicks();
 
@@ -45,15 +43,11 @@ int main(int argc, char** argv) {
 
         // Limit framerate
         Uint32 elapsedTime = SDL_GetTicks() - startTime;
-        /*time += elapsedTime;
-        if (++cnt % 50 == 0) {
-            std::cout << 1000 / (time / 50) << " fps" << std::endl;
-            time = 0;
-        }*/
         if (elapsedTime < 1000. / lihowar::cfg::MAX_FRAMERATE) {
             SDL_Delay(1000. / lihowar::cfg::MAX_FRAMERATE - elapsedTime);
         }
     }
+    if (cfg::DEBUG) std::cout << "[main] GAME LOOP END" << std::endl;
 
     return EXIT_SUCCESS;
 }

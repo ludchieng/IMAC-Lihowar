@@ -53,7 +53,7 @@ Texture::Texture(TextureName texName)
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    if (cfg::DEBUG) cout << "[Texture::Texture] successfully loaded texture at: " << getPath(texName) << endl;
+    if (cfg::DEBUG) cout <<"[Texture::"<<__func__<<"] successfully loaded texture at: " << getPath(texName) << endl;
 }
 
 

@@ -11,9 +11,7 @@ class LihowarException : public std::exception {
 
 protected:
     // MEMBERS
-    std::string _message;
-    std::string _file;
-    int _line;
+    std::string _what;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
@@ -21,9 +19,10 @@ public:
             const std::string& message,
             const char* file,
             const int line)
-       :_message(message),
-        _file(file),
-        _line(line) {}
+       :_what("LihowarException: ["
+              + std::string(file) + ":" + std::to_string(line)
+              + "]: " + message)
+        {}
 
     ~LihowarException() = default;
 
@@ -31,9 +30,7 @@ public:
     // INTERFACE
     inline const char* what() const noexcept override
     {
-        std::cerr << "LihowarException: ";
-        std::cerr << "[" << _file << ":" << std::to_string(_line) << "]" << std::endl;
-        return _message.c_str();
+        return _what.c_str();
     };
 
 };

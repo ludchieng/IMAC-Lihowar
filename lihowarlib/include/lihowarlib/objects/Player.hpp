@@ -27,7 +27,7 @@ public:
     // CONSTRUCTORS & DESTRUCTORS
     Player()
        :ObjectDynamic(
-          *AssetManager::meshes()[MeshName::AIRSHIP_BALLOON],
+          *AssetManager::mesh(MeshName::AIRSHIP_BALLOON),
           *new Material(
                   AssetManager::texId(TextureName::AIRSHIP_BALLOON_DIFF), 0, 0,
                   AssetManager::texId(TextureName::AIRSHIP_BALLOON_AO),
@@ -37,14 +37,14 @@ public:
          )
     {
         Object::add(new Object(
-                *AssetManager::meshes()[MeshName::AIRSHIP_NACELLE],
+                *AssetManager::mesh(MeshName::AIRSHIP_NACELLE),
                 *new Material(
                         AssetManager::texId(TextureName::AIRSHIP_NACELLE_DIFF), 0, 0,
                         AssetManager::texId(TextureName::AIRSHIP_NACELLE_AO),
                         AssetManager::texId(TextureName::AIRSHIP_NACELLE_NORMAL) )  ));
 
         Object::add(new Object(
-                *AssetManager::meshes()[MeshName::AIRSHIP_WOODFLOOR],
+                *AssetManager::mesh(MeshName::AIRSHIP_WOODFLOOR),
                 *new Material(
                         AssetManager::texId(TextureName::AIRSHIP_WOODFLOOR_DIFF), 0, 0,
                         AssetManager::texId(TextureName::AIRSHIP_WOODFLOOR_AO) )  ));

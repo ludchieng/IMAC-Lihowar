@@ -13,7 +13,7 @@ const map<MeshName, string> Mesh::PATHS = {
         { MeshName::BEACON1           , "beacons/beacon1.obj"       },
         { MeshName::CUBE              , "cube.obj"                  },
         { MeshName::SPHERE            , "sphere.obj"                },
-        { MeshName::PENTABALL         , "pentaball2.obj"             },
+        { MeshName::PENTABALL         , "pentaball.obj"             },
         { MeshName::PLATEFORM         , "plateform.obj"             },
         { MeshName::AIRSHIP_BALLOON   , "airship/balloon.obj"       },
         { MeshName::AIRSHIP_NACELLE   , "airship/nacelle.obj"       },
@@ -57,7 +57,7 @@ void Mesh::initGeometry(MeshName meshName)
     if (!_geometry.loadOBJ(objPath, mtlPath, true))
         throw LihowarException("OBJ loading failed: " + objPath.str(), __FILE__, __LINE__);
 
-    if (cfg::DEBUG) cout << "[Mesh::initGeometry] successfully loaded mesh at: " << getPath(meshName) << endl;
+    if (cfg::DEBUG) cout << "[Mesh::initGeometry] successfully loaded mesh at: " << getPath(meshName) << endl << endl;
 }
 
 

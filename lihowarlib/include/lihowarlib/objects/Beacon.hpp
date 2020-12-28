@@ -18,7 +18,7 @@ public:
             Material &material,
             PRS prs = PRS())
        :Object(
-            *AssetManager::meshes()[meshName],
+            *AssetManager::mesh(meshName),
             material,
             prs)
     {}

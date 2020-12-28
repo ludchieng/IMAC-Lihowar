@@ -19,7 +19,7 @@ public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit Skybox(float size = 2000.f)
         : Object(
-            *AssetManager::meshes()[MeshName::CUBE],
+            *AssetManager::mesh(MeshName::CUBE),
             AssetManager::texId(TextureName::SKY),
             Object::PRS(
                 glm::vec3(0.),
