@@ -38,3 +38,5 @@ build
 cmake-build-debug
 
 src/main2.cpp
+_.hpp
+_.cpp
