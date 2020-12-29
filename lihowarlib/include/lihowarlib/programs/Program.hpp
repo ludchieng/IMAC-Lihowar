@@ -23,7 +23,7 @@
 namespace lihowar {
 
 enum class ProgramType {
-    NORMAL, SKYBOX, DIRLIGHT, MULTILIGHTS
+    NORMAL, SKYBOX, DIRLIGHT, MULTILIGHTS, ISLAND
 };
 
 class Program {

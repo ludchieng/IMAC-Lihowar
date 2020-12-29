@@ -19,12 +19,14 @@ precision mediump float;
 in vec3 vFragPos;
 in vec3 vFragNormal;
 in vec2 vFragTexCoords;
+in vec3 vVertexPosition;
+in vec3 vVertexNormal;
 
 /*layout (location = 0)*/ out vec3 fFragColor;
 //layout (location = 1) out vec3 fBrightColor;
 
-const int MAX_LIGHTSDIR_COUNT = 4;
-const int MAX_LIGHTSPOINT_COUNT = 12;
+const int MAX_LIGHTSDIR_COUNT = 4;    // must be the same in the program class
+const int MAX_LIGHTSPOINT_COUNT = 12; // must be the same in the program class
 
 struct LightDir {
     vec3 intensity;
@@ -36,29 +38,9 @@ struct LightPoint {
     vec3 pos;
 };
 
-uniform highp mat4 uMatNormal;
-
 uniform float uKd;
 uniform float uKs;
-uniform float uKl;
-uniform float uKao;
-uniform float uKn;
 uniform float uShininess;
-
-uniform bool uHasDiffuseMap;
-uniform sampler2D uDiffuseMap;
-
-uniform bool uHasSpecularMap;
-uniform sampler2D uSpecularMap;
-
-uniform bool uHasLuminMap;
-uniform sampler2D uLuminMap;
-
-uniform bool uHasAOMap;
-uniform sampler2D uAOMap;
-
-uniform bool uHasNormalMap;
-uniform sampler2D uNormalMap;
 
 uniform vec3 uLightAmbient;
 
@@ -70,24 +52,34 @@ uniform LightPoint uLightsPoint[MAX_LIGHTSPOINT_COUNT];
 
 
 
-vec4 centerNormal(vec4);      // convert values from [0,1] to [-1,1]
-vec3 getFragNormal();         // get normal vector from either vertex data interpolation or normal map
 float brightness(vec3);       // get brightness of a color
 vec3 blinnPhong(LightDir, vec3 fragNormal);
 vec3 blinnPhong(LightPoint, vec3 fragNormal);
 vec3 blinnPhongMultiLights(vec3 fragNormal);
 
+float noise(vec3);
+
 
 
 void main() {
-    vec3 fragNormal = normalize(getFragNormal());
-    fFragColor = uLightAmbient + blinnPhongMultiLights(fragNormal);
-    if (uHasLuminMap)
-        fFragColor = max(fFragColor, uKl * texture(uLuminMap,vFragTexCoords).xyz);
+    vec3 wi = normalize(-uLightsDir[0].dir);
+    vec3 wo = normalize(-vFragPos);
+    vec3 halfV = (wo + wi) * .5;
+    vec3 fragNormal = normalize(vFragNormal);
+    fFragColor =        vVertexNormal.y *  .1 * vec3(1.,  1. , 1. ) + .1;
+    fFragColor +=       vVertexNormal.x *  .1 * vec3( .5, 0. ,  .5) + .1;
+    fFragColor +=       vVertexNormal.z *  .1 * vec3( .6,  .5, 0. ) + .1;
+    fFragColor += clamp(vVertexNormal.y *  .5 * vec3(1. , 1. ,  .5), 0., 1.);
+    fFragColor *= vec3(1.05, 0.9, 1.0);
 
-    if (uHasAOMap)
-        fFragColor = fFragColor * uKao * texture(uAOMap,vFragTexCoords).xyz;
+    vec3 sand = dot(fragNormal, -wo) *  .2 * vec3(.8, .8, .8) + .2;
+    sand *= noise(vec3(1., 25., 1.) * vVertexPosition) * vec3(1.9);
+    sand *= noise(vec3(11.,10.,12.) * vVertexPosition) * vec3(1.2) + .5;
+    sand *= vec3(.92, .85, .8) * 2.5;
+    sand *= dot(halfV, fragNormal);
 
+    fFragColor += clamp(sand, 0., 1.);
+    fFragColor *= (uLightAmbient + blinnPhongMultiLights(fragNormal));
     fFragColor = clamp(fFragColor, 0., 1.);
 /*
     if(brightness(fFragColor) > 1.0)
@@ -98,37 +90,20 @@ void main() {
 
 
 
-vec4 centerNormal(vec4 normal) {
-    return normal * vec4(2.,2.,2.,1.) - vec4(1.,1.,1.,0.);
-}
-
-
-vec3 getFragNormal() {
-    if (uHasNormalMap)
-        return uKn * vec3(uMatNormal * centerNormal(texture(uNormalMap, vFragTexCoords)));
-    else
-        return vFragNormal;
-}
-
 
 float brightness(vec3 color) {
     return dot(fFragColor, vec3(0.2126, 0.7152, 0.0722));
 }
 
 
-vec3 blinnPhong(LightDir l, vec3 fragNormal) {
 
+
+vec3 blinnPhong(LightDir l, vec3 fragNormal) {
     vec3 wi = normalize(-l.dir);
     vec3 wo = normalize(-vFragPos);
     vec3 halfV = (wo + wi) * .5;
-    vec3 diffuse = vec3(  uKd * max(0., dot( wi, fragNormal))  );
-    if (uHasDiffuseMap)
-        diffuse *= texture(uDiffuseMap,vFragTexCoords).xyz;
-
+    vec3 diffuse = vec3(  uKd * max(0., dot( wi, fragNormal ))  );
     vec3 specular = vec3(  uKs * pow( max(0., dot(halfV, fragNormal)), uShininess )  );
-    if (uHasSpecularMap)
-        specular *= texture(uSpecularMap,vFragTexCoords).xyz;
-
     return l.intensity * (diffuse + specular);
 }
 
@@ -143,14 +118,8 @@ vec3 blinnPhong(LightPoint l, vec3 fragNormal) {
     vec3 wi = normalize(l.pos-vFragPos);
     vec3 wo = normalize(-vFragPos);
     vec3 halfV = (wo + wi)*.5;
-    vec3 diffuse = vec3(  uKd * max(0., dot( wi, fragNormal))  );
-    if (uHasDiffuseMap)
-    diffuse *= texture(uDiffuseMap,vFragTexCoords).xyz;
-
+    vec3 diffuse = vec3(  uKd * max(0., dot( wi, fragNormal ))  );
     vec3 specular = vec3(  uKs * pow( max(0., dot(halfV, fragNormal)), uShininess )  );
-    if (uHasSpecularMap)
-    specular *= texture(uSpecularMap,vFragTexCoords).xyz;
-
     return l.intensity * (diffuse + specular) / distSq;
 }
 
@@ -165,4 +134,33 @@ vec3 blinnPhongMultiLights(vec3 fragNormal) {
         res += blinnPhong(uLightsPoint[i], fragNormal);
 
     return res;
+}
+
+
+
+
+float mod289(float x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
+vec4 mod289(vec4 x){return x - floor(x * (1.0 / 289.0)) * 289.0;}
+vec4 perm(vec4 x){return mod289(((x * 34.0) + 1.0) * x);}
+
+float noise(vec3 p){
+    vec3 a = floor(p);
+    vec3 d = p - a;
+    d = d * d * (3.0 - 2.0 * d);
+
+    vec4 b = a.xxyy + vec4(0.0, 1.0, 0.0, 1.0);
+    vec4 k1 = perm(b.xyxy);
+    vec4 k2 = perm(k1.xyxy + b.zzww);
+
+    vec4 c = k2 + a.zzzz;
+    vec4 k3 = perm(c);
+    vec4 k4 = perm(c + 1.0);
+
+    vec4 o1 = fract(k3 * (1.0 / 41.0));
+    vec4 o2 = fract(k4 * (1.0 / 41.0));
+
+    vec4 o3 = o2 * d.z + o1 * (1.0 - d.z);
+    vec2 o4 = o3.yw * d.x + o3.xz * (1.0 - d.x);
+
+    return o4.y * d.y + o4.x * (1.0 - d.y);
 }

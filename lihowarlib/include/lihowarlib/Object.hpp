@@ -111,6 +111,9 @@ public:
     std::list< std::unique_ptr<Object> > &subobjects() { return _subobjects; }
     const std::list< std::unique_ptr<Object> > &subobjects() const { return _subobjects; }
 
+    template <typename T>
+    bool isInstanceOf() const { return nullptr != dynamic_cast<const T*>(this); }
+
     virtual void add(std::unique_ptr<Object> object);
     virtual void add(Object *object) { add(std::unique_ptr<Object>(object)); }
 

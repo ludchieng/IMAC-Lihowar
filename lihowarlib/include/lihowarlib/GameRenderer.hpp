@@ -40,8 +40,8 @@ private:
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
-    GameRenderer(Player &camTarget);
-    ~GameRenderer() override;
+    explicit GameRenderer(Player &camTarget);
+    ~GameRenderer() override = default;
 
 public:
     /// \brief get instance of the GameRenderer singleton class
