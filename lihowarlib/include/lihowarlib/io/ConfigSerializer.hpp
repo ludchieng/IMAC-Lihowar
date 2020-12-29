@@ -1,50 +1,41 @@
+/*
+ *  Copyright (c) 2020-2021 Lihowar
+ *
+ *  This software is licensed under OSEF License.
+ *
+ *  The "Software" is defined as the pieces of code, the documentation files, the config
+ *  files, the textures assets, the Wavefront OBJ assets, the screenshot image, the sound
+ *  effects and music associated with.
+ *
+ *  This Software is licensed under OSEF License which means IN ACCORDANCE WITH THE LICENSE
+ *  OF THE DEPENDENCIES OF THE SOFTWARE, you can use it as you want for any purpose, but
+ *  it comes with no guarantee of any kind, provided that you respects the license of the
+ *  software dependencies of the piece of code you want to reuse. The dependencies are
+ *  listed at the end of the README given in the directory root of the Lihowar repository.
+ */
+#pragma once
 #ifndef LIHOWAR_CONFIGSERIALIZER_HPP
 #define LIHOWAR_CONFIGSERIALIZER_HPP
 
-#include <tao/json.hpp>
-#include <string>
-#include <iostream>
+#include <lihowarlib/io/Serializer.hpp>
 #include <lihowarlib/exceptions/LihowarIOException.hpp>
 
 namespace lihowar {
 
-class ConfigSerializer {
+class ConfigSerializer : public Serializer {
 
-private:
-    // MEMBERS
-    tao::json::value _cfg;
-
-private:
+private: // singleton
     // CONSTRUCTORS & DESTRUCTORS
-    ConfigSerializer() = default;
-
-    ~ConfigSerializer() = default;
-
-public:
-    /// \brief get instance of the ConfigSerializer singleton class
-    static ConfigSerializer& instance() {
-        static ConfigSerializer instance;
-        return instance;
-    }
-    // prevent instance duplication
-    ConfigSerializer(const ConfigSerializer&) = delete;
-    ConfigSerializer(ConfigSerializer&&) = delete;
-    ConfigSerializer& operator=(const ConfigSerializer&) = delete;
-    ConfigSerializer& operator=(ConfigSerializer&&) = delete;
+    ConfigSerializer() : Serializer() {}
 
 public:
     // INTERFACE
     static void load(const std::string &configFilePath) {
         try {
-            instance()._cfg = tao::json::parse_file(configFilePath);
+            instance()._data = tao::json::parse_file(configFilePath);
         } catch (tao::json_pegtl::input_error &err) {
             throw LihowarIOException("Unable to read a valid json config file at: " + configFilePath, __FILE__, __LINE__);
         }
-    }
-
-    template<typename T>
-    static T get(std::string key) {
-        return instance()._cfg.at(key).as<T>();
     }
 };
 

@@ -1,3 +1,18 @@
+/*
+ *  Copyright (c) 2020-2021 Lihowar
+ *
+ *  This software is licensed under OSEF License.
+ *
+ *  The "Software" is defined as the pieces of code, the documentation files, the config
+ *  files, the textures assets, the Wavefront OBJ assets, the screenshot image, the sound
+ *  effects and music associated with.
+ *
+ *  This Software is licensed under OSEF License which means IN ACCORDANCE WITH THE LICENSE
+ *  OF THE DEPENDENCIES OF THE SOFTWARE, you can use it as you want for any purpose, but
+ *  it comes with no guarantee of any kind, provided that you respects the license of the
+ *  software dependencies of the piece of code you want to reuse. The dependencies are
+ *  listed at the end of the README given in the directory root of the Lihowar repository.
+ */
 #include <lihowarlib/TrackballCamera.hpp>
 #include <cmath>
 
@@ -69,7 +84,7 @@ void TrackballCamera::update()
 {
     _angOffset.x = glm::clamp(_target.vel().y * -ANG_OFFSET_X_COEF, ANG_OFFSET_XY_MIN, ANG_OFFSET_XY_MAX);
     _angOffset.y = glm::clamp(_target.angVel().y * ANG_OFFSET_Y_COEF, ANG_OFFSET_XY_MIN, ANG_OFFSET_XY_MAX);
-    _posOffset.z = _target.longitudinalVel() * -POS_OFFSET_Z_COEF;
+    _posOffset.z = _target.longitudinalVel() * _distanceCursor * -POS_OFFSET_Z_COEF;
     updatePosOffset();
 }
 

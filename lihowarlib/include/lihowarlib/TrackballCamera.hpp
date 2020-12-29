@@ -1,3 +1,19 @@
+/*
+ *  Copyright (c) 2020-2021 Lihowar
+ *
+ *  This software is licensed under OSEF License.
+ *
+ *  The "Software" is defined as the pieces of code, the documentation files, the config
+ *  files, the textures assets, the Wavefront OBJ assets, the screenshot image, the sound
+ *  effects and music associated with.
+ *
+ *  This Software is licensed under OSEF License which means IN ACCORDANCE WITH THE LICENSE
+ *  OF THE DEPENDENCIES OF THE SOFTWARE, you can use it as you want for any purpose, but
+ *  it comes with no guarantee of any kind, provided that you respects the license of the
+ *  software dependencies of the piece of code you want to reuse. The dependencies are
+ *  listed at the end of the README given in the directory root of the Lihowar repository.
+ */
+#pragma once
 #ifndef LIHOWAR_TRACKBALLCAMERA_HPP
 #define LIHOWAR_TRACKBALLCAMERA_HPP
 
@@ -25,7 +41,7 @@ private:
     static constexpr float POS_OFFSET_ANGLE_FACTOR = .8f;
     static constexpr float POS_OFFSET_Z_MIN = -5.f;
     static constexpr float POS_OFFSET_Z_MAX = 5.f;
-    static constexpr float POS_OFFSET_Z_COEF = 5.f;
+    static constexpr float POS_OFFSET_Z_COEF = 10.f;
     static constexpr float ANG_OFFSET_XY_MIN = -15.f;
     static constexpr float ANG_OFFSET_XY_MAX = 15.f;
     static constexpr float ANG_OFFSET_X_COEF = 10.f;

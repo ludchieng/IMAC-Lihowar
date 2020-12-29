@@ -1,3 +1,4 @@
 glimac/* linguist-vendored
 assets/* linguist-vendored
 third-party/* linguist-vendored
+tools/stb_image_write.h linguist-vendored

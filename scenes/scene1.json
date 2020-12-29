@@ -1,0 +1,89 @@
+{
+  "islands": [
+    {
+      "type": "Island",
+      "meshName": "ISLAND1",
+      "prs": {
+        "pos": [70.0, -40.0, 0.0],
+        "sca": [2.0, 2.0, 2.0]
+      },
+      "subobjects": [
+        {
+          "type" : "Beacon",
+          "meshName": "BEACON1",
+          "material": {
+            "diff": "BEACON1_DIFF",
+            "lumin": "BEACON1_LUMIN"
+          },
+          "prs": {
+            "pos": [-5.621, 28.893, 5.174],
+            "rot": [180.0, 0.0, 0.0],
+            "sca": [1.5, 1.5, 1.5]
+          }
+        }
+      ]
+    },
+    {
+      "type": "Island",
+      "meshName": "ISLAND2",
+      "prs": {
+        "pos": [500.0, -40.0, 0.0],
+        "sca": [4.0, 4.0, 4.0]
+      },
+      "subobjects": [
+        {
+          "type" : "Beacon",
+          "meshName": "BEACON1",
+          "material": {
+            "diff": "BEACON2_DIFF",
+            "lumin": "BEACON2_LUMIN"
+          },
+          "prs": {
+            "pos": [51.521,   20.539,  -35.154],
+            "rot": [180.0, 0.0, 0.0],
+            "sca": [1.5, 1.5, 1.5]
+          }
+        },{
+          "type": "Pentaball",
+          "prs": {
+            "pos": [ -3.198,    4.464,    5.886],
+            "sca": [0.5, 0.5, 0.5]
+          }
+        },{
+          "type": "Pentaball",
+          "prs": {
+            "pos": [-43.191,    7.150,   26.150],
+            "sca": [0.5, 0.5, 0.5]
+          }
+        },{
+          "type": "Pentaball",
+          "prs": {
+            "pos": [-12.695,    1.741,   61.437],
+            "sca": [0.5, 0.5, 0.5]
+          }
+        },{
+          "type": "Plateform",
+          "prs": {
+            "pos": [ 42.450,    1.773,  -45.637],
+            "rot": [0.0, -35.0, 0.0],
+            "sca": [0.5, 0.5, 0.5]
+          }
+        },{
+          "type": "Plateform",
+          "prs": {
+            "pos": [ 69.441,    3.874,  -33.820],
+            "rot": [0.0, 40.0, 0.0],
+            "sca": [0.5, 0.5, 0.5]
+          }
+        },{
+          "type": "Plateform",
+          "prs": {
+            "pos": [ 50.660,    9.905,  -21.183],
+            "sca": [0.5, 0.5, 0.5]
+          }
+        }
+      ]
+    }
+  ],
+  "objects": []
+}

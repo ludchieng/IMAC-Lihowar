@@ -1,3 +1,18 @@
+/*
+ *  Copyright (c) 2020-2021 Lihowar
+ *
+ *  This software is licensed under OSEF License.
+ *
+ *  The "Software" is defined as the pieces of code, the documentation files, the config
+ *  files, the textures assets, the Wavefront OBJ assets, the screenshot image, the sound
+ *  effects and music associated with.
+ *
+ *  This Software is licensed under OSEF License which means IN ACCORDANCE WITH THE LICENSE
+ *  OF THE DEPENDENCIES OF THE SOFTWARE, you can use it as you want for any purpose, but
+ *  it comes with no guarantee of any kind, provided that you respects the license of the
+ *  software dependencies of the piece of code you want to reuse. The dependencies are
+ *  listed at the end of the README given in the directory root of the Lihowar repository.
+ */
 #include <lihowarlib/Mesh.hpp>
 #include <lihowarlib/exceptions/LihowarException.hpp>
 #include <iostream>
@@ -7,10 +22,23 @@ using namespace lihowar;
 
 namespace lihowar {
 
+const map<MeshName, string> Mesh::PATHS = {
+        { MeshName::ISLAND1           , "island1/island1_lod2.obj"  },
+        { MeshName::ISLAND2           , "island2/island2_lod2.obj"  },
+        { MeshName::BEACON1           , "beacons/beacon1.obj"       },
+        { MeshName::CUBE              , "cube.obj"                  },
+        { MeshName::SPHERE            , "sphere.obj"                },
+        { MeshName::PENTABALL         , "pentaball.obj"             },
+        { MeshName::PLATEFORM         , "plateform.obj"             },
+        { MeshName::AIRSHIP_BALLOON   , "airship/balloon.obj"       },
+        { MeshName::AIRSHIP_NACELLE   , "airship/nacelle.obj"       },
+        { MeshName::AIRSHIP_WOODFLOOR , "airship/woodfloor.obj"     },
+};
+
+
 Mesh::Mesh(MeshName meshName)
     : _meshName(meshName)
 {
-    if (cfg::DEBUG) cout << "[Mesh::Mesh] meshName: " << (int) _meshName << endl;
     initGeometry(meshName);
     initVBO();
     initIBO();
@@ -20,44 +48,31 @@ Mesh::Mesh(MeshName meshName)
 
 Mesh::~Mesh()
 {
-    if (cfg::DEBUG) cout << "[Mesh::Mesh meshName: " << (int) _meshName << endl;
+    if (cfg::DEBUG) cout << "[Mesh::~Mesh] meshName: " << (int) _meshName << endl;
     glDeleteBuffers(1, &_vbo);
     glDeleteVertexArrays(1, &_vao);
 }
 
 
+string &Mesh::getPath(MeshName meshName)
+{
+    try {
+        return const_cast<string &>(PATHS.at(meshName));
+    } catch (out_of_range &e) {
+        throw LihowarException("Unknown path for specified MeshName: index: " + to_string((int) meshName), __FILE__, __LINE__);
+    }
+}
+
+
 void Mesh::initGeometry(MeshName meshName)
 {
-    string filename;
-
-    // Get mesh name from MeshName
-    switch (meshName) {
-        case MeshName::ISLAND1:
-            filename = "island1_lod2";
-            break;
-        case MeshName::BEACON1:
-            filename = "beacon1";
-            break;
-        case MeshName::CUBE:
-            filename = "cube";
-            break;
-        case MeshName::BALLOON:
-            filename = "balloon";
-            break;
-        case MeshName::SPHERE:
-            filename = "sphere";
-            break;
-        default:
-            throw LihowarException("Unknown path for specified MeshName", __FILE__, __LINE__);
-    }
-
-    if (cfg::DEBUG) cout << "[Mesh::initGeometry] meshName: " << filename << endl;
-
-    glimac::FilePath objPath = cfg::PATH_ASSETS + "meshes/" + filename + ".obj";
-    glimac::FilePath mtlPath = cfg::PATH_ASSETS + "meshes/" + "default" + ".mtl";
+    glimac::FilePath objPath = cfg::PATH_ASSETS + "meshes/" + getPath(meshName);
+    glimac::FilePath mtlPath = cfg::PATH_ASSETS + "meshes/default.mtl";
 
     if (!_geometry.loadOBJ(objPath, mtlPath, true))
-        throw LihowarException("OBJ loading failed: " + filename, __FILE__, __LINE__);
+        throw LihowarException("OBJ loading failed: " + objPath.str(), __FILE__, __LINE__);
+
+    if (cfg::DEBUG) cout << "[Mesh::initGeometry] successfully loaded mesh at: " << getPath(meshName) << endl << endl;
 }
 
 
