@@ -10,11 +10,11 @@ find_package(SDL2 REQUIRED)
 set(OpenGL_GL_PREFERENCE LEGACY) # Policy CMP0072
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
-#find_package(SDL_mixer REQUIRED)
+find_package(SDL_mixer REQUIRED)
 
 include_directories(
         ${SDL2_INCLUDE_DIR}
-        #${SDL_MIXER_INCLUDE_DIRS}
+        ${SDL_MIXER_INCLUDE_DIRS}
         ${OPENGL_INCLUDE_DIR}
         ${GLEW_INCLUDE_DIR}
         glimac/include
@@ -24,7 +24,7 @@ include_directories(
 # Set variable containing lib names
 set(ALL_LIBRARIES
         ${SDL2_LIBRARIES}
-        #${SDL_MIXER_LIBRARIES}
+        ${SDL_MIXER_LIBRARIES}
         ${OPENGL_LIBRARIES}
         ${GLEW_LIBRARY}
         glimac

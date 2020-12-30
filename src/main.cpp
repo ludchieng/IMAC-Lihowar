@@ -13,13 +13,77 @@
  *  software dependencies of the piece of code you want to reuse. The dependencies are
  *  listed at the end of the README given in the directory root of the Lihowar repository.
  */
-#include <GL/glew.h>
+/*#include <GL/glew.h>
 #include <glimac/SDLWindowManager.hpp>
 #include <lihowarlib/Game.hpp>
-#include <lihowarlib/GameConfig.hpp>
+#include <lihowarlib/GameConfig.hpp>*/
 #include <iostream>
 
-int main(int argc, char** argv) {
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+
+int main(int argc, char* argv[])
+{
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+        return -1;
+    // Initialisation de SDL_Mixer
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) < 0)
+    {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Erreur initialisation SDL_mixer : %s", Mix_GetError());
+        SDL_Quit();
+        return -1;
+    }
+
+    Mix_Chunk * audio = Mix_LoadWAV_RW(SDL_RWFromFile("assets/sounds/lihowar.wav", "rb"), 1);
+
+    if (audio == nullptr)
+    {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Erreur chargement de la musique : %s", Mix_GetError());
+        Mix_CloseAudio();
+        SDL_Quit();
+        return -1;
+    }
+
+    Mix_PlayChannel(-1, audio, -1);
+    std::cout << Mix_GetError() << std::endl;
+    Mix_VolumeMusic(MIX_MAX_VOLUME);
+
+    SDL_Window* pWindow = nullptr;
+    SDL_Renderer* pRenderer = nullptr;
+    SDL_Event events;
+    bool close = false;
+
+    SDL_CreateWindowAndRenderer(800, 600, SDL_WINDOW_SHOWN, &pWindow, &pRenderer);
+
+    while (!close)
+    {
+        while (SDL_PollEvent(&events))
+        {
+            if (events.type == SDL_WINDOWEVENT && events.window.event == SDL_WINDOWEVENT_CLOSE)
+                close = true;
+        }
+
+        SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
+        SDL_RenderClear(pRenderer);
+        SDL_RenderPresent(pRenderer);
+    }
+
+    SDL_DestroyRenderer(pRenderer);
+    SDL_DestroyWindow(pWindow);
+    Mix_FreeChunk(audio); // Libére en mémoire notre musique
+    Mix_CloseAudio(); // Quitter correctement SDL_Mixer
+    SDL_Quit();
+
+    return 0;
+}
+
+
+
+/*
+
+int main(int argc, char** argv)
+{
     // Load config file
     lihowar::GameConfig::load(argc, argv);
 
@@ -66,3 +130,4 @@ int main(int argc, char** argv) {
 
     return EXIT_SUCCESS;
 }
+*/
