@@ -27,7 +27,6 @@ enum class ProgramType {
 };
 
 class Program {
-    friend class SceneSerializer;
 
 protected:
     // MEMBERS

@@ -29,7 +29,6 @@
 namespace lihowar {
 
 class Object {
-    friend class SceneSerializer;
 
 public:
     // SUB CLASS

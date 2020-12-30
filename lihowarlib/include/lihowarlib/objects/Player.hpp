@@ -26,7 +26,6 @@
 namespace lihowar {
 
 class Player : public ObjectDynamic, public dp::Subject {
-    friend class SceneSerializer;
 
 public:
     static constexpr float LINEAR_ACC_Y = .0004;

@@ -33,7 +33,6 @@ enum class MeshName {
 };
 
 class Mesh {
-    friend class SceneSerializer;
 
 public:
     // CONSTANTS
