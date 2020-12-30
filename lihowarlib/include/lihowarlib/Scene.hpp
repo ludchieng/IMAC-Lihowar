@@ -77,6 +77,19 @@ public:
     void add(std::unique_ptr<Light> light) { _lights.push_back(std::move(light)); }
     void add(Light *light) { _lights.push_back(std::unique_ptr<Light>(light)); }
 
+
+    template<typename T>
+    std::list<std::shared_ptr<T>> &findAll() {
+        auto res = new std::list<std::shared_ptr<T>>();
+        auto it = _islands.begin();
+        while (it != _islands.end()) {
+            // call findAll on subobjects and concatenate lists
+            res->splice(res->end(), (**it).findAll<T>());
+            ++it;
+        }
+        return *res;
+    }
+
 };
 
 }

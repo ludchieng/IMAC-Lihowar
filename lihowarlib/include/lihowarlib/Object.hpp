@@ -124,6 +124,21 @@ public:
     void scale(const glm::vec3 &dsca) { _prs.sca() += dsca; }
     glm::mat4 matModel() const;
 
+
+    template <typename T>
+    std::list<std::shared_ptr<T>> &findAll() {
+        auto res = new std::list<std::shared_ptr<T>>();
+        if (isInstanceOf<T>())
+            res->push_back(std::shared_ptr<T>(dynamic_cast<T*>(this)));
+
+        auto it = _subobjects.begin();
+        while (it != _subobjects.end()) {
+            res->splice(res->end(), (**it).findAll<T>());
+            ++it;
+        }
+        return *res;
+    }
+
 };
 
 }
