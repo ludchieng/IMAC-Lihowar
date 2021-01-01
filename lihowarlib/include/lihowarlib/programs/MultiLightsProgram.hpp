@@ -28,7 +28,7 @@ namespace lihowar {
 class MultiLightsProgram : public Program {
 
 public:
-    static const unsigned int MAX_LIGHTSDIR_COUNT = 4; // must be the same in the f shader
+    static const unsigned int MAX_LIGHTSDIR_COUNT = 4;    // must be the same in the f shader
     static const unsigned int MAX_LIGHTSPOINT_COUNT = 12; // must be the same in the f shader
 
 private:
@@ -81,7 +81,7 @@ private:
     {}
 
 public:
-    /// \brief get instance of the Program singleton class
+    /// \brief Gets instance of the Program singleton class
     static MultiLightsProgram& instance() {
         static MultiLightsProgram instance("3D", "multilights");
         return instance;

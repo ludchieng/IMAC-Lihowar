@@ -22,7 +22,6 @@
 namespace lihowar {
 
 class Light {
-    friend class SceneSerializer;
 
 protected:
     // MEMBERS

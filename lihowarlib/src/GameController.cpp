@@ -50,14 +50,20 @@ GameController::GameController()
 
 void GameController::update()
 {
-    auto beacon1 = _scene->islands()[0].get()->subobjects().begin()->get();
-    beacon1->material().kl() = .5 + .5 * glm::cos(.1 * _scene->player().prs().pos().x * 5.);
     _scene->skybox().setCenter(_gRenderer.camera().targetPRS().pos());
     _scene->player().update();
-    auto it = _scene->islands().begin();
-    while(it != _scene->islands().end()) {
-        (**it).update();
-        ++it;
+
+    auto beacons = _scene->findAll<Beacon>();
+    auto itB = beacons.begin();
+    while (itB != beacons.end()) {
+        (**itB).material().kl() = .5 + .5 * glm::cos(.1 * _scene->player().prs().pos().x * 5.);
+        ++itB;
+    }
+
+    auto itI = _scene->islands().begin();
+    while(itI != _scene->islands().end()) {
+        (**itI).update();
+        ++itI;
     }
 }
 

@@ -22,11 +22,11 @@ using namespace lihowar;
 
 namespace lihowar {
 
-unique_ptr<Scene> SceneSerializer::load()
+unique_ptr<Scene> SceneSerializer::load(const string &sceneFilePath)
 {
     if (cfg::DEBUG) cout << "[SceneSerializer::load] START" << endl;
     auto res = unique_ptr<Scene>(new Scene());
-    tao::json::value data = tao::json::parse_file(cfg::PATH_SCENES + cfg::SCENE);
+    tao::json::value data = tao::json::parse_file(sceneFilePath);
 
     if (nullptr != data.find("objects"))
         deserializeArrayIntoList<Object>(data.at("objects"), res->objects());

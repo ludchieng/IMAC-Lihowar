@@ -27,16 +27,37 @@
 
 namespace lihowar {
 
+/**
+ * @brief Singleton class to handle JSON scene description files loading
+ */
 class SceneSerializer : public Serializer {
 
 private: // singleton
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief SceneSerializer class default constructor
+     */
     SceneSerializer() : Serializer() {}
 
 public:
     // INTERFACE
-    static std::unique_ptr<Scene> load();
 
+    /**
+     * @brief Creates a Scene from JSON scene description file
+     * @param sceneFilePath  Scene description file
+     * @return Returns a Scene instance corresponding to the description file
+     */
+    static std::unique_ptr<Scene> load(
+            const std::string &sceneFilePath = cfg::PATH_SCENES + cfg::SCENE);
+
+    /**
+     * @brief Tries to execute a function. Returns a fallback value if it fails
+     * @tparam T        Expected return type of the function
+     * @param fct       Function to execute
+     * @param fallback  Value to return if the function execution fails
+     * @return Returns the return value of the provided function if it succeed, or fallback, otherwise.
+     */
     template<typename T>
     static T dataTry(std::function<T()> fct, T fallback) {
         try {
@@ -46,11 +67,23 @@ public:
         }
     }
 
+    /**
+     * @brief Fill in the given list from JSON data
+     * @tparam T        Type of objects to put in the list
+     * @param data      JSON data
+     * @param destList  List to fill in
+     */
     template<typename T>
     static void deserializeArrayIntoList(
             const tao::json::value &data,
             std::list<std::unique_ptr<T>> &destList);
 
+    /**
+     * @brief Fill in the given vector from JSON data
+     * @tparam T          Type of objects to put in the vector
+     * @param data        JSON data
+     * @param destVector  Vector to fill in
+     */
     template<typename T>
     static void deserializeArrayIntoVector(
             const tao::json::value &data,
@@ -67,6 +100,11 @@ public:
     static Plateform   &deserializePlateform(const tao::json::value &data);
 
 private:
+    /**
+     * @brief Format string for string comparison
+     * @param s  String to format
+     * @return Returns the formatted string
+     */
     static std::string format(const std::string &s) {
         // to lowercase
         std::string res(s);
@@ -75,6 +113,12 @@ private:
         return res;
     }
 
+    /**
+     * @brief Gets texture GL ID from its corresponding string value
+     * @param data  JSON data
+     * @param key   String in the JSON file which corresponds to a texture
+     * @return the GL ID of the corresponding texture
+     */
     static GLuint getTexId(const tao::json::value &data, const std::string &key);
 };
 

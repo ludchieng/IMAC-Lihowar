@@ -23,19 +23,20 @@
 #include <lihowarlib/Mesh.hpp>
 #include <lihowarlib/Texture.hpp>
 #include <lihowarlib/Material.hpp>
+#include <lihowarlib/designpattern/Subject.hpp>
+#include <lihowarlib/designpattern/Observer.hpp>
 #include <lihowarlib/programs/Program.hpp>
 #include <lihowarlib/programs/MultiLightsProgram.hpp>
 
 namespace lihowar {
 
-class Object {
-    friend class SceneSerializer;
+class Object : public dp::Subject {
 
 public:
     // SUB CLASS
     class PRS {
     public:
-        // CONSTANT
+        // CONSTANTS
         static const glm::vec3 X;
         static const glm::vec3 Y;
         static const glm::vec3 Z;
@@ -111,6 +112,9 @@ public:
     std::list< std::unique_ptr<Object> > &subobjects() { return _subobjects; }
     const std::list< std::unique_ptr<Object> > &subobjects() const { return _subobjects; }
 
+    template <typename T>
+    bool isInstanceOf() const { return nullptr != dynamic_cast<const T*>(this); }
+
     virtual void add(std::unique_ptr<Object> object);
     virtual void add(Object *object) { add(std::unique_ptr<Object>(object)); }
 
@@ -121,6 +125,21 @@ public:
     void rotate(const glm::vec3 &drot) { _prs.rot() += drot; }
     void scale(const glm::vec3 &dsca) { _prs.sca() += dsca; }
     glm::mat4 matModel() const;
+
+
+    template <typename T>
+    std::list<std::shared_ptr<T>> &findAll() {
+        auto res = new std::list<std::shared_ptr<T>>();
+        if (isInstanceOf<T>())
+            res->push_back(std::shared_ptr<T>(dynamic_cast<T*>(this)));
+
+        auto it = _subobjects.begin();
+        while (it != _subobjects.end()) {
+            res->splice(res->end(), (**it).findAll<T>());
+            ++it;
+        }
+        return *res;
+    }
 
 };
 

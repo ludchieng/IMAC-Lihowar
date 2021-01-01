@@ -48,7 +48,7 @@ bool ObjectDynamic::isStatic() const
 
 void ObjectDynamic::add(std::unique_ptr<Object> object)
 {
-    _subobjects.push_back(std::move(object));
+    Object::add(std::move(object));
     updateTotalMass();
 }
 
@@ -109,6 +109,7 @@ void ObjectDynamic::applyAngularDrag()
 void ObjectDynamic::update()
 {
     updateDynamic();
+    Object::update();
 }
 
 

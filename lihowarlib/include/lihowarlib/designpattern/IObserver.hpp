@@ -24,6 +24,9 @@ namespace lihowar {
 
 namespace dp {
 
+/**
+ * @brief Interface for Observer class design pattern
+ */
 class IObserver {
 public:
     virtual ~IObserver() = default;
