@@ -26,7 +26,7 @@ using namespace lihowar;
 
 namespace lihowar {
 
-GameRenderer::GameRenderer(Player &camTarget)
+GameRenderer::GameRenderer(Object &camTarget)
    : _tbcam( TrackballCamera(camTarget) ),
      _matProj( glm::perspective(glm::radians(_tbcam.fov()), cfg::ASPECT_RATIO, cfg::Z_NEAR, cfg::Z_FAR) ),
      _matMV( glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -5.f)) ),

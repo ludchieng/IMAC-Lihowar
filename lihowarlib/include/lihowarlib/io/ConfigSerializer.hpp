@@ -22,14 +22,26 @@
 
 namespace lihowar {
 
+/**
+ * @brief Singleton class to handle JSON config files loading
+ */
 class ConfigSerializer : public Serializer {
 
 private: // singleton
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief ConfigSerializer class default constructor
+     */
     ConfigSerializer() : Serializer() {}
 
 public:
     // INTERFACE
+
+    /**
+     * @brief Retrieves global configuration variables from JSON file
+     * @param configFilePath  Path to config file
+     */
     static void load(const std::string &configFilePath)
     {
         try {

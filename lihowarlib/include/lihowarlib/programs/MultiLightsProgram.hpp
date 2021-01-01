@@ -81,7 +81,7 @@ private:
     {}
 
 public:
-    /// \brief get instance of the Program singleton class
+    /// \brief Gets instance of the Program singleton class
     static MultiLightsProgram& instance() {
         static MultiLightsProgram instance("3D", "multilights");
         return instance;
