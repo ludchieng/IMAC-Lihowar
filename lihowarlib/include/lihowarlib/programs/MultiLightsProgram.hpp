@@ -28,7 +28,7 @@ namespace lihowar {
 class MultiLightsProgram : public Program {
 
 public:
-    static const unsigned int MAX_LIGHTSDIR_COUNT = 4; // must be the same in the f shader
+    static const unsigned int MAX_LIGHTSDIR_COUNT = 4;    // must be the same in the f shader
     static const unsigned int MAX_LIGHTSPOINT_COUNT = 12; // must be the same in the f shader
 
 private:

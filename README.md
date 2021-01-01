@@ -43,15 +43,15 @@ cd bin
 
 You are able to edit or add config files that match your preferences. (e.g. you want to disable MSAA because of low performance)
 
-### Generating the documentation (Doxygen)
-
-(comming soon)
+### Generating the documentation for Lihowar
 
 ```
 cd build
 make doc
-cd lihowarlib/doc/doc/html/
+cd ../doc/html/
 ```
+
+You will have to install graphviz if you want to generate the documentation with diagrams.
 
 ## **Gameplay** :video_game::game_die:
 
@@ -60,6 +60,11 @@ cd lihowarlib/doc/doc/html/
 Explore the islands and light on all the beacons
 
 **Controls**:
+
+Mouse:
+`Right:`: pan \
+`Left + Right`: translate \
+`Middle`: reset camera
 
 Keyboard: \
 `Z` `Q` `S` `D` or `↑` `←` `↓` `→`: move (qwerty is not supported yet) \

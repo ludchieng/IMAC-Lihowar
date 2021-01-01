@@ -40,8 +40,8 @@ private:
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
-    GameRenderer(Player &camTarget);
-    ~GameRenderer() override;
+    explicit GameRenderer(Player &camTarget);
+    ~GameRenderer() override = default;
 
 public:
     /// \brief get instance of the GameRenderer singleton class
@@ -80,6 +80,10 @@ private:
             const Scene &scene,
             const Object &object,
             const glm::mat4 &matModelParent = glm::mat4(1.));
+
+    void bindUniformVariablesDirLightProgram(const Object &object, const Scene &scene);
+    void bindUniformVariablesIslandProgram(const Object &object, const Scene &scene);
+    void bindUniformVariablesMultiLightsProgram(const Object &object, const Scene &scene);
 
 };
 
