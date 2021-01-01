@@ -52,7 +52,7 @@ private:
 
 private:
     // MEMBERS
-    Player &_target;
+    Object &_target;
     float _distanceCursor;
     glm::vec3 _ang;
     glm::vec3 _posOffset;
@@ -61,7 +61,7 @@ private:
 public:
     // CONSTRUCTORS & DESTRUCTORS
     explicit TrackballCamera(
-            Player &target,
+            Object &target,
             float distanceCursor = DEFAULT_DISTANCE_CURSOR,
             glm::vec3 ang = glm::vec3(DEFAULT_ANGLE_X, DEFAULT_ANGLE_Y, 0.));
 

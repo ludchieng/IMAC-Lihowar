@@ -24,23 +24,51 @@
 
 namespace lihowar {
 
+/**
+ * @brief Singleton class to set up and access textures and 3D meshes
+ */
 class AssetManager {
 
 public:
     // CONSTANTS
+
+    /**
+     * @brief GL ID constant corresponding to the null texture
+     */
     static const int NO_TEXTURE = 0;
 
 private:
     // MEMBERS
+
+    /**
+     * @brief Map of meshes indexed with a MeshName.
+     * The meshes map indexes meshes that are loaded in memory
+     */
     std::map<MeshName, Mesh*> _meshes;
+
+    /**
+     * @brief Map of textures indexed with a TextureName.
+     * The textures map indexes textures that are loaded in memory
+     */
     std::map<TextureName, Texture*> _textures;
 
-private:
+private: // singleton
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief AssetManager class default constructor
+     */
     AssetManager();
+
+    /**
+     * @brief AssetManager class default destructor
+     */
     ~AssetManager() = default;
+
 public:
-    /// \brief get instance of the AssetManager singleton class
+    /**
+     * @brief Gets instance of the AssetManager singleton class
+     */
     static AssetManager& instance() {
         static AssetManager instance;
         return instance;
@@ -53,21 +81,80 @@ public:
 
 public:
     // INTERFACE
+
+    /**
+     * @brief Gets the meshes map
+     * @return Returns the meshes map
+     */
     static std::map<MeshName, Mesh*> &meshes() { return instance()._meshes; }
+
+    /**
+     * @brief Gets the textures map
+     * @return Returns the textures map
+     */
     static std::map<TextureName, Texture*> &textures() { return instance()._textures; }
 
+
+    /**
+     * @brief Gets the requested mesh
+     * @param meshName  MeshName of the requested mesh
+     * @return Returns the pointer of the requested mesh
+     */
     static Mesh* mesh(MeshName meshName);
+
+    /**
+     * @brief Gets the requested texture
+     * @param textureName  TextureName of the requested texture
+     * @return Returns the pointer of the requested texture
+     */
     static Texture* tex(TextureName textureName);
 
+    /**
+     * @brief Gets texture GL ID from its corresponding TextureName
+     * @param textureName  TextureName of the requested texture ID
+     * @return Returns the texture GL ID of the requested texture
+     */
     static GLuint &texId(TextureName textureName) { return tex(textureName)->id(); }
 
 private:
+
+    /**
+     * @brief Add a mesh to the meshes map
+     * @param meshName  mesh to add
+     * @return Returns the requested mesh
+     */
     static Mesh* addMesh(MeshName meshName);
+
+    /**
+     * @brief Add a texture to the textures map
+     * @param texName  MeshName
+     * @return Returns the requested texture
+     */
     static Texture* addTexture(TextureName texName);
 
+
+    /**
+     * @brief Returns true if the given mesh name corresponds to a mesh already
+     * loaded in the meshes map, false otherwise
+     * @param meshName  Requested mesh name
+     * @return Returns true if the given mesh name corresponds to a mesh already
+     * loaded in the meshes map, false otherwise
+     */
     static bool hasMesh(MeshName meshName) { return meshes().find(meshName) != meshes().end(); }
+
+    /**
+     * @brief Returns true if the given texture name corresponds to a texture already
+     * loaded in the textures map, false otherwise
+     * @param texName  Requested texture name
+     * @return Returns true if the given texture name corresponds to a texture already
+     * loaded in the textures map, false otherwise
+     */
     static bool hasTexture(TextureName texName) { return textures().find(texName) != textures().end(); }
 
+    /**
+     * @brief Assert that hardcoded assets names, file paths are coherent
+     * @return Returns true if no incoherence have been detected in the assets names or file paths, false otherwise
+     */
     static bool checkAssets();
 };
 

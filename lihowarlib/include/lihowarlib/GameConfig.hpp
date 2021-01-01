@@ -24,41 +24,123 @@ namespace lihowar {
 
 class GameConfig;
 
+/**
+ * @brief Alias for GameConfig in order to shorten
+ * access to static members from other classes
+ */
 typedef GameConfig cfg;
 
+/**
+ * @brief Static class to access to the global configuration variables
+ */
 class GameConfig {
 
 public:
     // MEMBERS
+    /**
+     * @brief Path to executable file
+     */
     static std::string EXEC_PATH;
+
+    /**
+     * @brief Path to the directory contaning the execuable file
+     */
     static std::string EXEC_DIR;
 
+
+    /**
+     * @brief Assert debug mode is activated
+     */
     static bool DEBUG;
 
+    /**
+     * @brief Path to assets directory
+     */
     static std::string PATH_ASSETS;
+
+    /**
+     * @brief Path to shaders directory
+     */
     static std::string PATH_SHADERS;
+
+    /**
+     * @brief Path to scenes directory
+     */
     static std::string PATH_SCENES;
 
+
+    /**
+     * @brief Asserts game window is displayed fullscreen
+     */
     static bool FULLSCREEN;
+
+    /**
+     * @brief Width of the window in pixels
+     */
     static unsigned int WINDOW_WIDTH;
+
+    /**
+     * @brief Height of the window in pixels
+     */
     static unsigned int WINDOW_HEIGHT;
+
+    /**
+     * @brief Ratio between window width and height.
+     */
     static float ASPECT_RATIO;
 
+    /**
+     * @brief Maximum image frame to display per second
+     */
     static float MAX_FRAMERATE;
 
+
+    /**
+     * @brief Minimum field of view in degrees
+     */
     static float MIN_FOV;
+
+    /**
+     * @brief Maximum field of view in degrees
+     */
     static float MAX_FOV;
 
+
+    /**
+     * @brief Minimum depth value for rendering game objects
+     */
     static float Z_NEAR;
+
+    /**
+     * @brief Maximum depth value for rendering game objects
+     */
     static float Z_FAR;
 
+
+    /**
+     * @brief Asserts rendering uses anti aliasing methods
+     */
     static bool USE_ANTIALIASING;
+
+    /**
+     * @brief Samples count per pixel for multi-sampling anti-aliasing
+     */
     static unsigned int MSAA;
 
+
+    /**
+     * @brief Name of the JSON scene description file to load into the game
+     */
     static std::string SCENE;
 
 public:
     // INTERFACE
+
+    /**
+     * @brief Loads global configuration variables for the game
+     * @param argc  Arguments count from main()
+     * @param argv  Arguments values from main()
+     */
     static void load(int argc, char** argv)
     {
         EXEC_PATH = argv[0];
@@ -89,6 +171,9 @@ public:
 
 private:
 
+    /**
+     * @brief Loads values of global config variables from ConfigSerializer current data
+     */
     static void loadValues()
     {
         DEBUG                       = ConfigSerializer::get<bool>        ("debug");

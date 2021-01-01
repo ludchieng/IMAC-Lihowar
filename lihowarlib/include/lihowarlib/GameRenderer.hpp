@@ -23,29 +23,62 @@
 #include <lihowarlib/programs/Program.hpp>
 #include <lihowarlib/Object.hpp>
 #include <lihowarlib/Scene.hpp>
-#include <lihowarlib/designpattern/Observer.hpp>
 
 namespace lihowar {
 
-class GameRenderer : public dp::Observer {
+/**
+ * @brief Singleton class for game rendering
+ */
+class GameRenderer {
 
 private:
     // MEMBERS
+
+    /**
+     * @brief Track ball camera instance
+     */
     TrackballCamera _tbcam;
+
+    /**
+     * @brief Projection matrix
+     */
     glm::mat4 _matProj;
+
+    /**
+     * @brief Model View matrix
+     */
     glm::mat4 _matMV;
+
+    /**
+     * @brief Normal matrix
+     */
     glm::mat4 _matNormal;
+
+    /**
+     * @brief View matrix
+     */
     glm::mat4 _matView;
+
+    /**
+     * @brief Currently active GLSL program
+     */
     Program *_program;
 
-private:
+private: // singleton
     // CONSTRUCTORS & DESTRUCTORS
-    explicit GameRenderer(Player &camTarget);
-    ~GameRenderer() override = default;
+
+    /**
+     * @brief GameRenderer constructor
+     * @param camTarget
+     */
+    explicit GameRenderer(Object &camTarget);
+    ~GameRenderer() = default;
 
 public:
-    /// \brief get instance of the GameRenderer singleton class
-    static GameRenderer& instance(Player &camTarget) {
+    /**
+     * @brief Gets instance of the GameRenderer singleton class
+     */
+    static GameRenderer& instance(Object &camTarget) {
         static GameRenderer instance(camTarget);
         return instance;
     }
@@ -57,25 +90,80 @@ public:
     
 public:
     // INTERFACE
+
+    /**
+     * @brief Gets the camera
+     * @return the camera
+     */
     TrackballCamera &camera() { return _tbcam; };
+
+
+    /**
+     * @brief Changes the currently running GLSL program
+     * to requested one
+     * @param program  GLSL program to activate
+     */
     void use(Program &program);
-    void update() override;
+
+    /**
+     * @brief Updates state of GameRenderer
+     */
+    void update();
+
+    /**
+     * @brief Updates the Model View matrix
+     * @param matModel  Model matrix
+     */
     void updateMatMV(const glm::mat4 &matModel = glm::mat4(1.));
+
+    /**
+     * @brief Updates the Projection matrix
+     */
     void updateMatProj();
+
+
+    /**
+     * @brief Renders the game scene
+     * @param scene  Scene to render
+     */
     void render(const Scene &scene);
+
+    /**
+     * @brief Send GLSL uniform variables to GPU
+     * @param object  Game object to render
+     * @param scene   Current game scene
+     */
     void bindUniformVariables(const Object &object, const Scene &scene);
 
 private:
+    /**
+     * @brief Renders a list of game objects
+     * @param scene           Current game scene
+     * @param objectsList     List of game objects to render
+     * @param matModelParent  Model matrix of a potential parent object
+     */
     void render(
             const Scene &scene,
             const std::list< std::unique_ptr<Object> > &objectsList,
             const glm::mat4 &matModelParent = glm::mat4(1.));
 
+    /**
+     * @brief Renders a vector of game objects
+     * @param scene           Current game scene
+     * @param objectsList     Vector of game objects to render
+     * @param matModelParent  Model matrix of a potential parent object
+     */
     void render(
             const Scene &scene,
             const std::vector< std::unique_ptr<Island> > &objectsList,
             const glm::mat4 &matModelParent = glm::mat4(1.));
 
+    /**
+     * @brief Renders a game Scene
+     * @param scene           Current game scene
+     * @param object          Game objet to render
+     * @param matModelParent  Model matrix of a potential parent object
+     */
     void render(
             const Scene &scene,
             const Object &object,

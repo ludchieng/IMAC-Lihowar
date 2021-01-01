@@ -26,6 +26,9 @@ namespace lihowar {
 
 namespace dp {
 
+/**
+ * @brief Interface for Subject class design pattern
+ */
 class ISubject {
 public:
     virtual ~ISubject() = default;

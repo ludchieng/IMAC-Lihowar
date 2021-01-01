@@ -23,18 +23,20 @@
 #include <lihowarlib/Mesh.hpp>
 #include <lihowarlib/Texture.hpp>
 #include <lihowarlib/Material.hpp>
+#include <lihowarlib/designpattern/Subject.hpp>
+#include <lihowarlib/designpattern/Observer.hpp>
 #include <lihowarlib/programs/Program.hpp>
 #include <lihowarlib/programs/MultiLightsProgram.hpp>
 
 namespace lihowar {
 
-class Object {
+class Object : public dp::Subject {
 
 public:
     // SUB CLASS
     class PRS {
     public:
-        // CONSTANT
+        // CONSTANTS
         static const glm::vec3 X;
         static const glm::vec3 Y;
         static const glm::vec3 Z;

@@ -18,14 +18,12 @@
 #define LIHOWAR_PLAYER_HPP
 
 #include <lihowarlib/GameConfig.hpp>
-#include <lihowarlib/designpattern/Subject.hpp>
-#include <lihowarlib/designpattern/Observer.hpp>
 #include <lihowarlib/ObjectDynamic.hpp>
 #include <lihowarlib/AssetManager.hpp>
 
 namespace lihowar {
 
-class Player : public ObjectDynamic, public dp::Subject {
+class Player : public ObjectDynamic {
 
 public:
     static constexpr float LINEAR_ACC_Y = .0004;

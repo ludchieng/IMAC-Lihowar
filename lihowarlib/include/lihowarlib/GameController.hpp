@@ -23,24 +23,43 @@
 #include <lihowarlib/Scene.hpp>
 #include <lihowarlib/io/SceneSerializer.hpp>
 
-
 namespace lihowar {
 
+/**
+ * @brief Singleton class for game objects processing
+ */
 class GameController {
 
 private:
     // MEMBERS
+
+    /**
+     * @brief Pointer to the game scene
+     */
     std::unique_ptr<Scene> _scene;
+
+    /**
+     * @brief Reference to the GameRenderer
+     */
     GameRenderer &_gRenderer;
 
-private:
+private: // singleton
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief GameController class default constructor
+     */
     GameController();
 
+    /**
+     * @brief GameController class default destructor
+     */
     ~GameController() = default;
 
 public:
-    /// \brief get instance of the GameController singleton class
+    /**
+     * @brief Gets instance of the GameController singleton class
+     */
     static GameController& instance() {
         static GameController instance;
         return instance;
@@ -53,10 +72,28 @@ public:
 
 public:
     // INTERFACE
+
+    /**
+     * @brief Gets the game scene
+     * @return Returns the game scene
+     */
     Scene &scene() { return *_scene; }
+
+    /**
+     * @brief Gets the GameRenderer
+     * @return Returns the GameRenderer
+     */
     GameRenderer& renderer() { return _gRenderer; }
 
+
+    /**
+     * @brief Updates state of the GameController
+     */
     void update();
+
+    /**
+     * @brief Renders the game scene
+     */
     void render() { _gRenderer.render(*_scene); }
 
 };
