@@ -30,6 +30,9 @@ class GameConfig {
 
 public:
     // MEMBERS
+    static std::string EXEC_PATH;
+    static std::string EXEC_DIR;
+
     static bool DEBUG;
 
     static std::string PATH_ASSETS;
@@ -56,43 +59,61 @@ public:
 
 public:
     // INTERFACE
-    static void load(int argc, char** argv) {
-        std::string execPath(argv[0]);
-        std::string execDir = execPath.substr(0, execPath.find_last_of("\\/")); // Removes file name
-        std::string defaultConfigFilePath = execDir + "/config/default.json";
-        std::string configFilePath = (argc > 1) ? std::string(argv[1]) : defaultConfigFilePath;
+    static void load(int argc, char** argv)
+    {
+        EXEC_PATH = argv[0];
+        EXEC_DIR = EXEC_PATH.substr(0, EXEC_PATH.find_last_of("\\/")); // Removes file name
+        std::string defaultConfigFilePath = EXEC_DIR + "/config/default.json";
+        std::string configFilePath = (argc > 1) ? argv[1] : defaultConfigFilePath;
 
         try {
+            // First try with user input config file
             ConfigSerializer::load(configFilePath);
+            loadValues();
         } catch (LihowarIOException &e) {
-            std::cerr << e.what();
+            std::cerr << e.what() << std::endl;
             std::cerr << "Falling back on default config..." << std::endl;
-            ConfigSerializer::load(defaultConfigFilePath);
+
+            try {
+                // Second try with default input config file
+                ConfigSerializer::load(defaultConfigFilePath);
+                loadValues();
+            } catch (LihowarIOException &e) {
+                // Resigning on hardcoded config
+                std::cerr << e.what() << std::endl;
+                std::cerr << "Falling back on hardcoded config..." << std::endl;
+            }
+
         }
+    }
 
-        DEBUG                      = ConfigSerializer::get<bool>        ("debug");
+private:
 
-        PATH_ASSETS  = execDir+"/" + ConfigSerializer::get<std::string> ("path_assets");
-        PATH_SHADERS = execDir+"/" + ConfigSerializer::get<std::string> ("path_shaders");
-        PATH_SCENES  = execDir+"/" + ConfigSerializer::get<std::string> ("path_scenes");
+    static void loadValues()
+    {
+        DEBUG                       = ConfigSerializer::get<bool>        ("debug");
 
-        FULLSCREEN                 = ConfigSerializer::get<bool>        ("fullscreen");
-        WINDOW_WIDTH               = ConfigSerializer::get<unsigned int>("window_width");
-        WINDOW_HEIGHT              = ConfigSerializer::get<unsigned int>("window_height");
-        ASPECT_RATIO               = WINDOW_WIDTH / (float) WINDOW_HEIGHT;
+        PATH_ASSETS  = EXEC_DIR+"/" + ConfigSerializer::get<std::string> ("path_assets");
+        PATH_SHADERS = EXEC_DIR+"/" + ConfigSerializer::get<std::string> ("path_shaders");
+        PATH_SCENES  = EXEC_DIR+"/" + ConfigSerializer::get<std::string> ("path_scenes");
 
-        MAX_FRAMERATE              = ConfigSerializer::get<float>       ("max_framerate");
+        FULLSCREEN                  = ConfigSerializer::get<bool>        ("fullscreen");
+        WINDOW_WIDTH                = ConfigSerializer::get<unsigned int>("window_width");
+        WINDOW_HEIGHT               = ConfigSerializer::get<unsigned int>("window_height");
+        ASPECT_RATIO                = WINDOW_WIDTH / (float) WINDOW_HEIGHT;
 
-        MIN_FOV                    = ConfigSerializer::get<float>       ("min_fov");
-        MAX_FOV                    = ConfigSerializer::get<float>       ("max_fov");
+        MAX_FRAMERATE               = ConfigSerializer::get<float>       ("max_framerate");
 
-        Z_NEAR                     = ConfigSerializer::get<float>       ("z_near");
-        Z_FAR                      = ConfigSerializer::get<float>       ("z_far");
+        MIN_FOV                     = ConfigSerializer::get<float>       ("min_fov");
+        MAX_FOV                     = ConfigSerializer::get<float>       ("max_fov");
 
-        USE_ANTIALIASING           = ConfigSerializer::get<bool>        ("use_antialiasing");
-        MSAA                       = ConfigSerializer::get<unsigned int>("msaa");
+        Z_NEAR                      = ConfigSerializer::get<float>       ("z_near");
+        Z_FAR                       = ConfigSerializer::get<float>       ("z_far");
 
-        SCENE                      = ConfigSerializer::get<std::string> ("scene");
+        USE_ANTIALIASING            = ConfigSerializer::get<bool>        ("use_antialiasing");
+        MSAA                        = ConfigSerializer::get<unsigned int>("msaa");
+
+        SCENE                       = ConfigSerializer::get<std::string> ("scene");
     }
 };
 

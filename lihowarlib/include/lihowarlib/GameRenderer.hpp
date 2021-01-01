@@ -81,6 +81,10 @@ private:
             const Object &object,
             const glm::mat4 &matModelParent = glm::mat4(1.));
 
+    void bindUniformVariablesDirLightProgram(const Object &object, const Scene &scene);
+    void bindUniformVariablesIslandProgram(const Object &object, const Scene &scene);
+    void bindUniformVariablesMultiLightsProgram(const Object &object, const Scene &scene);
+
 };
 
 }

@@ -30,7 +30,8 @@ private: // singleton
 
 public:
     // INTERFACE
-    static void load(const std::string &configFilePath) {
+    static void load(const std::string &configFilePath)
+    {
         try {
             instance()._data = tao::json::parse_file(configFilePath);
         } catch (tao::json_pegtl::input_error &err) {
