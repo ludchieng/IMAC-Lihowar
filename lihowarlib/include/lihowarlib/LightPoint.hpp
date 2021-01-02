@@ -23,29 +23,66 @@
 
 namespace lihowar {
 
+/**
+ * @brief Represents a point light in a game scene
+ */
 class LightPoint : public Light {
 
 private:
     // MEMBERS
+
+    /**
+     * @brief Position of the potential parent
+     */
     glm::vec3 &_posParent;
+
+    /**
+     * @brief Position offset from the anchor point of the parent object
+     */
     glm::vec3 _posOffset;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief LightPoint class constructor
+     * @param intensity  Color intensity of the light
+     * @param posParent  Position of the potential parent
+     * @param posOffset  Position offset from the anchor point of the parent object
+     */
     LightPoint(
             const glm::vec3 &intensity,
             glm::vec3 &posParent,
             const glm::vec3 &posOffset = glm::vec3(0., 0., 0.))
         : Light(intensity), _posParent(posParent), _posOffset(posOffset)
     {}
+
+    /**
+     * @brief LightPoint class destructor
+     */
     ~LightPoint() override = default;
 
 public:
     // INTERFACE
+
+    /**
+     * @brief Gets the position of the potential parent
+     * @return the position of the potential parent
+     */
     glm::vec3 &posParent() { return _posParent; }
-    glm::vec3 &posOffset() { return _posOffset; }
     glm::vec3 posParent() const { return _posParent; }
+
+    /**
+     * @brief Gets the offset position
+     * @return Returns the offset position
+     */
+    glm::vec3 &posOffset() { return _posOffset; }
     glm::vec3 posOffset() const { return _posOffset; }
+
+    /**
+     * @brief Gets the position
+     * @return the position
+     */
     glm::vec3 pos() const { return _posParent + _posOffset; }
 
 };

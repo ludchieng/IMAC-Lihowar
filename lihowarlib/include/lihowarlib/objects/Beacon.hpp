@@ -22,6 +22,9 @@
 
 namespace lihowar {
 
+/**
+ * @brief Represents a beacon game object
+ */
 class Beacon : public Object {
 
 private:
@@ -29,6 +32,13 @@ private:
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief Beacon class constructor
+     * @param meshName
+     * @param material  Diffuse texture GL ID
+     * @param prs       Position, rotation and scale state
+     */
     explicit Beacon(
             MeshName meshName,
             Material &material,

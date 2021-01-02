@@ -85,13 +85,13 @@ void TrackballCamera::update()
     if (_target.isInstanceOf<ObjectDynamic>()) {
         ObjectDynamic &tget = *dynamic_cast<ObjectDynamic*>(&_target);
         // because angle offset only applies on a dynamic target
-        _angOffset.x = glm::clamp(tget.vel().y * -ANG_OFFSET_X_COEF, ANG_OFFSET_XY_MIN, ANG_OFFSET_XY_MAX);
-        _angOffset.y = glm::clamp(tget.angVel().y * ANG_OFFSET_Y_COEF, ANG_OFFSET_XY_MIN, ANG_OFFSET_XY_MAX);
+        _angOffset.x = glm::clamp(tget.vel().y * -ANG_OFFSET_X_KICKBACK_COEF, ANG_OFFSET_XY_MIN, ANG_OFFSET_XY_MAX);
+        _angOffset.y = glm::clamp(tget.angVel().y * ANG_OFFSET_Y_KICKBACK_COEF, ANG_OFFSET_XY_MIN, ANG_OFFSET_XY_MAX);
     }
     if (_target.isInstanceOf<Player>()) {
         Player &tget = *dynamic_cast<Player*>(&_target);
         // because position offset only applies on a Player target
-        _posOffset.z = tget.longitudinalVel() * _distanceCursor * -POS_OFFSET_Z_COEF;
+        _posOffset.z = tget.longitudinalVel() * _distanceCursor * -POS_OFFSET_KICKBACK_COEF;
         updatePosOffset();
     }
 }

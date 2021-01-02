@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 3.10)
 
 project(lihowarlib LANGUAGES C CXX)
 
-file(GLOB_RECURSE source_files src/*.cpp)
-file(GLOB_RECURSE header_files include/*.hpp)
+file(GLOB_RECURSE source_files "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE header_files "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
 
 # Remove template hpp cpp file
-list(REMOVE_ITEM source_files "src/_.cpp")
-list(REMOVE_ITEM header_files "include/_.hpp")
+list(REMOVE_ITEM source_files "${CMAKE_CURRENT_SOURCE_DIR}/src/_.cpp")
+list(REMOVE_ITEM header_files "${CMAKE_CURRENT_SOURCE_DIR}/include/lihowarlib/_.hpp")
 
 # Call documentation (Doxygen)
 add_subdirectory(doc)

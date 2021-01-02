@@ -20,6 +20,9 @@
 #include <lihowarlib/io/ConfigSerializer.hpp>
 #include <lihowarlib/exceptions/LihowarIOException.hpp>
 
+/**
+ * @brief Lihowar namespace for the Lihowar game modules
+ */
 namespace lihowar {
 
 class GameConfig;

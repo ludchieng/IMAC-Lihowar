@@ -22,24 +22,80 @@
 
 namespace lihowar {
 
+/**
+ * @brief Represents a material of a game object
+ */
 class Material {
 
 private:
     // MEMBERS
+
+    /**
+     * @brief Diffuse coefficient
+     */
     float _kd = .85;
+
+    /**
+     * @brief Specular coefficient
+     */
     float _ks = .15;
+
+    /**
+     * @brief Luminance coefficient
+     */
     float _kl = 1.;
+
+    /**
+     * @brief Ambient occlusion coefficient
+     */
     float _kao = 1.;
+
+    /**
+     * @brief Normal coefficient
+     */
     float _kn = 1.;
+
+    /**
+     * @brief Shininess coefficient for blinn-phong illumination
+     */
     float _shininess = 1.;
+
+    /**
+     * @brief Diffuse texture GL ID
+     */
     GLuint _diffuseTexId;
+
+    /**
+     * @brief Specular texture GL ID
+     */
     GLuint _specularTexId;
+
+    /**
+     * @brief Luminance texture GL ID
+     */
     GLuint _luminTexId;
+
+    /**
+     * @brief Ambient occlusion texture GL ID
+     */
     GLuint _aoTexId;
+
+    /**
+     * @brief Normal texture GL ID
+     */
     GLuint _normalTexId;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief Material class constructor
+     * @param diffuseTexId   Diffuse texture GL ID
+     * @param specularTexId  Specular texture GL ID
+     * @param luminTexId     Luminance texture GL ID
+     * @param aoTexId        Ambient occlusion texture GL ID
+     * @param normalTexId    Normal texture GL ID
+     */
     explicit Material(
             GLuint diffuseTexId = 0,
             GLuint specularTexId = 0,
@@ -53,6 +109,9 @@ public:
         _normalTexId(normalTexId)
     {}
 
+    /**
+     * @brief Material class destructor
+     */
     ~Material() = default;
 
 public:

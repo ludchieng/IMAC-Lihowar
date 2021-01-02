@@ -93,7 +93,7 @@ public:
 
     /**
      * @brief Gets the camera
-     * @return the camera
+     * @return Returns the camera
      */
     TrackballCamera &camera() { return _tbcam; };
 

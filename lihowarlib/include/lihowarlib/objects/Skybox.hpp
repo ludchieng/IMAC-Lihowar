@@ -24,15 +24,31 @@
 
 namespace lihowar {
 
+/**
+ * @brief Represents a skybox game object
+ */
 class Skybox : public Object {
 
 private:
     // MEMBERS
+
+    /**
+     * @brief Ambient color light
+     */
     glm::vec3 _ambientColor;
+
+    /**
+     * @brief Box's center position
+     */
     glm::vec3 _center;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief Skybox class constructor
+     * @param size  Minimum distance between the box center and a box face
+     */
     explicit Skybox(float size = 2000.f)
         : Object(
             *AssetManager::mesh(MeshName::CUBE),
@@ -44,11 +60,24 @@ public:
           _ambientColor(glm::vec3(.25, .13, .13))
     {}
 
+    /**
+     * @brief Skybox class default destructor
+     */
     ~Skybox() = default;
     
 public:
     // INTERFACE
+
+    /**
+     * Gets the ambient color
+     * @return Returns the ambient color
+     */
     glm::vec3 ambientColor() { return _ambientColor; }
+
+    /**
+     * Sets the center of the box
+     * @param center  Position of the center
+     */
     void setCenter(const glm::vec3 &center) {
         _center = center;
         prs().pos() = center;
