@@ -33,7 +33,7 @@ public:
 
 private:
     // MEMBERS
-    ProgramType _type;
+    ProgramName _name;
     GLint _uKd;
     GLint _uKs;
     GLint _uKl;
@@ -58,7 +58,7 @@ private:
     // CONSTRUCTORS & DESTRUCTORS
     MultiLightsProgram(const std::string& vsName, const std::string& fsName)
        : Program(vsName, fsName),
-         _type( ProgramType::MULTILIGHTS ),
+         _name(ProgramName::MULTILIGHTS ),
          _uKd( glGetUniformLocation(_program.getGLId(), "uKd") ),
          _uKs( glGetUniformLocation(_program.getGLId(), "uKs") ),
          _uKl( glGetUniformLocation(_program.getGLId(), "uKl") ),
@@ -89,7 +89,7 @@ public:
 
 public:
     // INTERFACE
-    ProgramType type() const override { return _type; }
+    ProgramName name() const override { return _name; }
     GLint uKd() const { return _uKd; }
     GLint uKs() const { return _uKs; }
     GLint uKl() const { return _uKl; }

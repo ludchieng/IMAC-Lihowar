@@ -28,13 +28,13 @@ class SkyboxProgram : public Program {
 
 private:
     // MEMBERS
-    ProgramType _type;
+    ProgramName _name;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
     SkyboxProgram(const std::string& vsName, const std::string& fsName)
         : Program(vsName, fsName),
-        _type( ProgramType::SKYBOX )
+          _name(ProgramName::SKYBOX )
     {}
 
 public:
@@ -46,7 +46,7 @@ public:
 
 public:
     // INTERFACE
-    ProgramType type() const override { return _type; }
+    ProgramName name() const override { return _name; }
 
 };
 

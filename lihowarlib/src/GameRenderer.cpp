@@ -58,14 +58,14 @@ void GameRenderer::bindUniformVariables(const Object &object, const Scene &scene
     glUniformMatrix4fv(_program->uMatNormal(), 1, GL_FALSE, glm::value_ptr(_matNormal));
 
     // send extra variables to GPU depending on program (and shader) type
-    switch(_program->type()) {
-        case ProgramType::DIRLIGHT:
+    switch(_program->name()) {
+        case ProgramName::DIRLIGHT:
             bindUniformVariablesDirLightProgram(object, scene);
             break;
-        case ProgramType::ISLAND:
+        case ProgramName::ISLAND:
             bindUniformVariablesIslandProgram(object, scene);
             break;
-        case ProgramType::MULTILIGHTS:
+        case ProgramName::MULTILIGHTS:
             bindUniformVariablesMultiLightsProgram(object, scene);
             break;
         default:

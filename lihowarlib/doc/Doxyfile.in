@@ -1,7 +1,14 @@
 PROJECT_NAME = "Lihowar"
 
-OUTPUT_DIRECTORY       = @CMAKE_CURRENT_BINARY_DIR@/../../../doc/
-INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/../include/lihowarlib @CMAKE_CURRENT_SOURCE_DIR@/../doc
+OUTPUT_DIRECTORY       = @CMAKE_CURRENT_SOURCE_DIR@/../../doc/
+INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/../include/lihowarlib  \
+                         @CMAKE_CURRENT_SOURCE_DIR@/../doc/mainpage.md
+
+USE_MDFILE_AS_MAINPAGE = @CMAKE_CURRENT_SOURCE_DIR@/../doc/mainpage.md
+
+MARKDOWN_SUPPORT       = YES
+
+IMAGE_PATH             = images
 
 EXCLUDE_PATTERNS       = _.hpp _.cpp
 EXTRACT_PRIVATE        = YES

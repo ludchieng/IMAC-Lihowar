@@ -28,7 +28,7 @@ class DirLightProgram : public Program {
 
 private:
     // MEMBERS
-    ProgramType _type;
+    ProgramName _name;
     GLint _uKd;
     GLint _uKs;
     GLint _uKa;
@@ -41,7 +41,7 @@ private:
     // CONSTRUCTORS & DESTRUCTORS
     DirLightProgram(const std::string& vsName, const std::string& fsName)
        :Program(vsName, fsName),
-        _type( ProgramType::DIRLIGHT ),
+        _name(ProgramName::DIRLIGHT ),
         _uKd( glGetUniformLocation(_program.getGLId(), "uKd") ),
         _uKs( glGetUniformLocation(_program.getGLId(), "uKs") ),
         _uKa( glGetUniformLocation(_program.getGLId(), "uKa") ),
@@ -60,7 +60,7 @@ public:
 
 public:
     // INTERFACE
-    ProgramType type() const override { return _type; }
+    ProgramName name() const override { return _name; }
     GLint uKd() const { return _uKd; }
     GLint uKs() const { return _uKs; }
     GLint uKa() const { return _uKa; }

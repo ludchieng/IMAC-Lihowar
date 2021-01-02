@@ -18,7 +18,7 @@ A short C++ project made for programming courses. :mortar_board:
 
 ### Dependencies
 
-The build requires **g++**, **CMake 3.10+**, **SDL2**, **OpenGL**, **GLEW** and **Doxygen**.
+The build requires **g++**, **CMake 3.10+**, **SDL2**, **OpenGL**, **GLEW** and **Doxygen 1.8.8+**.
 
 ```sh
 sudo apt install g++ cmake \

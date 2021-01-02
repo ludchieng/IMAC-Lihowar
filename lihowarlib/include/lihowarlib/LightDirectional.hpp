@@ -23,7 +23,7 @@
 namespace lihowar {
 
 /**
- * @brief Represents a directional light scene object
+ * @brief Represents a directional light in a game scene
  */
 class LightDirectional : public Light {
 
@@ -39,9 +39,9 @@ public:
     // CONSTRUCTORS & DESTRUCTORS
 
     /**
-     * @brief Constructor of LightDirectional
-     * @param intensity  color intensity of the light
-     * @param dir        direction of light emission
+     * @brief LightDirectional class constructor
+     * @param intensity  Color intensity of the light
+     * @param dir        Direction of light emission
      */
     LightDirectional(const glm::vec3 &intensity, const glm::vec3 &dir)
         : Light(intensity), _dir(dir)
@@ -58,10 +58,15 @@ public:
     // INTERFACE
 
     /**
-     * @brief Set the direction of the light object. The vector will be normalized.
-     * @param dir  the direction vector (three dimensions)
+     * @brief Sets the direction of the light object. The vector will be normalized.
+     * @param dir  Direction vector of the light emission
      */
     void setDir(const glm::vec3 &dir) { _dir = glm::normalize(dir); }
+
+    /**
+     * @brief Gets the direction vector of the light emission
+     * @return Returns the direction vector of the light emission
+     */
     glm::vec3 dir() const { return _dir; }
 
 };

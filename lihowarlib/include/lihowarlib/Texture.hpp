@@ -24,6 +24,9 @@
 
 namespace lihowar {
 
+/**
+ * @brief Enumeration of the usable texture name
+ */
 enum class TextureName {
     SKY,
     BEACON1_DIFF, BEACON1_LUMIN,
@@ -36,10 +39,17 @@ enum class TextureName {
     first = SKY, last = PLATEFORM_NORMAL
 };
 
+/**
+ * @brief Represents a Texture image of a material
+ */
 class Texture {
 
 public:
     // CONSTANTS
+
+    /**
+     * @brief Map of image file paths indexed with a TextureName
+     */
     const static std::map<TextureName, std::string> PATHS;
     static const unsigned int TEX_UNIT_DIFFUSE = 0;
     static const unsigned int TEX_UNIT_SPECULAR = 1;
@@ -49,20 +59,51 @@ public:
 
 private:
     // MEMBERS
+
+    /**
+     * @brief The corresponding TextureName
+     */
     TextureName _textureName;
+
+    /**
+     * @brief GL ID of the texture
+     */
     GLuint _id;
+
+    /**
+     * Pointer to the Image instance
+     */
     std::unique_ptr<glimac::Image> _img;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief Texture class constructor
+     * @param texName  The corresponding texture name
+     */
     explicit Texture(TextureName texName);
+
+    /**
+     * @brief Texture class destructor
+     */
     ~Texture();
     
 public:
     // INTERFACE
+
+    /**
+     * Gets the GL ID of the texture
+     * @return  Returns the GL ID of the texture
+     */
     GLuint &id() { return _id; }
 
 private:
+    /**
+     * @brief Gets the file path corresponding to a given TextureName
+     * @param texName  The requested texture name
+     * @return  Returns the file path of the image
+     */
     std::string &getPath(TextureName texName);
 
 };

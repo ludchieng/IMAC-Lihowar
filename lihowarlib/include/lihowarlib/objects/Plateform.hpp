@@ -22,6 +22,9 @@
 
 namespace lihowar {
 
+/**
+ * @brief Represents a plateform game object
+ */
 class Plateform : public Object {
 
 private:
@@ -29,6 +32,11 @@ private:
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief Plateform class constructor
+     * @param prs  Position, rotation and scale state
+     */
     explicit Plateform(PRS prs = PRS())
        :Object(
             *AssetManager::mesh(MeshName::PLATEFORM),
