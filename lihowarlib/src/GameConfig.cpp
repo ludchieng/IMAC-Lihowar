@@ -19,28 +19,33 @@ using namespace lihowar;
 
 namespace lihowar {
 
-bool         GameConfig::DEBUG            = true;
+std::string  cfg::EXEC_PATH        ("");
+std::string  cfg::EXEC_DIR         ("");
 
-std::string  GameConfig::PATH_ASSETS      ("assets/");
-std::string  GameConfig::PATH_SHADERS     ("shaders/");
-std::string  GameConfig::PATH_SCENES      ("scenes/");
+// These are hard coded default config
+// (last fallback if any of the json files have failed)
+bool         cfg::DEBUG            = false;
 
-bool         GameConfig::FULLSCREEN       = false;
-unsigned int GameConfig::WINDOW_WIDTH     = (cfg::FULLSCREEN) ? 1920 : 1280;
-unsigned int GameConfig::WINDOW_HEIGHT    = (cfg::FULLSCREEN) ? 1080 : 720;
-float        GameConfig::ASPECT_RATIO     = cfg::WINDOW_WIDTH / (float) cfg::WINDOW_HEIGHT;
+std::string  cfg::PATH_ASSETS      ("assets/");
+std::string  cfg::PATH_SHADERS     ("shaders/");
+std::string  cfg::PATH_SCENES      ("scenes/");
 
-float        GameConfig::MAX_FRAMERATE    = 60.f;
+bool         cfg::FULLSCREEN       = false;
+unsigned int cfg::WINDOW_WIDTH     = (cfg::FULLSCREEN) ? 1920 : 1600;
+unsigned int cfg::WINDOW_HEIGHT    = (cfg::FULLSCREEN) ? 1080 : 900;
+float        cfg::ASPECT_RATIO     = cfg::WINDOW_WIDTH / (float) cfg::WINDOW_HEIGHT;
 
-float        GameConfig::MIN_FOV          = 70.0f;
-float        GameConfig::MAX_FOV          = 95.0f;
+float        cfg::MAX_FRAMERATE    = 60.f;
 
-float        GameConfig::Z_NEAR           = .1f;
-float        GameConfig::Z_FAR            = 5000.f;
+float        cfg::MIN_FOV          = 70.0f;
+float        cfg::MAX_FOV          = 95.0f;
 
-bool         GameConfig::USE_ANTIALIASING = false;
-unsigned int GameConfig::MSAA             = 1*2;
+float        cfg::Z_NEAR           = .1f;
+float        cfg::Z_FAR            = 5000.f;
 
-std::string  GameConfig::SCENE            ("scene1.json");
+bool         cfg::USE_ANTIALIASING = true;
+unsigned int cfg::MSAA             = 1*2;
+
+std::string  cfg::SCENE            ("scene1.json");
 
 }

@@ -33,7 +33,7 @@ public:
 
 private:
     // MEMBERS
-    ProgramType _type;
+    ProgramName _name;
     GLint _uKd;
     GLint _uKs;
     GLint _uShininess;
@@ -45,7 +45,7 @@ private:
     // CONSTRUCTORS & DESTRUCTORS
     IslandProgram(const std::string& vsName, const std::string& fsName)
        : Program(vsName, fsName),
-         _type( ProgramType::ISLAND ),
+         _name(ProgramName::ISLAND ),
          _uKd( glGetUniformLocation(_program.getGLId(), "uKd") ),
          _uKs( glGetUniformLocation(_program.getGLId(), "uKs") ),
          _uShininess( glGetUniformLocation(_program.getGLId(), "uShininess") ),
@@ -63,7 +63,7 @@ public:
 
 public:
     // INTERFACE
-    ProgramType type() const override { return _type; }
+    ProgramName name() const override { return _name; }
     GLint uKd() const { return _uKd; }
     GLint uKs() const { return _uKs; }
     GLint uShininess() const { return _uShininess; }

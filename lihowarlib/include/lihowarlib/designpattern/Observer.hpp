@@ -26,25 +26,56 @@ namespace lihowar {
 
 namespace dp {
 
+/**
+ * @brief Observer class for the Observer design pattern
+ */
 class Observer : public IObserver {
 
 private:
     // MEMBERS
+
+    /**
+     * @brief list of subjects that are observed
+     */
     std::list<ISubject*> _subjects;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief Observer class default constructor
+     */
     Observer() = default;
+
+    /**
+     * @brief Observer class default destructor
+     */
     ~Observer() override = default;
 
 public:
     // INTERFACE
+
+    /**
+     * @brief Updates state of the instance
+     *
+     * Update occurs usually when the subjects have changed
+     * their state and have notified their observers
+     */
     void update() override {}
+
+    /**
+     * @brief Adds a subject to the subjects list
+     * @param s  Subject to add
+     */
     void addSubject(ISubject *s) {
         _subjects.push_back(s);
         s->attach(this);
     }
 
+    /**
+     * @brief Removes subject from the subjects list
+     * @param s  Subject to remove
+     */
     void removeSubject(ISubject *s) {
         _subjects.remove(s);
         s->detach(this);

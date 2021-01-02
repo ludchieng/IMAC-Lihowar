@@ -1,0 +1,17 @@
+PROJECT_NAME = "Lihowar"
+
+OUTPUT_DIRECTORY       = ../../doc/
+INPUT                  = ../include/lihowarlib    \
+                         mainpage.md
+
+USE_MDFILE_AS_MAINPAGE = mainpage.md
+
+MARKDOWN_SUPPORT       = YES
+
+IMAGE_PATH             = images
+
+EXCLUDE_PATTERNS       = _.hpp _.cpp
+EXTRACT_PRIVATE        = YES
+GENERATE_LATEX         = NO
+WARN_IF_UNDOCUMENTED   = NO
+RECURSIVE              = YES

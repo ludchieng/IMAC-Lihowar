@@ -14,32 +14,31 @@
  *  listed at the end of the README given in the directory root of the Lihowar repository.
  */
 #pragma once
-#ifndef LIHOWAR_DP_IOBSERVER_HPP
-#define LIHOWAR_DP_IOBSERVER_HPP
+#ifndef LIHOWAR_AAA_HPP
+#define LIHOWAR_AAA_HPP
 
 #include <lihowarlib/GameConfig.hpp>
-#include <lihowarlib/designpattern/ISubject.hpp>
 
 namespace lihowar {
 
-/**
- * @brief Design pattern namespace for design patterns
- * requiring abstract classes
- */
-namespace dp {
 
-/**
- * @brief Interface for Observer class design pattern
- */
-class IObserver {
+class Aaa {
+
+protected:
+    // MEMBERS
+
 public:
-    virtual ~IObserver() = default;
-    virtual void update() = 0;
+    // CONSTRUCTORS & DESTRUCTORS
+    Aaa() = default;
+
+    ~Aaa() = default;
+    
+public:
+    // INTERFACE
+
 };
 
 }
 
-}
 
-
-#endif //LIHOWAR_DP_IOBSERVER_HPP
+#endif //LIHOWAR_AAA_HPP

@@ -45,7 +45,7 @@ TrackballCamera::easeCos = [](float x, float maxX, float offsetY, float maxY) {
 
 
 TrackballCamera::TrackballCamera(
-        Player &target,
+        Object &target,
         float distanceCursor,
         glm::vec3 ang)
    :_target(target),
@@ -82,10 +82,18 @@ float TrackballCamera::distance() const
 
 void TrackballCamera::update()
 {
-    _angOffset.x = glm::clamp(_target.vel().y * -ANG_OFFSET_X_COEF, ANG_OFFSET_XY_MIN, ANG_OFFSET_XY_MAX);
-    _angOffset.y = glm::clamp(_target.angVel().y * ANG_OFFSET_Y_COEF, ANG_OFFSET_XY_MIN, ANG_OFFSET_XY_MAX);
-    _posOffset.z = _target.longitudinalVel() * _distanceCursor * -POS_OFFSET_Z_COEF;
-    updatePosOffset();
+    if (_target.isInstanceOf<ObjectDynamic>()) {
+        ObjectDynamic &tget = *dynamic_cast<ObjectDynamic*>(&_target);
+        // because angle offset only applies on a dynamic target
+        _angOffset.x = glm::clamp(tget.vel().y * -ANG_OFFSET_X_KICKBACK_COEF, ANG_OFFSET_XY_MIN, ANG_OFFSET_XY_MAX);
+        _angOffset.y = glm::clamp(tget.angVel().y * ANG_OFFSET_Y_KICKBACK_COEF, ANG_OFFSET_XY_MIN, ANG_OFFSET_XY_MAX);
+    }
+    if (_target.isInstanceOf<Player>()) {
+        Player &tget = *dynamic_cast<Player*>(&_target);
+        // because position offset only applies on a Player target
+        _posOffset.z = tget.longitudinalVel() * _distanceCursor * -POS_OFFSET_KICKBACK_COEF;
+        updatePosOffset();
+    }
 }
 
 

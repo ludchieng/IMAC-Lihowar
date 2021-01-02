@@ -54,7 +54,7 @@ Texture::Texture(TextureName texName)
     _img = glimac::loadImage(imgPath);
 
     if (nullptr == _img)
-        throw LihowarException("Image loading failed:" + imgPath.str(), __FILE__, __LINE__);
+        throw LihowarException("Image loading failed: " + imgPath.str(), __FILE__, __LINE__);
 
     glGenTextures(1, &_id);
     glBindTexture(GL_TEXTURE_2D, _id);
