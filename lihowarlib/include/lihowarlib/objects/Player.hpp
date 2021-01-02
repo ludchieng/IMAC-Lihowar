@@ -18,22 +18,47 @@
 #define LIHOWAR_PLAYER_HPP
 
 #include <lihowarlib/GameConfig.hpp>
-#include <lihowarlib/designpattern/Subject.hpp>
-#include <lihowarlib/designpattern/Observer.hpp>
 #include <lihowarlib/ObjectDynamic.hpp>
 #include <lihowarlib/AssetManager.hpp>
 
 namespace lihowar {
 
-class Player : public ObjectDynamic, public dp::Subject {
-    friend class SceneSerializer;
+/**
+ * @brief Represents a player game object
+ */
+class Player : public ObjectDynamic {
 
 public:
+    // CONSTANTS
+
+    /**
+     * @brief Linear acceleration value on player's Y axis
+     */
     static constexpr float LINEAR_ACC_Y = .0004;
+
+    /**
+     * @brief Linear acceleration value on player's X axis
+     */
     static constexpr float LINEAR_ACC_X = .0008;
+
+    /**
+     * @brief Linear acceleration value on player's Z axis
+     */
     static constexpr float LINEAR_ACC_Z = .0012;
+
+    /**
+     * @brief Angular acceleration value on player's Y axis
+     */
     static constexpr float YAW_ACC = .0000005;
+
+    /**
+     * @brief Angular acceleration value on player's X axis
+     */
     static constexpr float PITCH_ACC = .000001;
+
+    /**
+     * @brief Angular acceleration value on player's Z axis
+     */
     static constexpr float ROLL_ACC = .000001;
 
 protected:
@@ -41,35 +66,25 @@ protected:
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
-    Player()
-       :ObjectDynamic(
-          *AssetManager::mesh(MeshName::AIRSHIP_BALLOON),
-          *new Material(
-                  AssetManager::texId(TextureName::AIRSHIP_BALLOON_DIFF), 0, 0,
-                  AssetManager::texId(TextureName::AIRSHIP_BALLOON_AO),
-                  AssetManager::texId(TextureName::AIRSHIP_BALLOON_NORMAL) )
-         ,PRS(glm::vec3(321.468,   -7.734,  101.896))
-         //,PRS(glm::vec3(666.580,  -28.709, -182.077)
-         )
-    {
-        Object::add(new Object(
-                *AssetManager::mesh(MeshName::AIRSHIP_NACELLE),
-                *new Material(
-                        AssetManager::texId(TextureName::AIRSHIP_NACELLE_DIFF), 0, 0,
-                        AssetManager::texId(TextureName::AIRSHIP_NACELLE_AO),
-                        AssetManager::texId(TextureName::AIRSHIP_NACELLE_NORMAL) )  ));
 
-        Object::add(new Object(
-                *AssetManager::mesh(MeshName::AIRSHIP_WOODFLOOR),
-                *new Material(
-                        AssetManager::texId(TextureName::AIRSHIP_WOODFLOOR_DIFF), 0, 0,
-                        AssetManager::texId(TextureName::AIRSHIP_WOODFLOOR_AO) )  ));
-    }
+    /**
+     * @brief Player class constructor
+     */
+    Player();
     
 public:
     // INTERFACE
+
+    /**
+     * @brief Gets the speed on the player's Z axis
+     * @return Returns the speed on the player's Z axis
+     */
     float longitudinalVel() const;
 
+    /**
+     * @brief Applies linear acceleration
+     * @param acc  Acceleration vector to apply
+     */
     void move(const glm::vec3 &acc) { _acc += acc; }
     void moveForward(float acc = 1.)   { move( glm::vec3(acc * LINEAR_ACC_Z * glm::rotate(glm::mat4(1.), _prs.rotRadians().y, PRS::Y) * -PRS::vec4_Z )); }
     void moveBackward(float acc = 1.)  { moveForward(-acc); }
@@ -78,24 +93,59 @@ public:
     void moveUpward(float acc = 1.)    { move( acc * LINEAR_ACC_Y * glm::vec3(0.,1.,0.) ); }
     void moveDownward(float acc = 1.)  { moveUpward(-acc); }
 
+    /**
+     * @brief Applies angular acceleration on player's Y axis
+     * @param acc  Acceleration to apply
+     */
     void yaw(float acc) { _angAcc += acc * YAW_ACC * glm::vec3(0., 1., 0.); }
     void yawClockwise(float acc = 1.)     { yaw(-acc); }
     void yawAntiClockwise(float acc = 1.) { yaw(acc); }
 
+    /**
+     * @brief Applies angular acceleration on player's X axis
+     * @param acc  Acceleration to apply
+     */
     void pitch(float acc) { _angAcc += acc * PITCH_ACC * glm::vec3(1., 0., 0.); }
     void pitchUp(float acc = 1.)   { pitch(acc); }
     void pitchDown(float acc = 1.) { pitch(-acc); }
 
+    /**
+     * @brief Applies angular acceleration on player's Z axis
+     * @param acc  Acceleration to apply
+     */
     void roll(float acc) { _angAcc += acc * ROLL_ACC * glm::vec3(0., 0., 1.); }
     void rollClockwise(float acc = 1.)     { roll(-acc); }
     void rollAntiClockwise(float acc = 1.) { roll(acc); }
 
 
+    /**
+     * @brief Adds a sub-objects
+     * @param object  Sub-object to add
+     */
     void add(std::unique_ptr<Object> object) override;
+
+    /**
+     * @brief Apply a Newtonian force on the game object
+     * at its center of mass
+     * @param force  Force vector
+     */
     void applyForce(const glm::vec3 &force) override;
+
+    /**
+     * @brief Apply a Newtonian force on the game object
+     * at a specified point of application
+     * @param force               Force vector
+     * @param pointOfApplication  Point of application (in the world basis)
+     */
     void applyForce(
             const glm::vec3 &force,
             const glm::vec3 &pointOfApplication) override;
+
+    /**
+     * @brief Apply a torque on the game object at its
+     * center of mass
+     * @param torque  Torque vector
+     */
     void applyTorque(const glm::vec3 &torque) override;
 
 

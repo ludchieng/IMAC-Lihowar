@@ -25,6 +25,9 @@
 
 namespace lihowar {
 
+/**
+ * @brief Enumeration of the usable mesh name
+ */
 enum class MeshName {
     ISLAND1, ISLAND2,
     BEACON1, CUBE, SPHERE, PENTABALL, PLATEFORM,
@@ -32,52 +35,106 @@ enum class MeshName {
     first = ISLAND1, last = AIRSHIP_WOODFLOOR
 };
 
+/**
+ * @brief Represents a 3D model of a game object
+ */
 class Mesh {
-    friend class SceneSerializer;
 
 public:
     // CONSTANTS
+
+    /**
+     * @brief Map of OBJ file paths indexed with a MeshName
+     */
     const static std::map<MeshName, std::string> PATHS;
 
 private:
     // MEMBERS
+
+    /**
+     * @brief The corresponding MeshName
+     */
     MeshName _meshName;
+
+    /**
+     * @brief Geometry data
+     */
     glimac::Geometry _geometry;
+
+    /**
+     * Vertex buffer object
+     */
     GLuint _vbo;
+
+    /**
+     * Index buffer object
+     */
     GLuint _ibo;
+
+    /**
+     * Vertex array object
+     */
     GLuint _vao;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief Mesh class constructor
+     * @param meshName  The corresponding mesh name
+     */
     explicit Mesh(MeshName meshName);
 
-    Mesh(const Mesh& m)
-            : _meshName(m._meshName ),
-              _geometry( m._geometry ),
-              _vbo( m._vbo ),
-              _ibo( m._ibo ),
-              _vao( m._vao )
-    {}
-
+    /**
+     * @brief Mesh class destructor
+     */
     ~Mesh();
 
 public:
     // INTERFACE
+
+    /**
+     * @brief Gets the Geometry instance
+     * @return Returns the Geometry instance
+     */
     glimac::Geometry geometry() const { return _geometry; }
+
+    /**
+     * @brief Gets the Vertex array object
+     * @return Returns the Vertex array object
+     */
     GLuint vao() const { return _vao; };
+
+    /**
+     * @brief Gets the Vertex buffer object
+     * @return Returns the Vertex buffer object
+     */
     GLuint vbo() const { return _vbo; };
+
+    /**
+     * @brief Gets the Index buffer object
+     * @return Returns the Index buffer object
+     */
     GLuint ibo() const { return _ibo; };
+
+    /**
+     * @brief Computes the position of the mesh bounding box center of mass
+     * @return Returns the position of the mesh bounding box center of mass
+     */
     glm::vec3 center() const { return glimac::center(_geometry.getBoundingBox()); }
+
+    /**
+     * @brief Gets the size of the mesh bounding box
+     * @return Returns the size of the mesh bounding box
+     */
     glm::vec3 size() const { return _geometry.getBoundingBox().size(); }
 
 private:
+    std::string &getPath(MeshName meshName);
     void initGeometry(MeshName meshName);
     void initVBO();
     void initIBO();
     void initVAO();
-
-private:
-    std::string &getPath(MeshName meshName);
 
 };
 

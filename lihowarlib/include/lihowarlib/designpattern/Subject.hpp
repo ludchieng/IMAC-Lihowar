@@ -28,6 +28,9 @@ namespace lihowar {
 
 namespace dp {
 
+/**
+ * @brief Subject class for the Observer design pattern
+ */
 class Subject : public ISubject {
 
 private:

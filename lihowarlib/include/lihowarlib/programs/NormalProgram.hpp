@@ -28,13 +28,13 @@ class NormalProgram : public Program {
 
 private:
     // MEMBERS
-    ProgramType _type;
+    ProgramName _name;
 
 private:
     // CONSTRUCTORS & DESTRUCTORS
     NormalProgram(const std::string& vsName, const std::string& fsName)
         : Program(vsName, fsName),
-        _type( ProgramType::NORMAL )
+          _name(ProgramName::NORMAL )
     {}
 
 public:
@@ -46,7 +46,7 @@ public:
 
 public:
     // INTERFACE
-    ProgramType type() const override { return _type; }
+    ProgramName name() const override { return _name; }
 
 };
 

@@ -24,19 +24,47 @@
 
 namespace lihowar {
 
+/**
+ * @brief Singleton class to manage the Game high-level processing
+ */
 class Game {
 
 private:
     // MEMBERS
+
+    /**
+     * @brief Asserts that the game should still be running
+     * on the next loop iteration
+     */
     bool _isRunning = true;
+
+    /**
+     * @brief Reference to the GameController instance
+     */
     GameController &_gController;
+
+    /**
+     * @brief Reference to the glimac window instance
+     */
     glimac::SDLWindowManager &_window;
+
+    /**
+     * @brief Reference to the SDL joystick instance
+     */
     SDL_Joystick *_joystick;
 
-private:
+private: // singleton
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * Game class constructor
+     * @param wm Window manager
+     */
     explicit Game(glimac::SDLWindowManager &wm);
 
+    /**
+     * Game class default destructor
+     */
     ~Game() = default;
 
 public:
@@ -53,19 +81,45 @@ public:
 
 public:
     // INTERFACE
+
+    /**
+     * @brief Asserts that the game should still be running
+     * on the next loop iteration
+     * @return Returns true if the game should still be
+     * running on the next loop iteration, false otherwise
+     */
     bool isRunning() const { return _isRunning; }
+
+    /**
+     * @brief Asserts that the joystick is initialized in
+     * the SDL context
+     * @return Returns true if the joystick is initialized
+     * in the SDL context
+     */
     bool isJoystickOpened() const { return _joystick; }
 
+    /**
+     * @brief Updates state of the game
+     */
     void update();
+
+    /**
+     * @brief Renders the current image frame for this loop iteration
+     */
     void render() { _gController.render(); };
+
+    /**
+     * @brief Handles the given SDL event
+     * @param event  SDL event to handle
+     */
     void handle(SDL_Event event);
+
+private:
     void handleKeydown(SDL_Event event);
     void handleMouseBtn(SDL_Event event);
     void handleMouseMotion(SDL_Event event);
     void handleMouseWheel(SDL_Event event);
     void handleJoyBtnDown(SDL_Event event);
-
-private:
     void initJoystick();
 };
 

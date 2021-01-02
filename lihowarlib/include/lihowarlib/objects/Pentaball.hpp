@@ -22,6 +22,9 @@
 
 namespace lihowar {
 
+/**
+ * @brief Represents a pentaball game object
+ */
 class Pentaball : public Object {
 
 private:
@@ -29,6 +32,11 @@ private:
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief Pentaball class constructor
+     * @param prs  Position, rotation and scale state
+     */
     explicit Pentaball(PRS prs = PRS())
        :Object(
             *AssetManager::mesh(MeshName::PENTABALL),

@@ -22,8 +22,15 @@
 
 namespace lihowar {
 
+/**
+ * @brief Design pattern namespace for design patterns
+ * requiring abstract classes
+ */
 namespace dp {
 
+/**
+ * @brief Interface for Observer class design pattern
+ */
 class IObserver {
 public:
     virtual ~IObserver() = default;

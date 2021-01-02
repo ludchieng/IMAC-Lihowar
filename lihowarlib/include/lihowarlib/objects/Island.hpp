@@ -22,6 +22,9 @@
 
 namespace lihowar {
 
+/**
+ * @brief Represents an island game object
+ */
 class Island : public Object {
 
 private:
@@ -29,6 +32,12 @@ private:
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief Island class constructor
+     * @param meshName
+     * @param prs           Position, rotation and scale state
+     */
     explicit Island(
             MeshName meshName,
             PRS prs = PRS())

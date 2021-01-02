@@ -16,7 +16,7 @@
 #include <lihowarlib/GameRenderer.hpp>
 #include <lihowarlib/programs/Program.hpp>
 #include <lihowarlib/programs/DirLightProgram.hpp>
-#include <lihowarlib/programs/NormalProgram.hpp>
+#include <lihowarlib/programs/IslandProgram.hpp>
 #include <lihowarlib/programs/MultiLightsProgram.hpp>
 #include <lihowarlib/LightDirectional.hpp>
 #include <lihowarlib/LightPoint.hpp>
@@ -26,7 +26,7 @@ using namespace lihowar;
 
 namespace lihowar {
 
-GameRenderer::GameRenderer(Player &camTarget)
+GameRenderer::GameRenderer(Object &camTarget)
    : _tbcam( TrackballCamera(camTarget) ),
      _matProj( glm::perspective(glm::radians(_tbcam.fov()), cfg::ASPECT_RATIO, cfg::Z_NEAR, cfg::Z_FAR) ),
      _matMV( glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -5.f)) ),
@@ -41,9 +41,6 @@ GameRenderer::GameRenderer(Player &camTarget)
 }
 
 
-GameRenderer::~GameRenderer() {}
-
-
 void GameRenderer::use(Program &program)
 {
     if (_program == &program)
@@ -55,74 +52,22 @@ void GameRenderer::use(Program &program)
 
 void GameRenderer::bindUniformVariables(const Object &object, const Scene &scene)
 {
-    //if (cfg::DEBUG) cout << "[GameRenderer::bindUniformMatrices] " << endl;
-
     // send matrices to GPU
     glUniformMatrix4fv(_program->uMatMVP(), 1, GL_FALSE, glm::value_ptr(_matProj * _matMV));
     glUniformMatrix4fv(_program->uMatMV(), 1, GL_FALSE, glm::value_ptr(_matMV));
     glUniformMatrix4fv(_program->uMatNormal(), 1, GL_FALSE, glm::value_ptr(_matNormal));
 
     // send extra variables to GPU depending on program (and shader) type
-    switch(_program->type()) {
-        case ProgramType::DIRLIGHT:
-        {
-            glm::vec4 lightDir = _matView * glm::vec4(1.f, 1.f, 1.f, 0.f);
-            DirLightProgram &p = *( dynamic_cast<DirLightProgram*>(_program) );
-            glUniform1f(p.uKd(), object.material().kd());
-            glUniform1f(p.uKs(), object.material().ks());
-            glUniform1f(p.uShininess(), object.material().shininess());
-            glUniform3fv(p.uLightDir(), 1, glm::value_ptr( glm::normalize(glm::vec3(lightDir)) ));
-            glUniform3fv(p.uLightIntensity(), 1, glm::value_ptr( glm::vec3(1.) ));
-            glUniform1i(p.uHasTexture(), object.material().hasDiffuseMap() );
+    switch(_program->name()) {
+        case ProgramName::DIRLIGHT:
+            bindUniformVariablesDirLightProgram(object, scene);
             break;
-        }
-        case ProgramType::MULTILIGHTS:
-        {
-            MultiLightsProgram &p = *( dynamic_cast<MultiLightsProgram*>(_program) );
-            glUniform1f(p.uKd(), object.material().kd());
-            glUniform1f(p.uKs(), object.material().ks());
-            glUniform1f(p.uKl(), object.material().kl());
-            glUniform1f(p.uKao(), object.material().kao());
-            glUniform1f(p.uKn(), object.material().kn());
-            glUniform1f(p.uShininess(), object.material().shininess());
-            glUniform1i(p.uHasDiffuseMap(), object.material().hasDiffuseMap());
-            glUniform1i(p.uHasSpecularMap(), object.material().hasSpecularMap());
-            glUniform1i(p.uHasLuminMap(), object.material().hasLuminMap());
-            glUniform1i(p.uHasAOMap(), object.material().hasAOMap());
-            glUniform1i(p.uHasNormalMap(), object.material().hasNormalMap());
-            glUniform1i(p.uDiffuseMap(), Texture::TEX_UNIT_DIFFUSE);
-            glUniform1i(p.uSpecularMap(), Texture::TEX_UNIT_SPECULAR);
-            glUniform1i(p.uLuminMap(), Texture::TEX_UNIT_LUMIN);
-            glUniform1i(p.uAOMap(), Texture::TEX_UNIT_AO);
-            glUniform1i(p.uNormalMap(), Texture::TEX_UNIT_NORMAL);
-            glUniform3fv(p.uLightAmbient(), 1, glm::value_ptr( scene.lightAmbient().intensity() ));
-
-            unsigned int ldIndex = 0; // LightDirectional array index cursor
-            unsigned int lpIndex = 0; // LightoPoint array index cursor
-            auto it = scene.lights().begin();
-            while (it != scene.lights().end()) {
-                auto *ld = dynamic_cast<LightDirectional*>(it->get());
-                auto *lp = dynamic_cast<LightPoint*>(it->get());
-                if (nullptr != ld) {
-                    // downcast to LightDirectional succeeded
-                    glUniform3fv(p.uLightsDir(ldIndex, "dir"), 1, glm::value_ptr( _matView * glm::vec4(ld->dir(), 0.) ));
-                    glUniform3fv(p.uLightsDir(ldIndex, "intensity"), 1, glm::value_ptr( ld->intensity() ));
-                    ldIndex++;
-                } else if (nullptr != lp){
-                    // downcast to LightPoint succeeded
-                    glUniform3fv(p.uLightsPoint(lpIndex, "pos"), 1, glm::value_ptr( _matView * glm::vec4(lp->pos(), 1.) ));
-                    glUniform3fv(p.uLightsPoint(lpIndex, "intensity"), 1, glm::value_ptr( lp->intensity() ));
-                    lpIndex++;
-                } else {
-                    throw LihowarException("Downcast Light instance failed", __FILE__, __LINE__);
-                }
-                ++it;
-            }
-
-            glUniform1i(p.uLightsDirCount(), ldIndex );
-            glUniform1i(p.uLightsPointCount(), lpIndex );
+        case ProgramName::ISLAND:
+            bindUniformVariablesIslandProgram(object, scene);
             break;
-        }
+        case ProgramName::MULTILIGHTS:
+            bindUniformVariablesMultiLightsProgram(object, scene);
+            break;
         default:
             break;
     }
@@ -131,7 +76,6 @@ void GameRenderer::bindUniformVariables(const Object &object, const Scene &scene
 
 void GameRenderer::update()
 {
-    //if (cfg::DEBUG) cout << "[GameRenderer::update]" << endl;
     updateMatMV();
     updateMatProj();
 }
@@ -156,14 +100,10 @@ void GameRenderer::render(const Scene &scene)
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    use(SkyboxProgram::instance());
     render(scene, scene.skybox());
-
-    use(NormalProgram::instance());
-    use(MultiLightsProgram::instance());
     render(scene, scene.player());
-    render(scene, scene.islands());
     render(scene, scene.objects());
+    render(scene, scene.islands());
 }
 
 
@@ -198,11 +138,119 @@ void GameRenderer::render(
         const Object &object,
         const glm::mat4 &matModelParent)
 {
+    if (object.isInstanceOf<Island>())
+        use(IslandProgram::instance());
+    else if (object.isInstanceOf<Skybox>())
+        use(SkyboxProgram::instance());
+    else
+        use(MultiLightsProgram::instance());
+
     updateMatMV(matModelParent * object.matModel());
     bindUniformVariables(object, scene);
     object.render();
     render(scene, object.subobjects(), object.matModel());
 }
 
+
+void GameRenderer::bindUniformVariablesDirLightProgram(
+        const Object &object,
+        const Scene &scene)
+{
+    glm::vec4 lightDir = _matView * glm::vec4(1.f, 1.f, 1.f, 0.f);
+    DirLightProgram &p = *( dynamic_cast<DirLightProgram*>(_program) );
+    glUniform1f(p.uKd(), object.material().kd());
+    glUniform1f(p.uKs(), object.material().ks());
+    glUniform1f(p.uShininess(), object.material().shininess());
+    glUniform3fv(p.uLightDir(), 1, glm::value_ptr( glm::normalize(glm::vec3(lightDir)) ));
+    glUniform3fv(p.uLightIntensity(), 1, glm::value_ptr( glm::vec3(1.) ));
+    glUniform1i(p.uHasTexture(), object.material().hasDiffuseMap() );
+}
+
+
+void GameRenderer::bindUniformVariablesIslandProgram(
+        const Object &object,
+        const Scene &scene)
+{
+    IslandProgram &p = *( dynamic_cast<IslandProgram*>(_program) );
+    glUniform1f(p.uKd(), object.material().kd());
+    glUniform1f(p.uKs(), object.material().ks());
+    glUniform1f(p.uShininess(), object.material().shininess());
+    glUniform3fv(p.uLightAmbient(), 1, glm::value_ptr( scene.lightAmbient().intensity() ));
+
+    unsigned int ldIndex = 0; // LightDirectional array index cursor
+    unsigned int lpIndex = 0; // LightoPoint array index cursor
+    auto it = scene.lights().begin();
+    while (it != scene.lights().end()) {
+        auto *ld = dynamic_cast<LightDirectional*>(it->get());
+        auto *lp = dynamic_cast<LightPoint*>(it->get());
+        if (nullptr != ld) {
+            // downcast to LightDirectional succeeded
+            glUniform3fv(p.uLightsDir(ldIndex, "dir"), 1, glm::value_ptr( _matView * glm::vec4(ld->dir(), 0.) ));
+            glUniform3fv(p.uLightsDir(ldIndex, "intensity"), 1, glm::value_ptr( ld->intensity() ));
+            ldIndex++;
+        } else if (nullptr != lp){
+            // downcast to LightPoint succeeded
+            glUniform3fv(p.uLightsPoint(lpIndex, "pos"), 1, glm::value_ptr( _matView * glm::vec4(lp->pos(), 1.) ));
+            glUniform3fv(p.uLightsPoint(lpIndex, "intensity"), 1, glm::value_ptr( lp->intensity() ));
+            lpIndex++;
+        } else {
+            throw LihowarException("Downcast Light instance failed", __FILE__, __LINE__);
+        }
+        ++it;
+    }
+
+    glUniform1i(p.uLightsDirCount(), ldIndex );
+    glUniform1i(p.uLightsPointCount(), lpIndex );
+}
+
+
+void GameRenderer::bindUniformVariablesMultiLightsProgram(
+        const Object &object,
+        const Scene &scene)
+{
+    MultiLightsProgram &p = *( dynamic_cast<MultiLightsProgram*>(_program) );
+    glUniform1f(p.uKd(), object.material().kd());
+    glUniform1f(p.uKs(), object.material().ks());
+    glUniform1f(p.uKl(), object.material().kl());
+    glUniform1f(p.uKao(), object.material().kao());
+    glUniform1f(p.uKn(), object.material().kn());
+    glUniform1f(p.uShininess(), object.material().shininess());
+    glUniform1i(p.uHasDiffuseMap(), object.material().hasDiffuseMap());
+    glUniform1i(p.uHasSpecularMap(), object.material().hasSpecularMap());
+    glUniform1i(p.uHasLuminMap(), object.material().hasLuminMap());
+    glUniform1i(p.uHasAOMap(), object.material().hasAOMap());
+    glUniform1i(p.uHasNormalMap(), object.material().hasNormalMap());
+    glUniform1i(p.uDiffuseMap(), Texture::TEX_UNIT_DIFFUSE);
+    glUniform1i(p.uSpecularMap(), Texture::TEX_UNIT_SPECULAR);
+    glUniform1i(p.uLuminMap(), Texture::TEX_UNIT_LUMIN);
+    glUniform1i(p.uAOMap(), Texture::TEX_UNIT_AO);
+    glUniform1i(p.uNormalMap(), Texture::TEX_UNIT_NORMAL);
+    glUniform3fv(p.uLightAmbient(), 1, glm::value_ptr( scene.lightAmbient().intensity() ));
+
+    unsigned int ldIndex = 0; // LightDirectional array index cursor
+    unsigned int lpIndex = 0; // LightoPoint array index cursor
+    auto it = scene.lights().begin();
+    while (it != scene.lights().end()) {
+        auto *ld = dynamic_cast<LightDirectional*>(it->get());
+        auto *lp = dynamic_cast<LightPoint*>(it->get());
+        if (nullptr != ld) {
+            // downcast to LightDirectional succeeded
+            glUniform3fv(p.uLightsDir(ldIndex, "dir"), 1, glm::value_ptr( _matView * glm::vec4(ld->dir(), 0.) ));
+            glUniform3fv(p.uLightsDir(ldIndex, "intensity"), 1, glm::value_ptr( ld->intensity() ));
+            ldIndex++;
+        } else if (nullptr != lp){
+            // downcast to LightPoint succeeded
+            glUniform3fv(p.uLightsPoint(lpIndex, "pos"), 1, glm::value_ptr( _matView * glm::vec4(lp->pos(), 1.) ));
+            glUniform3fv(p.uLightsPoint(lpIndex, "intensity"), 1, glm::value_ptr( lp->intensity() ));
+            lpIndex++;
+        } else {
+            throw LihowarException("Downcast Light instance failed", __FILE__, __LINE__);
+        }
+        ++it;
+    }
+
+    glUniform1i(p.uLightsDirCount(), ldIndex );
+    glUniform1i(p.uLightsPointCount(), lpIndex );
+}
 
 }

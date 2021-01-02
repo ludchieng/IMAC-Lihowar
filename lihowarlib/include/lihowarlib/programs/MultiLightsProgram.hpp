@@ -28,12 +28,12 @@ namespace lihowar {
 class MultiLightsProgram : public Program {
 
 public:
-    static const unsigned int MAX_LIGHTSDIR_COUNT = 4; // must be the same in the f shader
+    static const unsigned int MAX_LIGHTSDIR_COUNT = 4;    // must be the same in the f shader
     static const unsigned int MAX_LIGHTSPOINT_COUNT = 12; // must be the same in the f shader
 
 private:
     // MEMBERS
-    ProgramType _type;
+    ProgramName _name;
     GLint _uKd;
     GLint _uKs;
     GLint _uKl;
@@ -58,7 +58,7 @@ private:
     // CONSTRUCTORS & DESTRUCTORS
     MultiLightsProgram(const std::string& vsName, const std::string& fsName)
        : Program(vsName, fsName),
-         _type( ProgramType::MULTILIGHTS ),
+         _name(ProgramName::MULTILIGHTS ),
          _uKd( glGetUniformLocation(_program.getGLId(), "uKd") ),
          _uKs( glGetUniformLocation(_program.getGLId(), "uKs") ),
          _uKl( glGetUniformLocation(_program.getGLId(), "uKl") ),
@@ -81,7 +81,7 @@ private:
     {}
 
 public:
-    /// \brief get instance of the Program singleton class
+    /// \brief Gets instance of the Program singleton class
     static MultiLightsProgram& instance() {
         static MultiLightsProgram instance("3D", "multilights");
         return instance;
@@ -89,7 +89,7 @@ public:
 
 public:
     // INTERFACE
-    ProgramType type() const override { return _type; }
+    ProgramName name() const override { return _name; }
     GLint uKd() const { return _uKd; }
     GLint uKs() const { return _uKs; }
     GLint uKl() const { return _uKl; }

@@ -22,7 +22,7 @@ using namespace lihowar;
 namespace lihowar {
 
 const map<TextureName, string> Texture::PATHS = {
-        { TextureName::SKY                     , "skybox.jpg"                     },
+        { TextureName::SKY                     , "skybox.png"                     },
         { TextureName::BEACON1_DIFF            , "beacons/beacon1_diff.png"       },
         { TextureName::BEACON1_LUMIN           , "beacons/beacon1_lumin.png"      },
         { TextureName::BEACON2_DIFF            , "beacons/beacon2_diff.png"       },
@@ -54,7 +54,7 @@ Texture::Texture(TextureName texName)
     _img = glimac::loadImage(imgPath);
 
     if (nullptr == _img)
-        throw LihowarException("Image loading failed:" + imgPath.str(), __FILE__, __LINE__);
+        throw LihowarException("Image loading failed: " + imgPath.str(), __FILE__, __LINE__);
 
     glGenTextures(1, &_id);
     glBindTexture(GL_TEXTURE_2D, _id);

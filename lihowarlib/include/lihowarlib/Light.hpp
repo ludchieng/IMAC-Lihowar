@@ -21,23 +21,46 @@
 
 namespace lihowar {
 
+/**
+ * @brief Represents a light in a game scene
+ */
 class Light {
-    friend class SceneSerializer;
 
 protected:
     // MEMBERS
+
+    /**
+     * @brief Color intensity
+     *
+     * Should be three float values corresponding to
+     * the red, green and blue amplitude of the light.
+     * These values can exceed 1.0
+     */
     glm::vec3 _intensity;
 
 public:
     // CONSTRUCTORS & DESTRUCTORS
+
+    /**
+     * @brief Light class constructor
+     * @param intensity  Color intensity of the light
+     */
     explicit Light(const glm::vec3 &intensity)
         : _intensity(intensity)
     {}
 
+    /**
+     * @brief Light class destructor
+     */
     virtual ~Light() = default;
     
 public:
     // INTERFACE
+
+    /**
+     * Gets the intensity of the light
+     * @return Returns the intensity of the light
+     */
     glm::vec3 &intensity() { return _intensity; }
     glm::vec3 intensity() const { return _intensity; }
 
