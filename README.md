@@ -7,7 +7,7 @@ A short C++ project made for programming courses. :mortar_board:
 
 ## **Preview** :rocket::framed_picture:
 
-![](misc/screenshot4.png)
+![](misc/screenshot7.png)
 
 ## **Instructions** :wrench::gear:
 
@@ -61,7 +61,7 @@ Explore the islands and light on all the beacons
 
 **Controls**:
 
-Mouse:
+Mouse: \
 `Right:`: pan \
 `Left + Right`: translate \
 `Middle`: reset camera
