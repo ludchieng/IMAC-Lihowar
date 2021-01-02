@@ -1,0 +1,11 @@
+<map id="lihowar::dp::ISubject" name="lihowar::dp::ISubject">
+<area shape="rect" id="node2" href="$classlihowar_1_1dp_1_1Subject.html" title="Subject class for the Observer design pattern. " alt="" coords="195,132,332,159"/>
+<area shape="rect" id="node3" href="$classlihowar_1_1Object.html" title="Represents a game object in a game scene. " alt="" coords="380,132,489,159"/>
+<area shape="rect" id="node4" href="$classlihowar_1_1Beacon.html" title="Represents a beacon game object. " alt="" coords="561,5,675,32"/>
+<area shape="rect" id="node5" href="$classlihowar_1_1Island.html" title="Represents an island game object. " alt="" coords="565,56,671,83"/>
+<area shape="rect" id="node6" href="$classlihowar_1_1ObjectDynamic.html" title="Represents a dynamic game object in a game scene. " alt="" coords="537,107,699,133"/>
+<area shape="rect" id="node8" href="$classlihowar_1_1Pentaball.html" title="Represents a pentaball game object. " alt="" coords="555,157,681,184"/>
+<area shape="rect" id="node9" href="$classlihowar_1_1Plateform.html" title="Represents a plateform game object. " alt="" coords="555,208,681,235"/>
+<area shape="rect" id="node10" href="$classlihowar_1_1Skybox.html" title="Represents a skybox game object. " alt="" coords="561,259,675,285"/>
+<area shape="rect" id="node7" href="$classlihowar_1_1Player.html" title="Represents a player game object. " alt="" coords="747,107,855,133"/>
+</map>

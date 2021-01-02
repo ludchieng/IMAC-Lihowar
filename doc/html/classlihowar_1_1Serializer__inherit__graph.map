@@ -1,0 +1,4 @@
+<map id="lihowar::Serializer" name="lihowar::Serializer">
+<area shape="rect" id="node2" href="$classlihowar_1_1ConfigSerializer.html" title="Singleton class to handle JSON config files loading. " alt="" coords="5,80,168,107"/>
+<area shape="rect" id="node3" href="$classlihowar_1_1SceneSerializer.html" title="Singleton class to handle JSON scene description files loading. " alt="" coords="192,80,355,107"/>
+</map>

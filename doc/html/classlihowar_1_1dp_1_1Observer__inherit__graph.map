@@ -1,0 +1,4 @@
+<map id="lihowar::dp::Observer" name="lihowar::dp::Observer">
+<area shape="rect" id="node3" href="$classlihowar_1_1TrackballCamera.html" title="Represents a camera from where the game scene is seen. " alt="" coords="5,155,176,181"/>
+<area shape="rect" id="node2" href="$classlihowar_1_1dp_1_1IObserver.html" title="Interface for Observer class design pattern. " alt="" coords="15,5,166,32"/>
+</map>

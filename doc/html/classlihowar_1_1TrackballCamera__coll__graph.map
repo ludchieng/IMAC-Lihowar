@@ -1,0 +1,9 @@
+<map id="lihowar::TrackballCamera" name="lihowar::TrackballCamera">
+<area shape="rect" id="node2" href="$classlihowar_1_1dp_1_1Observer.html" title="Observer class for the Observer design pattern. " alt="" coords="47,171,194,197"/>
+<area shape="rect" id="node3" href="$classlihowar_1_1dp_1_1IObserver.html" title="Interface for Observer class design pattern. " alt="" coords="5,81,156,108"/>
+<area shape="rect" id="node4" href="$classlihowar_1_1Object.html" title="Represents a game object in a game scene. " alt="" coords="298,171,407,197"/>
+<area shape="rect" id="node5" href="$classlihowar_1_1dp_1_1Subject.html" title="Subject class for the Observer design pattern. " alt="" coords="180,81,317,108"/>
+<area shape="rect" id="node6" href="$classlihowar_1_1dp_1_1ISubject.html" title="Interface for Subject class design pattern. " alt="" coords="178,5,319,32"/>
+<area shape="rect" id="node7" href="$classlihowar_1_1Mesh.html" title="Represents a 3D model of a game object. " alt="" coords="341,81,444,108"/>
+<area shape="rect" id="node8" href="$classlihowar_1_1Object_1_1PRS.html" title="Represents a position, rotation and scale state for an game entity. " alt="" coords="468,81,613,108"/>
+</map>

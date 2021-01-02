@@ -1,0 +1,6 @@
+<map id="lihowar::ObjectDynamic" name="lihowar::ObjectDynamic">
+<area shape="rect" id="node5" href="$classlihowar_1_1Player.html" title="Represents a player game object. " alt="" coords="32,304,140,331"/>
+<area shape="rect" id="node2" href="$classlihowar_1_1Object.html" title="Represents a game object in a game scene. " alt="" coords="31,155,141,181"/>
+<area shape="rect" id="node3" href="$classlihowar_1_1dp_1_1Subject.html" title="Subject class for the Observer design pattern. " alt="" coords="17,80,155,107"/>
+<area shape="rect" id="node4" href="$classlihowar_1_1dp_1_1ISubject.html" title="Interface for Subject class design pattern. " alt="" coords="15,5,157,32"/>
+</map>

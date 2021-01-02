@@ -1,0 +1,6 @@
+<map id="lihowar::Object" name="lihowar::Object">
+<area shape="rect" id="node2" href="$classlihowar_1_1dp_1_1Subject.html" title="Subject class for the Observer design pattern. " alt="" coords="7,81,145,108"/>
+<area shape="rect" id="node3" href="$classlihowar_1_1dp_1_1ISubject.html" title="Interface for Subject class design pattern. " alt="" coords="5,5,147,32"/>
+<area shape="rect" id="node4" href="$classlihowar_1_1Mesh.html" title="Represents a 3D model of a game object. " alt="" coords="169,81,271,108"/>
+<area shape="rect" id="node5" href="$classlihowar_1_1Object_1_1PRS.html" title="Represents a position, rotation and scale state for an game entity. " alt="" coords="295,81,441,108"/>
+</map>

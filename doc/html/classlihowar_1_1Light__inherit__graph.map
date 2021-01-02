@@ -1,0 +1,4 @@
+<map id="lihowar::Light" name="lihowar::Light">
+<area shape="rect" id="node2" href="$classlihowar_1_1LightDirectional.html" title="Represents a directional light in a game scene. " alt="" coords="5,80,167,107"/>
+<area shape="rect" id="node3" href="$classlihowar_1_1LightPoint.html" title="Represents a point light in a game scene. " alt="" coords="191,80,320,107"/>
+</map>
