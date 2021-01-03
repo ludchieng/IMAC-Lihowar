@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(lihowarlib LANGUAGES C CXX)
+set(OUTPUT lihowarlib) # executable name
+
+project(${OUTPUT} LANGUAGES C CXX)
 
 file(GLOB_RECURSE source_files "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 file(GLOB_RECURSE header_files "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
@@ -13,16 +15,16 @@ list(REMOVE_ITEM header_files "${CMAKE_CURRENT_SOURCE_DIR}/include/lihowarlib/_.
 add_subdirectory(doc)
 
 # Compile as library
-add_library(lihowarlib ${source_files} ${header_files})
+add_library(${OUTPUT} ${source_files} ${header_files})
 
 # Compilation flags
-target_compile_features(lihowarlib PRIVATE cxx_std_11)
-target_compile_options(lihowarlib PRIVATE -Wall -O2)
+target_compile_features(${OUTPUT} PRIVATE cxx_std_11)
+target_compile_options(${OUTPUT} PRIVATE -W -Werror -Wall -O2)
 
 # Include directory
-target_include_directories(lihowarlib PRIVATE "include")
+target_include_directories(${OUTPUT} PRIVATE "include")
 
-target_link_libraries(lihowarlib
+target_link_libraries(${OUTPUT}
         glimac
         ${SDL_LIBRARY}
         ${SDL_MIXER_LIBRARIES}

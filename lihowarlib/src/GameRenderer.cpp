@@ -60,7 +60,7 @@ void GameRenderer::bindUniformVariables(const Object &object, const Scene &scene
     // send extra variables to GPU depending on program (and shader) type
     switch(_program->name()) {
         case ProgramName::DIRLIGHT:
-            bindUniformVariablesDirLightProgram(object, scene);
+            bindUniformVariablesDirLightProgram(object);
             break;
         case ProgramName::ISLAND:
             bindUniformVariablesIslandProgram(object, scene);
@@ -153,8 +153,7 @@ void GameRenderer::render(
 
 
 void GameRenderer::bindUniformVariablesDirLightProgram(
-        const Object &object,
-        const Scene &scene)
+        const Object &object)
 {
     glm::vec4 lightDir = _matView * glm::vec4(1.f, 1.f, 1.f, 0.f);
     DirLightProgram &p = *( dynamic_cast<DirLightProgram*>(_program) );

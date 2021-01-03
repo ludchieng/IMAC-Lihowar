@@ -3,9 +3,11 @@
 
 Contemplative adventure game. Explore the skies of a telluric satellite named Lihowar orbiting around a gaseous giant planet.
 
-A short C++ project made for programming courses. :mortar_board:
+A short C++ project made for programming courses. :mortar_board: [[Project report in french]](misc/_RAPPORT_2021.01.03.pdf)
 
 ## **Preview** :rocket::framed_picture:
+
+[[watch on Youtube]](https://www.youtube.com/watch?v=1Xeblh3i8yw)
 
 ![](misc/screenshot7.png)
 
@@ -18,7 +20,7 @@ A short C++ project made for programming courses. :mortar_board:
 
 ### Dependencies
 
-The build requires **g++**, **CMake 3.10+**, **SDL2**, **OpenGL**, **GLEW** and **Doxygen 1.8.8+**.
+The build requires C++11, **g++**, **CMake 3.10+**, **SDL2**, **OpenGL**, **GLEW** and **Doxygen 1.8.8+**.
 
 ```sh
 sudo apt install g++ cmake \
